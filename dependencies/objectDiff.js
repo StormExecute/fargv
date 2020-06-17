@@ -95,7 +95,7 @@ const objectDifference = (obj1, obj2) => {
 		
 	}
 	
-	return JSON.stringify(result) == "{}" ? false : sortObject(result);
+	return toJson(result) == "{}" ? false : sortObject(result);
 	
 };
 
