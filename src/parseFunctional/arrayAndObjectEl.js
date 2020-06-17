@@ -8,7 +8,7 @@ const parseArrayAndObjectEl = function(el, from) {
 			
 			el = this.usableOptions.objectParse.defaultNoneValue || this.usableOptions.mainParse.defaultNoneValue;
 			
-		} else if(from == "array" && el != " ") {
+		} else if(el != " ") {
 			
 			el = el ? el.replace(/^\s+/, "") : undefined;
 			
