@@ -2,12 +2,14 @@ const parseObject = function (argValue, callNumber) {
 	
 	callNumber = callNumber || 0;
 	
-	if(callNumber > this.usableOptions.objectParse.maxRecursiveCalls) {
+	const objectOptions = this.usableOptions.objectParse;
+	
+	if(callNumber > objectOptions.maxRecursiveCalls) {
 		
 		throw new Error(this.errorHandler("Maximum call stack size exceeded appears!", {
 			
 			from: "parseObject",
-			maxRecursiveCalls: this.usableOptions.objectParse.maxRecursiveCalls,
+			maxRecursiveCalls: objectOptions.maxRecursiveCalls,
 			nowCall: callNumber,
 			
 		}));
@@ -27,6 +29,13 @@ const parseObject = function (argValue, callNumber) {
 	let arrayInArray = 0;
 	let tempArrayInArraySymbols = "";
 	
+	let objectInObject = 0;
+	let tempObjectInObjectSymbols = "";
+	
+	//for no conflicts strings and possible arrays | objects
+	let arrayInArrayForStr = 0;
+	let objectInObjectForStr = 0;
+	
 	for(let i = 0; i < argValue.length; i++) {
 		
 		const thSym = argValue[i];
@@ -40,8 +49,53 @@ const parseObject = function (argValue, callNumber) {
 		}
 		
 		if(!isKey) {
+			
+			if(objectOptions["object"] && thSym == "{" && !arrayInArray) {
+			
+				if(objectInObject) tempObjectInObjectSymbols += thSym;
+			
+				objectInObject += 1;
+				
+				continue;
+			
+			} else if(thSym == "{") {
+				
+				objectInObjectForStr += 1;
+				
+			}
+			
+			if(objectOptions["object"] && thSym == "}" && objectInObject && !arrayInArray) {
+				
+				if((objectInObject - 1) == 0) {
+					
+					result[tempKey] = this.parseObject(tempObjectInObjectSymbols, callNumber + 1);
+					
+					objectInObject = 0;
+					tempObjectInObjectSymbols = "";
+					
+					tempKey = "";
+					
+					isKey = true;
+					
+					skipComma = true;
+					
+				} else {
+					
+					tempObjectInObjectSymbols += thSym;
+					
+					objectInObject -= 1;
+					
+				}
+				
+				continue;
+				
+			} else if(thSym == "}") {
+				
+				objectInObjectForStr -= 1;
+				
+			}
 		
-			if(thSym == "[") {
+			if(objectOptions["array"] && thSym == "[" && !objectInObject) {
 				
 				//for concat deep arrays
 				if(arrayInArray) tempArrayInArraySymbols += thSym;
@@ -50,9 +104,13 @@ const parseObject = function (argValue, callNumber) {
 				
 				continue;
 				
+			} else if(thSym == "[") {
+				
+				arrayInArrayForStr += 1;
+				
 			}
 			
-			if(thSym == "]" && arrayInArray) {
+			if(objectOptions["array"] && thSym == "]" && arrayInArray && !objectInObject) {
 				
 				if((arrayInArray - 1) == 0) {
 					
@@ -77,9 +135,21 @@ const parseObject = function (argValue, callNumber) {
 				
 				continue;
 				
+			} else if(thSym == "]") {
+				
+				arrayInArrayForStr -= 1;
+				
 			}
 			
-			if(arrayInArray) {
+			if(objectOptions["object"] && objectInObject) {
+				
+				tempObjectInObjectSymbols += thSym;
+				
+				continue;
+				
+			}
+			
+			if(objectOptions["array"] && arrayInArray) {
 				
 				tempArrayInArraySymbols += thSym;
 				
@@ -87,7 +157,7 @@ const parseObject = function (argValue, callNumber) {
 				
 			}
 			
-			if(thSym == ",") {
+			if(thSym == "," && !arrayInArrayForStr && !objectInObjectForStr) {
 			
 				result[tempKey] = this.parseArrayAndObjectEl(result[tempKey], "object");
 				
@@ -129,12 +199,30 @@ const parseObject = function (argValue, callNumber) {
 		
 	}
 	
+	if(tempObjectInObjectSymbols) {
+		
+		const error = this.errorHandler("Can't parse object in object property.", {
+			
+			from: "parseObject",
+			maxRecursiveCalls: objectOptions.maxRecursiveCalls,
+			nowCall: callNumber,
+			tempKey,
+			
+		});
+		
+		if(this.usableOptions.throwInsteadWarns) throw new Error(error);
+		else console.warn(error);
+		
+		return {};
+		
+	}
+	
 	if(!itHasAColon && argValue.length) {
 		
 		const error = this.errorHandler("Object doesn't have a colon.", {
 			
 			from: "parseObject",
-			maxRecursiveCalls: this.usableOptions.objectParse.maxRecursiveCalls,
+			maxRecursiveCalls: objectOptions.maxRecursiveCalls,
 			nowCall: callNumber,
 			tempKey,
 			
@@ -152,7 +240,7 @@ const parseObject = function (argValue, callNumber) {
 		const error = this.errorHandler("Can't parse array in object property.", {
 			
 			from: "parseObject",
-			maxRecursiveCalls: this.usableOptions.objectParse.maxRecursiveCalls,
+			maxRecursiveCalls: objectOptions.maxRecursiveCalls,
 			nowCall: callNumber,
 			tempKey,
 			
@@ -170,7 +258,7 @@ const parseObject = function (argValue, callNumber) {
 		const error = this.errorHandler("Something went wrong.", {
 			
 			from: "parseObject",
-			maxRecursiveCalls: this.usableOptions.objectParse.maxRecursiveCalls,
+			maxRecursiveCalls: objectOptions.maxRecursiveCalls,
 			nowCall: callNumber,
 			tempKey,
 			
