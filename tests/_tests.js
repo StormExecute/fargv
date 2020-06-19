@@ -40,9 +40,17 @@ module.exports = [
 		
 		arrayParse: {
 			
+			array: true,
+			
 			bigint: true,
 			
 			defaultNoneValue: 444,
+			
+		},
+		
+		objectParse: {
+			
+			allTypes: true,
 			
 		},
 		
