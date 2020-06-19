@@ -11,7 +11,10 @@
   },
   "main": "src/main.js",
   "scripts": {
-    "test": "node tests/main.js --test=1 -a=\"[1, 2, 4n, test test, true,,]\" -l=22n --099=123 ---some= "
+    "test": "node tests/index.js"
+  },
+  "engines": {
+    "node": ">=5.0.0"
   },
   "keywords": [
     "fargv",
