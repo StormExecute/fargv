@@ -20,6 +20,12 @@ const {
 	
 	state,
 	
+	toArray,
+	toObject,
+	
+	generate,
+	generateFromObject,
+	
 	init,
 	
 } = require("./static"); 
@@ -73,6 +79,12 @@ function mainExport() {
 		default: _default,
 		
 		state,
+		
+		toArray,
+		toObject,
+		
+		generate,
+		generateFromObject,
 		
 		init,
 		
