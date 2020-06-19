@@ -1,22 +1,6 @@
 const isNumeric = require("../../dependencies/isNumeric");
 
-const tryIsItBigInt = argValue => {
-	
-	/*
-		try/catch is faster than regexp
-	*/
-	
-	try {
-		
-		return BigInt(argValue);
-		
-	} catch(e) {
-		
-		return false
-		
-	}
-	
-};
+const tryIsItBigInt = require("../../dependencies/tryIsItBigInt");
 
 const parseBigInt = function (argValue, from) {
 	
