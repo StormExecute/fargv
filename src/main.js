@@ -20,8 +20,20 @@ const {
 	
 	state,
 	
+	fromArray,
+	fromObject,
+	
 	toArray,
 	toObject,
+	
+	toFargvStringArray,
+	toFargvStringObject,
+	
+	fromFargvStringArray,
+	fromFargvStringObject,
+	
+	tryToArray,
+	tryToObject,
 	
 	generate,
 	generateFromObject,
@@ -80,8 +92,20 @@ function mainExport() {
 		
 		state,
 		
+		fromArray,
+		fromObject,
+		
 		toArray,
 		toObject,
+		
+		toFargvStringArray,
+		toFargvStringObject,
+		
+		fromFargvStringArray,
+		fromFargvStringObject,
+		
+		tryToArray,
+		tryToObject,
 		
 		generate,
 		generateFromObject,
@@ -100,7 +124,7 @@ class fargv {
 		
 		this.usableOptions = parseOptions(options);
 		
-		const argsList = Array.isArray(this.usableOptions.customArgsList) ? this.usableOptions.customArgsList : process.argv.slice(2);
+		const argsList = Array.isArray(this.usableOptions.customArgs) ? this.usableOptions.customArgs : process.argv.slice(2);
 
 		const parsedArgs = {
 			
@@ -108,14 +132,14 @@ class fargv {
 			
 		};
 		
-		if(!this.usableOptions.customArgsList) {
+		if(!this.usableOptions.customArgs) {
 		
 			if(this.usableOptions.rememberExecNodePath) parsedArgs["_"].execNodePath = process.argv[0];
 			if(this.usableOptions.rememberExecFilePath) parsedArgs["_"].execFilePath = process.argv[1];
 			
 		}
 		
-		if((!this.usableOptions.rememberExecNodePath && !this.usableOptions.rememberExecFilePath) || this.usableOptions.customArgsList) delete parsedArgs["_"];
+		if((!this.usableOptions.rememberExecNodePath && !this.usableOptions.rememberExecFilePath) || this.usableOptions.customArgs) delete parsedArgs["_"];
 
 		for(let a = 0; a < argsList.length; a++) {
 
@@ -133,14 +157,26 @@ class fargv {
 
 				let argValue = thPArg[1];
 				
-				if(!argValue) argValue = this.usableOptions.mainParse.defaultNoneValue;
+				if(Array.isArray(this.usableOptions.excludeArgs) && this.usableOptions.excludeArgs.indexOf(argValue) != -1) continue;
 				
-				if(!this.usableOptions.noParse && argValue) argValue = this.parseThisArgument(argName, argValue);
+				if(!(Array.isArray(this.usableOptions.excludeArgsButSave) && this.usableOptions.excludeArgsButSave.indexOf(argValue) != -1)) {
+					
+					if(!argValue) argValue = this.usableOptions.mainParse.defaultNoneValue;
+					
+					if(!this.usableOptions.noParse && argValue) argValue = this.parseThisArgument(argName, argValue);
+				
+				}
 
 				parsedArgs[argName] = argValue
 				
 			}
 
+		}
+		
+		if(this.usableOptions.rememberWarns) {
+			
+			parsedArgs._warns = this.errors ? Object.assign([], this.errors) : [];
+			
 		}
 
 		return parsedArgs
