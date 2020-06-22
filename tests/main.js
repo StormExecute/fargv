@@ -1,9 +1,3 @@
-/*
-
-	node tests/main.js --someNumber=1 -a="[1, 2, 4n, [1, 2, 3, [string, [string and string, and others, []], yeah, true], 9, .], test test, NaN,,]" -b=22n ---099=123 --none= --noneWithoutEqSym -object="{someProp: 123, noneDefault: , array: [yeah, it, s, supported!]}"
-	
-*/
-
 const fargv = require("../src/main");
 
 const tests = require("./_tests");
