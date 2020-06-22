@@ -1,25 +1,84 @@
 const isObject = require("../dependencies/isObject");
+const isNumeric = require("../dependencies/isNumeric");
+
+const errorsData = require("./data/_errors");
 
 const prefix = "\n[fargv]: ";
-//const prefix = "[fargv]: ";
 
-const errorHandler = function (mainMsg, from) {
+const errorHandler = function (mainMessage, debugDetails, momentAction, code) {
 	
-	const objArg = {"argument name": this.argName};
-	
-	from = isObject(from) ? Object.assign(objArg, from) : objArg;
-	
-	let result = prefix + mainMsg;
+	if(isNumeric(mainMessage)) {
 		
-	result += " Debug:\n";
-	
-	for(const k in from) {
+		code = mainMessage;
 		
-		result += `${k}: ${from[k]}\n`;
+		mainMessage = errorsData[mainMessage];
+		
+	} else if(Array.isArray(mainMessage)) {
+		
+		[mainMessage, code] = mainMessage;
 		
 	}
 	
-	//result = result.slice(0, -1);
+	code = code || 0;
+	
+	const objArg = {"argName": this.argName};
+	
+	debugDetails = isObject(debugDetails) ? Object.assign(objArg, debugDetails) : objArg;
+	
+	let result = prefix + mainMessage;
+		
+	result += " Debug:\n";
+	
+	for(const k in debugDetails) {
+		
+		result += `${k}: ${debugDetails[k]}\n`;
+		
+	}
+	
+	if(this.usableOptions.rememberWarns) {
+		
+		this.errors = this.errors || [];
+		
+		this.errors.push(result);
+		
+	}
+	
+	let parseWarnArgs = {};
+	
+	if(typeof this.usableOptions.parseWarn == "function") {
+		
+		parseWarnArgs = {
+			
+			mainMessage,
+			debugDetails,
+			
+			code,
+			
+			fullMessage: result,
+			
+		};
+		
+	}
+	
+	if(momentAction == "throw") {
+
+		throw new Error(result);
+	
+	} else if(momentAction == "warn") {
+		
+		if(this.usableOptions.showWarns) console.warn(result);
+		
+		if(typeof this.usableOptions.parseWarn == "function") this.usableOptions.parseWarn(parseWarnArgs);
+		
+	} else if(momentAction == "auto") {
+		
+		if(this.usableOptions.throwInsteadWarns) throw new Error(result);
+		else if(this.usableOptions.showWarns) console.warn(result);
+		
+		if(typeof this.usableOptions.parseWarn == "function") this.usableOptions.parseWarn(parseWarnArgs);
+		
+	}
+	
 	
 	return result
 	
