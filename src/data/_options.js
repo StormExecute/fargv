@@ -1,10 +1,20 @@
 module.exports = {
 	
-	customArgsList: null,
+	customArgs: null,
+	demandArgs: null,
+	
+	excludeArgs: null,
+	excludeArgsButSave: null,
 	
 	rememberExecNodePath: false,
 	rememberExecFilePath: true,
 	
+	rememberWarns: false,
+	
+	showWarns: true,
+	parseWarn: null, //function(warn)
+	
+	//for demandArgs always true
 	throwInsteadWarns: false,
 	
 	supportEmptyFlags: true,
@@ -18,6 +28,7 @@ module.exports = {
 	useDnvForFirstSpaceOP: true,
 	
 	noParse: false,
+	allParse: false,
 	
 	mainParse: {
 		
@@ -71,6 +82,26 @@ module.exports = {
 	},
 	
 	objectParse: {
+		
+		/*
+		
+			ifDuplicateKey = {
+				
+				rewrite: boolean<true>
+				
+				warn: boolean<true>
+				
+			}
+		
+		*/
+		
+		ifDuplicateKey: {
+			
+			rewrite: true,
+			
+			warn: true
+			
+		},
 		
 		maxRecursiveCalls: 10,
 		
