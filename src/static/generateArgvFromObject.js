@@ -71,7 +71,7 @@ function fastGenerateError(position, throwInsteadWarns) {
 	
 }
 
-const defaultNegativeResult = require("./models/generateNegativeResult");
+const defaultNegativeResult = require("./generateModels/negativeResult");
 
 const generate = require("./generateArgv");
 

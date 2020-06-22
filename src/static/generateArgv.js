@@ -38,8 +38,8 @@ Format:
 
 */
 
-const defaultNegativeResult = require("./models/generateNegativeResult");
-const defaultOptions = require("./models/_options");
+const defaultNegativeResult = require("./generateModels/negativeResult");
+const defaultOptions = require("./generateModels/_options");
 
 const generateArgvFromTypesToString = function(argName, argValue, ...args) {
 	
