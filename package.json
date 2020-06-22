@@ -11,10 +11,12 @@
   },
   "main": "src/main.js",
   "scripts": {
-    "test": "node tests/index.js"
+    "test": "node tests/generateStringIndexModel.js && node tests/index.js",
+    "onlytest": "node tests/index.js",
+    "gen": "node tests/generateStringIndexModel.js"
   },
   "engines": {
-    "node": ">=5.0.0"
+    "node": ">=6.0.0"
   },
   "keywords": [
     "fargv",
