@@ -6,4 +6,6 @@ module.exports = {
 	
 	array: [ 'yeah', 'it', 's', 'supported!' ],
 	
+	q: {},
+	
 };
