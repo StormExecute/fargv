@@ -6,13 +6,13 @@ const parseArray = function (argValue, callNumber) {
 	
 	if(callNumber > arrayOptions.maxRecursiveCalls) {
 		
-		throw new Error(this.errorHandler("Maximum call stack size exceeded appears!", {
+		this.errorHandler(["Maximum call stack size exceeded appears!", 1], {
 			
 			from: "parseArray",
 			maxRecursiveCalls: arrayOptions.maxRecursiveCalls,
 			nowCall: callNumber,
 			
-		}));
+		}, "auto");
 		
 	}
 	
@@ -171,16 +171,13 @@ const parseArray = function (argValue, callNumber) {
 	
 	if(tempArrayInArraySymbols) {
 		
-		const error = this.errorHandler("Can't parse array in array.", {
+		this.errorHandler(["Can't parse array in array.", 200], {
 			
 			from: "parseArray",
 			maxRecursiveCalls: arrayOptions.maxRecursiveCalls,
 			nowCall: callNumber,
 			
-		});
-		
-		if(this.usableOptions.throwInsteadWarns) throw new Error(error);
-		else console.warn(error);
+		}, "auto");
 		
 		return [];
 		
@@ -188,17 +185,14 @@ const parseArray = function (argValue, callNumber) {
 	
 	if(tempObjectInObjectSymbols) {
 		
-		const error = this.errorHandler("Can't parse object in array.", {
+		this.errorHandler(["Can't parse object in array.", 201], {
 			
 			from: "parseArray",
 			maxRecursiveCalls: arrayOptions.maxRecursiveCalls,
 			nowCall: callNumber,
 			tempKey,
 			
-		});
-		
-		if(this.usableOptions.throwInsteadWarns) throw new Error(error);
-		else console.warn(error);
+		}, "auto");
 		
 		return [];
 		
