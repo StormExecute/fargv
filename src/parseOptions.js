@@ -1,6 +1,25 @@
 const isObject = require("../dependencies/isObject");
 
-const defaultOptions = require("./_options");
+const defaultOptions = require("./data/_options");
+
+const defaultTypesModel = [
+
+	"number",
+	
+	"bigint",
+	
+	"boolean",
+	"array",
+	"object",
+	
+	"null",
+	"undefined",
+	"NaN",
+	"Infinity"
+
+];
+
+const defaultTypesModelAsObjectOfTrues = defaultTypesModel.map(el => ( { [el]: true } ) ).reduce((prev, cur) => Object.assign(cur, prev))
 
 const defaultParseModel = Object.keys(defaultOptions.mainParse);
 
@@ -24,7 +43,7 @@ module.exports = function(options) {
 			
 			if(defaultParseModel.indexOf(k) != -1) {
 				
-				//anyway it has a mainParse property
+				//anyway they(usableOptions) have a mainParse property
 				usableOptions.mainParse[k] = options[k];
 				
 			}
@@ -43,6 +62,24 @@ module.exports = function(options) {
 		
 		usableOptions.objectParse = Object.assign({}, defaultOptions.objectParse, options.objectParse);
 		
+		if(!isObject(usableOptions.objectParse.ifDuplicateKey)) {
+			
+			usableOptions.object.ifDuplicateKey = Object.assign({}, defaultOptions.objectParse.ifDuplicateKey);
+			
+		}
+		
+	}
+	
+	if(usableOptions.allParse) {
+		
+		for(const parse of ["mainParse", "arrayParse", "objectParse"]) {
+			
+			usableOptions[parse] = Object.assign(usableOptions[parse], defaultTypesModelAsObjectOfTrues);
+			
+		}
+		
+		return usableOptions
+		
 	}
 	
 	for(const parse of ["mainParse", "arrayParse", "objectParse"]) {
@@ -53,16 +90,15 @@ module.exports = function(options) {
 		const mainTypes = opts.mainTypes;
 		const minorTypes = opts.minorTypes;
 		
-		//they are only with types
-		if(opts.maxRecursiveCalls) delete opts.maxRecursiveCalls;
-		delete opts.defaultNoneValue;
-		delete opts.allTypes;
-		delete opts.mainTypes;
-		delete opts.minorTypes;
+		//we leave only types
+		for(const k in opts) {
+		
+			if(defaultTypesModel.indexOf(k) == -1) delete opts[k];
+		
+		}
 		
 		if(allTypes) {
 			
-			//they are only with types
 			for(const k in opts) {
 			
 				usableOptions[parse][k] = true;
@@ -104,4 +140,4 @@ module.exports = function(options) {
 	
 	return usableOptions
 	
-}
+};
