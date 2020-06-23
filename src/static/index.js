@@ -1,6 +1,9 @@
 const options = require("./setOptions");
 const _default = require("./setDefault");
 
+const demand = require("./demand");
+const undemand = require("./undemand");
+
 const state = require("./getState");
 
 const { toFargvStringArray, toFargvStringObject } = require("./fromArrayAndObject");
@@ -17,6 +20,9 @@ module.exports = {
 	
 	options,
 	_default,
+	
+	demand,
+	undemand,
 	
 	state,
 	
