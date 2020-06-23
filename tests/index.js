@@ -67,11 +67,32 @@ const args = fargv.generate({
 	
 });
 
-let commandTest = "";
+function capitalizeFirstLetter(string) {
+	
+	return string.charAt(0).toUpperCase() + string.slice(1);
+  
+}
+
+const repeats = 15;
+
+//[taskName, command]
+let commands = [];
+
+console.log("-".repeat(repeats) + "Test started" + "-".repeat(repeats) + "\n");
+
+process.on("exit", () => console.log("-".repeat(repeats) + "Test finished" + "-".repeat(repeats) + "\n"));
 
 if(process.platform.startsWith("win")) {
 	
-	commandTest = "start cmd /k node " + path.join(__dirname, "main.js") + " " + args;
+	commands = [
+	
+		["generateIndexModel", "node " + path.join(__dirname, "generateStringIndexModel.js")],
+		
+		["demand", "node " + path.join(__dirname, "demandArgs.js") + " " + args],
+		
+		["main", "start cmd /k node " + path.join(__dirname, "main.js") + " " + args],
+	
+	];
 	
 } else {
 	
@@ -79,4 +100,35 @@ if(process.platform.startsWith("win")) {
 	
 }
 
-exec(commandTest);
+function startTest(commands) {
+	
+	const command = commands[0];
+	
+	exec(command[1], (error, stdout, stderr) => {
+		
+		if (error) console.error(`${capitalizeFirstLetter(command[0])} Exec Error:\n\n${error}`);
+		else if(stdout) console.log(`${capitalizeFirstLetter(command[0])} Stdout: ${stdout}`);
+		else if(stderr) console.error(`${capitalizeFirstLetter(command[0])} Stderr: ${stderr}`);
+		else if(!stdout) console.log(`${capitalizeFirstLetter(command[0])} Stdout: Unknown`);
+		
+		commands = commands.slice(1);
+		
+		if(commands.length == 1) {
+			
+			console.log("Main test results have been opened in a new window and await closure...\n");
+			
+			exec(commands[commands.length - 1][1]);
+			
+			return;
+			
+		} else if(commands.length > 1) {
+			
+			startTest(commands);
+			
+		}
+		
+	});
+	
+}
+
+startTest(Object.assign([], commands));
