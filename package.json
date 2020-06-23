@@ -11,8 +11,7 @@
   },
   "main": "src/main.js",
   "scripts": {
-    "test": "node tests/generateStringIndexModel.js && node tests/index.js",
-    "onlytest": "node tests/index.js",
+    "test": "node tests/index.js",
     "gen": "node tests/generateStringIndexModel.js"
   },
   "engines": {
