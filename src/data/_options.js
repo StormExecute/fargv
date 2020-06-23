@@ -1,6 +1,9 @@
 module.exports = {
 	
 	customArgs: null,
+	defaultArgs: null,
+	
+	demandWithSkipArgs: null,
 	demandArgs: null,
 	
 	excludeArgs: null,
