@@ -4,6 +4,8 @@ const parseOptions = require("./parseOptions");
 
 const errorHandler = require("./errorHandler");
 
+const checkDemand = require("./checkDemand");
+
 const parseMinorAndBoolean = require("./parseFunctional/minorAndBoolean");
 const parseArray = require("./parseFunctional/array");
 const parseObject = require("./parseFunctional/object");
@@ -17,6 +19,9 @@ const {
 	
 	options,
 	_default,
+	
+	demand,
+	undemand,
 	
 	state,
 	
@@ -46,13 +51,18 @@ function abstractSetFargvWrapperProperties() {
 	
 	if(!fargvWrapper._options) fargvWrapper._options = null;
 	
-	if(!fargvWrapper._default) fargvWrapper._default = null;
+	/*
+	
+		.default -> _options.defaultArgs
+		.demand(..., true) -> _options.demandWithSkipArgs
+		.demand -> _options.demandArgs
+		.custom -> _options.customArgs
+	
+	*/
 	
 }
 
 function fargvWrapper(options) {
-	
-	abstractSetFargvWrapperProperties();
 	
 	//static fargv.options doesnt set they as default
 	
@@ -68,11 +78,15 @@ function fargvWrapper(options) {
 	
 }
 
+abstractSetFargvWrapperProperties();
+
 function mainExport() {
 	
 	fargv.prototype = Object.assign(fargv.prototype, {
 		
 		errorHandler,
+		
+		checkDemand,
 		
 		parseThisArgument,
 		
@@ -89,6 +103,9 @@ function mainExport() {
 		
 		options,
 		default: _default,
+		
+		demand,
+		undemand,
 		
 		state,
 		
@@ -140,10 +157,22 @@ class fargv {
 		}
 		
 		if((!this.usableOptions.rememberExecNodePath && !this.usableOptions.rememberExecFilePath) || this.usableOptions.customArgs) delete parsedArgs["_"];
+		
+		const rememberAllForDemandWithSkipArgs = Array.isArray(this.usableOptions.demandWithSkipArgs) ? {} : false;
 
 		for(let a = 0; a < argsList.length; a++) {
 
 			const thArg = argsList[a];
+			
+			if(rememberAllForDemandWithSkipArgs) {
+				
+				const thPArg = thArg.split("=");
+				
+				const argName = thPArg[0].replace(/^-+/, "");
+				
+				rememberAllForDemandWithSkipArgs[argName] = 1;
+				
+			}
 			
 			const isArgument = this.usableOptions.unlimitedFlagDefinitionCharacters ? thArg.startsWith("-") : thArg.startsWith("--") || thArg.match(/^-\w/i);
 
@@ -171,6 +200,18 @@ class fargv {
 				
 			}
 
+		}
+		
+		if(rememberAllForDemandWithSkipArgs) {
+			
+			this.checkDemand("demandWithSkipArgs", rememberAllForDemandWithSkipArgs);
+			
+		}
+		
+		if(Array.isArray(this.usableOptions.demandArgs)) {
+			
+			this.checkDemand("demandArgs", parsedArgs);
+			
 		}
 		
 		if(this.usableOptions.rememberWarns) {
