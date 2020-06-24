@@ -19,7 +19,7 @@ const deepCloneArray = function(sourceArray, ...arrays) {
 	
 	if(!Array.isArray(sourceArray)) return [false];
 	
-	const result = toJson(sourceArray) == "[]" ? [] : deepCloneArray([], sourceArray);
+	const result = [].slice.call(sourceArray);
 	
 	for(let i = 0; i < arrays.length; i++) {
 		
@@ -52,10 +52,9 @@ const deepCloneObject = function(mainObject, ...objects) {
 	
 	if(!objects.length) return mainObject;
 	
-	let result = toJson(mainObject) == "[]" ? []
-	: toJson(mainObject) == "{}" ? {} 
-	: Array.isArray(mainObject) ? deepCloneArray([], mainObject) 
-	: deepCloneObject({}, mainObject);
+	let result = toJson(mainObject) == "{}" ? {} 
+	: Array.isArray(mainObject) ? [].slice.call(mainObject)
+	: deepCloneObject.___spawnRecursionChild({}, mainObject);
 	
 	for(let i = 0; i < objects.length; i++) {
 		
@@ -64,17 +63,18 @@ const deepCloneObject = function(mainObject, ...objects) {
 		//skip none-objects && none-arrays
 		if(!isObject(thisObject) && !Array.isArray(thisObject)) continue;
 		
-		//skip objects with wrong type
-		if(Array.isArray(result) && isObject(thisObject)) continue;
-		
-		//if it is an array return deepCloneArray
-		if(!isObject(result) && Array.isArray(thisObject)) {
+		//if these are arrays return deepCloneArray
+		if(Array.isArray(result) && Array.isArray(thisObject)) {
 			
 			result = deepCloneArray(result, thisObject);
 			
 			continue;
 			
 		}
+		
+		//skip if second argument is of the wrong type
+		if(Array.isArray(result) && isObject(thisObject)) continue;
+		if(isObject(result) && Array.isArray(thisObject)) continue;
 		
 		for(const prop in thisObject) {
 			
@@ -85,23 +85,23 @@ const deepCloneObject = function(mainObject, ...objects) {
 				
 				if(isObject(resultValue)) {
 					
-					result[prop] = deepCloneObject(resultValue, thisValue);
+					result[prop] = deepCloneObject.___spawnRecursionChild(resultValue, thisValue);
 					
 				} else {
 					
-					result[prop] = deepCloneObject({}, thisValue);
+					result[prop] = deepCloneObject.___spawnRecursionChild({}, thisValue);
 					
 				}
 				
 			} else if(Array.isArray(thisValue)) {
 				
-				if(Array.isArray(resultValue)) {
+				if(Array.isArray(resultValue) && deepCloneObject._concatArrays.status) {
 					
 					result[prop] = deepCloneArray(resultValue, thisValue);
 					
 				} else {
 					
-					result[prop] = deepCloneArray([], thisValue);
+					result[prop] = [].slice.call(thisValue);
 					
 				}
 				
@@ -115,9 +115,54 @@ const deepCloneObject = function(mainObject, ...objects) {
 		
 	}
 	
+	if(!deepCloneObject._concatArrays.always && deepCloneObject._concatArrays.status) {
+		
+		deepCloneObject._concatArrays.status = false;
+		
+	}
+	
 	return result;
 	
 };
+
+deepCloneObject._concatArrays = {};
+
+deepCloneObject.concatArrays = function(state) {
+	
+	if(!isObject(state)) {
+		
+		state = {
+			
+			status: state,
+			always: false
+			
+		};
+		
+	}
+	
+	deepCloneObject._concatArrays = {
+		
+		status: state.status || deepCloneObject._concatArrays.status || false,
+		always: state.always || deepCloneObject._concatArrays.always || false
+		
+	};
+	
+	return deepCloneObject
+	
+};
+
+//to save _concatArrays state for main process
+deepCloneObject.___spawnRecursionChild = function(mainObject, ...objects) {
+	
+	const _concatArraysState = {status: deepCloneObject._concatArrays.status, always: deepCloneObject._concatArrays.always};
+	
+	const result = deepCloneObject(mainObject, ...objects);
+	
+	deepCloneObject._concatArrays = {status: _concatArraysState.status, always: _concatArraysState.always};
+	
+	return result;
+	
+}
 
 module.exports = {
 	
