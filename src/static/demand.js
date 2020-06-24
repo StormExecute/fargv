@@ -1,6 +1,6 @@
 const isObject = require("../../dependencies/isObject");
 
-const { deepCloneArray, deepCloneObject } = require("../../dependencies/deepClone");
+const { deepCloneArray } = require("../../dependencies/deepClone");
 
 const staticDemand = function(args, withSkipArgs) {
 	
@@ -12,7 +12,7 @@ const staticDemand = function(args, withSkipArgs) {
 	
 	this.options({
 		
-		[demandType]: Array.isArray(this._options[demandType]) ? deepCloneObject(this._options[demandType], args) : deepCloneArray([], args)
+		[demandType]: Array.isArray(this._options[demandType]) ? deepCloneArray(this._options[demandType], args) : deepCloneArray([], args)
 		
 	}, true);
 	
