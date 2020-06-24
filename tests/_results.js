@@ -7,9 +7,11 @@ const parsedObject = require("./defaultModels/parsedObject");
 
 const without = require("../dependencies/objectWithout");
 
+const { deepCloneObject } = require("../dependencies/deepClone");
+
 const assign = function(defaultObj, newObj) {
 	
-	return Object.assign({}, defaultObj, newObj)
+	return deepCloneObject({}, defaultObj, newObj)
 	
 };
 

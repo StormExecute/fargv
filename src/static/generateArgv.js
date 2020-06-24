@@ -1,5 +1,7 @@
 const isObject = require("../../dependencies/isObject");
 
+const { deepCloneObject } = require("../../dependencies/deepClone");
+
 const toJson = require("../../dependencies/toJson");
 
 const { toFargvStringArray, toFargvStringObject } = require("./fromArrayAndObject");
@@ -110,7 +112,7 @@ const generateArgvFromTypesToString = function(argName, argValue, ...args) {
 				
 				if(option == "useSpacesAsDelimiters" && /* ignore false and others */ (isObject(optionValue) || optionValue == true)) {
 					
-					options.useSpacesAsDelimiters = isObject(optionValue) ? Object.assign(options.useSpacesAsDelimiters, optionValue) : {"array": true, "object": true};
+					options.useSpacesAsDelimiters = isObject(optionValue) ? deepCloneObject(options.useSpacesAsDelimiters, optionValue) : {"array": true, "object": true};
 					
 				}
 				
