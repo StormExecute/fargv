@@ -1,5 +1,7 @@
 const isObject = require("../dependencies/isObject");
 
+const { deepCloneObject } = require("../dependencies/deepClone");
+
 const defaultOptions = require("./data/_options");
 
 const defaultTypesModel = [
@@ -29,42 +31,22 @@ module.exports = function(options) {
 	
 	if(options.___fargvISPARSED) return options;
 	
-	const usableOptions = Object.assign({}, defaultOptions, options);
+	const usableOptions = deepCloneObject({}, defaultOptions, options);
 	
 	if(usableOptions.noParse) return usableOptions;
-		
-	if(options.mainParse) {
 	
-		usableOptions.mainParse = Object.assign({}, defaultOptions.mainParse, options.mainParse);
+	if(!isObject(usableOptions.objectParse.ifDuplicateKey)) {
 		
-	} else {
-		
-		for(const k in options) {
-			
-			if(defaultParseModel.indexOf(k) != -1) {
-				
-				//anyway they(usableOptions) have a mainParse property
-				usableOptions.mainParse[k] = options[k];
-				
-			}
-			
-		}
+		usableOptions.objectParse.ifDuplicateKey = Object.assign({}, defaultOptions.objectParse.ifDuplicateKey);
 		
 	}
-	
-	if(options.arrayParse) {
+
+	for(const k in options) {
 		
-		usableOptions.arrayParse = Object.assign({}, defaultOptions.arrayParse, options.arrayParse);
-		
-	}
-	
-	if(options.objectParse) {
-		
-		usableOptions.objectParse = Object.assign({}, defaultOptions.objectParse, options.objectParse);
-		
-		if(!isObject(usableOptions.objectParse.ifDuplicateKey)) {
+		if(defaultParseModel.indexOf(k) != -1) {
 			
-			usableOptions.object.ifDuplicateKey = Object.assign({}, defaultOptions.objectParse.ifDuplicateKey);
+			//anyway they(usableOptions) have a mainParse property
+			usableOptions.mainParse[k] = options[k];
 			
 		}
 		
@@ -74,7 +56,7 @@ module.exports = function(options) {
 		
 		for(const parse of ["mainParse", "arrayParse", "objectParse"]) {
 			
-			usableOptions[parse] = Object.assign(usableOptions[parse], defaultTypesModelAsObjectOfTrues);
+			usableOptions[parse] = deepCloneObject(usableOptions[parse], defaultTypesModelAsObjectOfTrues);
 			
 		}
 		
@@ -84,7 +66,7 @@ module.exports = function(options) {
 	
 	for(const parse of ["mainParse", "arrayParse", "objectParse"]) {
 		
-		const opts = Object.assign({}, usableOptions[parse]);
+		const opts = deepCloneObject({}, usableOptions[parse]);
 		
 		const allTypes = opts.allTypes;
 		const mainTypes = opts.mainTypes;
