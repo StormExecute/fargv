@@ -14,7 +14,7 @@ const staticDemand = function(args, withSkipArgs) {
 		
 		[demandType]: Array.isArray(this._options[demandType]) ? deepCloneArray(this._options[demandType], args) : deepCloneArray([], args)
 		
-	}, true);
+	});
 	
 	return this;
 	

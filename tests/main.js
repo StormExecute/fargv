@@ -52,7 +52,7 @@ for(let i = 0; i < tests.length; i++) {
 		
 			i + 1, 
 			
-			fargv.options(tests[i]).init(),
+			fargv.options(tests[i], true).init(),
 			
 			results[i]
 			

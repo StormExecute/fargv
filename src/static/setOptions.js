@@ -2,9 +2,11 @@ const isObject = require("../../dependencies/isObject");
 
 const { deepCloneObject } = require("../../dependencies/deepClone");
 
-const staticSetOptions = function(options, merging) {
+const staticSetOptions = function(options, redefine) {
 	
-	if(!merging) {
+	if(!isObject(options)) return this;
+	
+	if(redefine) {
 		
 		this._options = options;
 		
