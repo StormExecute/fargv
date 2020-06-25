@@ -1,7 +1,5 @@
 const isObject = require("../dependencies/isObject");
 
-const parseOptions = require("./parseOptions");
-
 const errorHandler = require("./errorHandler");
 
 const checkDemand = require("./checkDemand");
@@ -13,7 +11,10 @@ const parseBigInt = require("./parseFunctional/bigint");
 
 const parseArrayAndObjectEl = require("./parseFunctional/arrayAndObjectEl");
 
+const parseFlags = require("./parseFlags");
 const parseThisFlag = require("./parseThisFlag");
+
+const fargv = require("./fargvConstructor");
 
 const {
 	
@@ -80,150 +81,54 @@ function fargvWrapper(options) {
 
 abstractSetFargvWrapperProperties();
 
-function mainExport() {
+fargv.prototype = Object.assign(fargv.prototype, {
 	
-	fargv.prototype = Object.assign(fargv.prototype, {
-		
-		errorHandler,
-		
-		checkDemand,
-		
-		parseThisFlag,
-		
-		parseMinorAndBoolean,
-		parseArray,
-		parseObject,
-		parseBigInt,
-		
-		parseArrayAndObjectEl,
-		
-	});
+	errorHandler,
 	
-	fargvWrapper = Object.assign(fargvWrapper, {
-		
-		options,
-		default: _default,
-		
-		demand,
-		undemand,
-		
-		state,
-		
-		fromArray,
-		fromObject,
-		
-		toArray,
-		toObject,
-		
-		toFargvStringArray,
-		toFargvStringObject,
-		
-		fromFargvStringArray,
-		fromFargvStringObject,
-		
-		tryToArray,
-		tryToObject,
-		
-		generate,
-		generateFromObject,
-		
-		init,
-		
-	});
+	checkDemand,
 	
-	module.exports = fargvWrapper
+	parseFlags,
+	parseThisFlag,
 	
-}
-
-class fargv {
+	parseMinorAndBoolean,
+	parseArray,
+	parseObject,
+	parseBigInt,
 	
-	constructor(options) {
-		
-		this.usableOptions = parseOptions(options);
-		
-		const argsList = Array.isArray(this.usableOptions.customArgv) ? this.usableOptions.customArgv : process.argv.slice(2);
-
-		const parsedArgs = {
-			
-			_: {}
-			
-		};
-		
-		if(!this.usableOptions.customArgv) {
-		
-			if(this.usableOptions.rememberExecNodePath) parsedArgs["_"].execNodePath = process.argv[0];
-			if(this.usableOptions.rememberExecFilePath) parsedArgs["_"].execFilePath = process.argv[1];
-			
-		}
-		
-		if((!this.usableOptions.rememberExecNodePath && !this.usableOptions.rememberExecFilePath) || this.usableOptions.customArgv) delete parsedArgs["_"];
-		
-		const rememberAllForDemandWithSkippedFlags = Array.isArray(this.usableOptions.demandWithSkipArgs) ? {} : false;
-
-		for(let a = 0; a < argsList.length; a++) {
-
-			const thArg = argsList[a];
-			
-			if(rememberAllForDemandWithSkippedFlags) {
-				
-				const thPArg = thArg.split("=");
-				
-				const argName = thPArg[0].replace(/^-+/, "");
-				
-				rememberAllForDemandWithSkippedFlags[argName] = 1;
-				
-			}
-			
-			const isArgument = this.usableOptions.unlimitedFlagDefinitionCharacters ? thArg.startsWith("-") : thArg.startsWith("--") || thArg.match(/^-\w/i);
-
-			if(isArgument && (!this.usableOptions.includeEmptyFlags ? thArg.includes("=") : true)) {
-
-				const thPArg = thArg.split("=");
-				
-				const argName = thPArg[0].replace(/^-+/, "");
-				
-				if(this.usableOptions.supportOnlyLatinArgs && argName.match(/[^a-z]/i)) continue;
-
-				let argValue = thPArg[1];
-				
-				if(Array.isArray(this.usableOptions.excludeFlags) && this.usableOptions.excludeFlags.indexOf(argValue) != -1) continue;
-				
-				if(!(Array.isArray(this.usableOptions.noParseFlags) && this.usableOptions.noParseFlags.indexOf(argValue) != -1)) {
-					
-					if(!argValue) argValue = this.usableOptions.mainParse.defaultNoneValue;
-					
-					if(!this.usableOptions.noParse && argValue) argValue = this.parseThisFlag(argName, argValue);
-				
-				}
-
-				parsedArgs[argName] = argValue
-				
-			}
-
-		}
-		
-		if(rememberAllForDemandWithSkippedFlags) {
-			
-			this.checkDemand("demandWithSkipArgs", rememberAllForDemandWithSkippedFlags);
-			
-		}
-		
-		if(Array.isArray(this.usableOptions.demandFlags)) {
-			
-			this.checkDemand("demandFlags", parsedArgs);
-			
-		}
-		
-		if(this.usableOptions.rememberWarns) {
-			
-			parsedArgs._warns = this.errors ? Object.assign([], this.errors) : [];
-			
-		}
-
-		return parsedArgs
-		
-	}
+	parseArrayAndObjectEl,
 	
-}
+});
 
-mainExport();
+fargvWrapper = Object.assign(fargvWrapper, {
+	
+	options,
+	default: _default,
+	
+	demand,
+	undemand,
+	
+	state,
+	
+	fromArray,
+	fromObject,
+	
+	toArray,
+	toObject,
+	
+	toFargvStringArray,
+	toFargvStringObject,
+	
+	fromFargvStringArray,
+	fromFargvStringObject,
+	
+	tryToArray,
+	tryToObject,
+	
+	generate,
+	generateFromObject,
+	
+	init,
+	
+});
+
+module.exports = fargvWrapper;
