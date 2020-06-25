@@ -8,7 +8,7 @@ const staticDemand = function(args, withSkipArgs) {
 	
 	args = Array.isArray(args) ? args : [args];
 	
-	const demandType = withSkipArgs ? "demandWithSkipArgs" : "demandArgs";
+	const demandType = withSkipArgs ? "demandWithSkippedFlags" : "demandFlags";
 	
 	this.options({
 		

@@ -38,7 +38,7 @@ const main = function(from, sourceString, mergingOptions, fargvWrapper) {
 	
 	const configs = Object.assign({}, defaultConfigs, {
 		
-		customArgs: [`--${sysAlgo}=` + sourceString],
+		customArgv: [`--${sysAlgo}=` + sourceString],
 		
 	});
 	

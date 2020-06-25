@@ -1,13 +1,13 @@
 module.exports = {
 	
-	customArgs: null,
-	defaultArgs: null,
+	customArgv: null,
+	defaultArgv: null,
 	
-	demandWithSkipArgs: null,
-	demandArgs: null,
+	demandWithSkippedFlags: null,
+	demandFlags: null,
 	
-	excludeArgs: null,
-	excludeArgsButSave: null,
+	excludeFlags: null,
+	noParseFlags: null,
 	
 	rememberExecNodePath: false,
 	rememberExecFilePath: true,
@@ -17,10 +17,10 @@ module.exports = {
 	showWarns: true,
 	parseWarn: null, //function(warn)
 	
-	//for demandArgs always true
+	//for demandFlags always true
 	throwInsteadWarns: false,
 	
-	supportEmptyFlags: true,
+	includeEmptyFlags: true,
 	unlimitedFlagDefinitionCharacters: true,
 	
 	supportOnlyLatinArgs: true,

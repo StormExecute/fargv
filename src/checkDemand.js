@@ -1,22 +1,22 @@
 const checkDemand = function(demandType, parsedArgs) {
 	
-	const copyOfDemandArgs = Object.assign([], this.usableOptions[demandType]);
+	const copyOfDemandFlags = Object.assign([], this.usableOptions[demandType]);
 	
 	for(const argName in parsedArgs) {
 		
-		const indexOf = copyOfDemandArgs.indexOf(argName);
+		const indexOf = copyOfDemandFlags.indexOf(argName);
 		
 		if(indexOf != -1) {
 			
-			copyOfDemandArgs.splice(indexOf, 1);
+			copyOfDemandFlags.splice(indexOf, 1);
 			
 		}
 		
 	}
 	
-	if(copyOfDemandArgs.length) {
+	if(copyOfDemandFlags.length) {
 		
-		const error = `Missing required argument${copyOfDemandArgs.length > 1 ? "s" : ""}: ${copyOfDemandArgs.join(", ")}`;
+		const error = `Missing required argument${copyOfDemandFlags.length > 1 ? "s" : ""}: ${copyOfDemandFlags.join(", ")}`;
 		
 		error.stack = "";
 		

@@ -53,10 +53,10 @@ function abstractSetFargvWrapperProperties() {
 	
 	/*
 	
-		.default -> _options.defaultArgs
-		.demand(..., true) -> _options.demandWithSkipArgs
-		.demand -> _options.demandArgs
-		.custom -> _options.customArgs
+		.default -> _options.defaultArgv
+		.demand(..., true) -> _options.demandWithSkippedFlags
+		.demand -> _options.demandFlags
+		.custom -> _options.customArgv
 	
 	*/
 	
@@ -141,7 +141,7 @@ class fargv {
 		
 		this.usableOptions = parseOptions(options);
 		
-		const argsList = Array.isArray(this.usableOptions.customArgs) ? this.usableOptions.customArgs : process.argv.slice(2);
+		const argsList = Array.isArray(this.usableOptions.customArgv) ? this.usableOptions.customArgv : process.argv.slice(2);
 
 		const parsedArgs = {
 			
@@ -149,34 +149,34 @@ class fargv {
 			
 		};
 		
-		if(!this.usableOptions.customArgs) {
+		if(!this.usableOptions.customArgv) {
 		
 			if(this.usableOptions.rememberExecNodePath) parsedArgs["_"].execNodePath = process.argv[0];
 			if(this.usableOptions.rememberExecFilePath) parsedArgs["_"].execFilePath = process.argv[1];
 			
 		}
 		
-		if((!this.usableOptions.rememberExecNodePath && !this.usableOptions.rememberExecFilePath) || this.usableOptions.customArgs) delete parsedArgs["_"];
+		if((!this.usableOptions.rememberExecNodePath && !this.usableOptions.rememberExecFilePath) || this.usableOptions.customArgv) delete parsedArgs["_"];
 		
-		const rememberAllForDemandWithSkipArgs = Array.isArray(this.usableOptions.demandWithSkipArgs) ? {} : false;
+		const rememberAllForDemandWithSkippedFlags = Array.isArray(this.usableOptions.demandWithSkipArgs) ? {} : false;
 
 		for(let a = 0; a < argsList.length; a++) {
 
 			const thArg = argsList[a];
 			
-			if(rememberAllForDemandWithSkipArgs) {
+			if(rememberAllForDemandWithSkippedFlags) {
 				
 				const thPArg = thArg.split("=");
 				
 				const argName = thPArg[0].replace(/^-+/, "");
 				
-				rememberAllForDemandWithSkipArgs[argName] = 1;
+				rememberAllForDemandWithSkippedFlags[argName] = 1;
 				
 			}
 			
 			const isArgument = this.usableOptions.unlimitedFlagDefinitionCharacters ? thArg.startsWith("-") : thArg.startsWith("--") || thArg.match(/^-\w/i);
 
-			if(isArgument && (!this.usableOptions.supportEmptyFlags ? thArg.includes("=") : true)) {
+			if(isArgument && (!this.usableOptions.includeEmptyFlags ? thArg.includes("=") : true)) {
 
 				const thPArg = thArg.split("=");
 				
@@ -186,9 +186,9 @@ class fargv {
 
 				let argValue = thPArg[1];
 				
-				if(Array.isArray(this.usableOptions.excludeArgs) && this.usableOptions.excludeArgs.indexOf(argValue) != -1) continue;
+				if(Array.isArray(this.usableOptions.excludeFlags) && this.usableOptions.excludeFlags.indexOf(argValue) != -1) continue;
 				
-				if(!(Array.isArray(this.usableOptions.excludeArgsButSave) && this.usableOptions.excludeArgsButSave.indexOf(argValue) != -1)) {
+				if(!(Array.isArray(this.usableOptions.noParseFlags) && this.usableOptions.noParseFlags.indexOf(argValue) != -1)) {
 					
 					if(!argValue) argValue = this.usableOptions.mainParse.defaultNoneValue;
 					
@@ -202,15 +202,15 @@ class fargv {
 
 		}
 		
-		if(rememberAllForDemandWithSkipArgs) {
+		if(rememberAllForDemandWithSkippedFlags) {
 			
-			this.checkDemand("demandWithSkipArgs", rememberAllForDemandWithSkipArgs);
+			this.checkDemand("demandWithSkipArgs", rememberAllForDemandWithSkippedFlags);
 			
 		}
 		
-		if(Array.isArray(this.usableOptions.demandArgs)) {
+		if(Array.isArray(this.usableOptions.demandFlags)) {
 			
-			this.checkDemand("demandArgs", parsedArgs);
+			this.checkDemand("demandFlags", parsedArgs);
 			
 		}
 		

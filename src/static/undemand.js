@@ -4,7 +4,7 @@ const staticUnDemand = function(args, withSkipArgs) {
 	
 	if(!isObject(this._options)) return this;
 	
-	const demandType = withSkipArgs ? "demandWithSkipArgs" : "demandArgs";
+	const demandType = withSkipArgs ? "demandWithSkippedFlags" : "demandFlags";
 	
 	if(!Array.isArray(this._options[demandType])) return this;
 	

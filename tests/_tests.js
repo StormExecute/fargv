@@ -26,7 +26,7 @@ module.exports = [
 		
 		rememberExecFilePath: false,
 		
-		supportEmptyFlags: false,
+		includeEmptyFlags: false,
 		
 	},
 

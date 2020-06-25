@@ -88,7 +88,7 @@ if(process.platform.startsWith("win")) {
 	
 		["generateIndexModel", "node " + path.join(__dirname, "generateStringIndexModel.js")],
 		
-		["demand", "node " + path.join(__dirname, "demandArgs.js") + " " + args],
+		["demand", "node " + path.join(__dirname, "demandFlags.js") + " " + args],
 		
 		["main", "start cmd /k node " + path.join(__dirname, "main.js") + " " + args],
 	
