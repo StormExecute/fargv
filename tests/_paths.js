@@ -1,6 +1,6 @@
 const windows = {
 	
-	execFilePath: 'D:\\NodeProjects\\fargv\\tests\\main.js',
+	execFilePath: 'D:\\NodeProjects\\fargv\\tests\\objects\\flags.js',
 	execNodePath: 'C:\\Program Files\\nodejs\\node.exe'
 	
 };

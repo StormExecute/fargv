@@ -1,11 +1,11 @@
-const fargv = require("../src/main");
+const fargv = require("../../src/main");
 
-const tests = require("./_tests");
-const results = require("./_results");
+const tests = require("../data/_tests");
+const results = require("../data/_results");
 
-const objectEquals = require("../dependencies/objectEquals");
-const objectDifference = require("../dependencies/objectDiff");
-const toJson = require("../dependencies/toJson");
+const objectEquals = require("../../dependencies/objectEquals");
+const objectDifference = require("../../dependencies/objectDiff");
+const toJson = require("../../dependencies/toJson");
 
 function test(id, test, result) {
 	

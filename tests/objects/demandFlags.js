@@ -1,4 +1,4 @@
-const fargv = require("../src/main");
+const fargv = require("../../src/main");
 
 fargv.demand("someNumber");
 

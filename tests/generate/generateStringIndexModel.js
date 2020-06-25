@@ -3,12 +3,12 @@ const path = require("path");
 
 const toPrettyStringObject = require("./toPrettyStringObject");
 
-const { fromArray, fromObject } = require("../src/main");
+const { fromArray, fromObject } = require("../../src/main");
 
-const parsedArray = require("./defaultModels/parsedArray");
-const parsedObject = require("./defaultModels/parsedObject");
+const parsedArray = require("../defaultModels/parsedArray");
+const parsedObject = require("../defaultModels/parsedObject");
 
-const defaultIndexModelPath = "./defaultModels/index.js";
+const defaultIndexModelPath = "../defaultModels/index.js";
 
 const defaultIndexModel = {
 	

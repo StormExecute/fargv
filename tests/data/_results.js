@@ -1,13 +1,13 @@
-const { execFilePath, execNodePath } = require("./_paths");
+const { execFilePath, execNodePath } = require("../_paths");
 
-const defaultArgv = require("./defaultModels");
+const defaultArgv = require("../defaultModels");
 
-const parsedArray = require("./defaultModels/parsedArray");
-const parsedObject = require("./defaultModels/parsedObject");
+const parsedArray = require("../defaultModels/parsedArray");
+const parsedObject = require("../defaultModels/parsedObject");
 
-const without = require("../dependencies/objectWithout");
+const without = require("../../dependencies/objectWithout");
 
-const { deepCloneObject } = require("../dependencies/deepClone");
+const { deepCloneObject } = require("../../dependencies/deepClone");
 
 const assign = function(defaultObj, newObj) {
 	

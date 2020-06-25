@@ -86,11 +86,11 @@ if(process.platform.startsWith("win")) {
 	
 	commands = [
 	
-		["generateIndexModel", "node " + path.join(__dirname, "generateStringIndexModel.js")],
+		["generateIndexModel", "node " + path.join(__dirname, "generate/generateStringIndexModel.js")],
 		
-		["demand", "node " + path.join(__dirname, "demandFlags.js") + " " + args],
+		["demand", "node " + path.join(__dirname, "objects/demandFlags.js") + " " + args],
 		
-		["main", "start cmd /k node " + path.join(__dirname, "main.js") + " " + args],
+		["main", "start cmd /k node " + path.join(__dirname, "objects/flags.js") + " " + args],
 	
 	];
 	

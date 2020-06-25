@@ -1,7 +1,7 @@
-const isObject = require("../dependencies/isObject");
-const isNumeric = require("../dependencies/isNumeric");
+const isObject = require("../../dependencies/isObject");
+const isNumeric = require("../../dependencies/isNumeric");
 
-const { fromArray, fromObject } = require("../src/main");
+const { fromArray, fromObject } = require("../../src/main");
 
 const toPrettyStringObject = (sourceObject, useQuotesForProps) => {
 	
