@@ -13,7 +13,7 @@ const parseBigInt = require("./parseFunctional/bigint");
 
 const parseArrayAndObjectEl = require("./parseFunctional/arrayAndObjectEl");
 
-const parseThisArgument = require("./parseThisArgument");
+const parseThisFlag = require("./parseThisFlag");
 
 const {
 	
@@ -88,7 +88,7 @@ function mainExport() {
 		
 		checkDemand,
 		
-		parseThisArgument,
+		parseThisFlag,
 		
 		parseMinorAndBoolean,
 		parseArray,
@@ -192,7 +192,7 @@ class fargv {
 					
 					if(!argValue) argValue = this.usableOptions.mainParse.defaultNoneValue;
 					
-					if(!this.usableOptions.noParse && argValue) argValue = this.parseThisArgument(argName, argValue);
+					if(!this.usableOptions.noParse && argValue) argValue = this.parseThisFlag(argName, argValue);
 				
 				}
 
