@@ -1,6 +1,6 @@
 const isNumeric = require("../dependencies/isNumeric");
 
-const parseThisArgument = function(aName, aValue) {
+const parseThisFlag = function(aName, aValue) {
 		
 	this.argName = aName || "?";
 	
@@ -32,4 +32,4 @@ const parseThisArgument = function(aName, aValue) {
 	
 }
 
-module.exports = parseThisArgument;
+module.exports = parseThisFlag;
