@@ -21,15 +21,15 @@ const defaultTypesModel = [
 
 ];
 
-const defaultTypesModelAsObjectOfTrues = defaultTypesModel.map(el => ( { [el]: true } ) ).reduce((prev, cur) => Object.assign(cur, prev))
+const defaultTypesModelAsObjectOfTrues = defaultTypesModel.map(el => ( { [el]: true } ) ).reduce((prev, cur) => Object.assign(cur, prev));
 
 const defaultParseModel = Object.keys(defaultOptions.mainParse);
 
 module.exports = function(options) {
 	
-	if(!isObject(options)) return defaultOptions;
+	if(!isObject(options)) return Object.assign({}, defaultOptions);
 	
-	if(options.___fargvISPARSED) return options;
+	if(options.___fargvISPARSED) return Object.assign({}, options);
 	
 	const usableOptions = deepCloneObject({}, defaultOptions, options);
 	
