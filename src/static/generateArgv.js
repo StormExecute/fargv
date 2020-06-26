@@ -69,7 +69,7 @@ const generateArgvFromTypesToString = function(argName, argValue, ...args) {
 							
 						: (Array.isArray(argName) && isObject(argName[0])) ?
 						
-							argName
+							Object.assign([], argName)
 							
 						: (typeof argName == "string" && isObject(args[0])) ?
 						
@@ -96,7 +96,7 @@ const generateArgvFromTypesToString = function(argName, argValue, ...args) {
 							
 						: false;
 						
-	if(!argvObj) return defaultNegativeResult;
+	if(!argvObj) return Object.assign({}, defaultNegativeResult);
 						
 	const options = Object.assign({}, defaultOptions);
 	
@@ -106,7 +106,7 @@ const generateArgvFromTypesToString = function(argName, argValue, ...args) {
 		
 		const arg = argvObj[i];
 		
-		if(arg._options && isObject(arg._options)) {
+		if(isObject(arg._options)) {
 			
 			for(const option in arg._options) {
 				
@@ -174,7 +174,7 @@ const generateArgvFromTypesToString = function(argName, argValue, ...args) {
 		
 	}
 	
-	return toJson(result) == "{}" ? defaultNegativeResult : {
+	return toJson(result) == "{}" ? Object.assign({}, defaultNegativeResult) : {
 		
 		result,
 		
