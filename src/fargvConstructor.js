@@ -1,3 +1,7 @@
+const isObject = require("../dependencies/isObject");
+
+const copyV = require("../dependencies/copyValWithoutBind");
+
 const parseOptions = require("./parseOptions");
 
 class fargv {
@@ -6,7 +10,7 @@ class fargv {
 		
 		this.usableOptions = parseOptions(options);
 		
-		const argsList = Array.isArray(this.usableOptions.customArgv) ? this.usableOptions.customArgv : process.argv.slice(2);
+		const argsList = Array.isArray(this.usableOptions.customArgv) ? copyV(this.usableOptions.customArgv) : process.argv.slice(2);
 
 		let parsedArgs = {
 			
@@ -25,6 +29,7 @@ class fargv {
 		
 		const rememberAllForDemandWithSkippedFlags = Array.isArray(this.usableOptions.demandWithSkippedFlags) ? {} : false;
 		
+		//rememberAllForDemandWithSkippedFlags can change
 		parsedArgs = this.parseFlags(argsList, parsedArgs, rememberAllForDemandWithSkippedFlags);
 		
 		if(rememberAllForDemandWithSkippedFlags) {
@@ -36,6 +41,20 @@ class fargv {
 		if(Array.isArray(this.usableOptions.demandFlags)) {
 			
 			this.checkDemand("demandFlags", parsedArgs);
+			
+		}
+		
+		if(isObject(this.usableOptions.defaultArgv)) {
+			
+			for(const defaultArgName in this.usableOptions.defaultArgv) {
+				
+				if(typeof parsedArgs[defaultArgName] == "undefined") {
+					
+					parsedArgs[defaultArgName] = copyV(this.usableOptions.defaultArgv[defaultArgName]);
+					
+				}
+				
+			}
 			
 		}
 		
