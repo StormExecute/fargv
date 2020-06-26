@@ -90,6 +90,23 @@ if(process.platform.startsWith("win")) {
 		
 		["demand", "node " + path.join(__dirname, "objects/demandFlags.js") + " " + args],
 		
+		["defaultFlags", "node " + path.join(__dirname, "objects/defaultFlags.js") + " " + fargv.generateFromObject({
+			
+			flagA: undefined,
+			flagB: 3,
+			flagC: "value",
+			//flagD
+			flagE: ["default", "non-standard"],
+			flagF: {
+				
+				a: "non-standard",
+				b: "default",
+				
+			},
+			
+			
+		})],
+		
 		["main", "start cmd /k node " + path.join(__dirname, "objects/flags.js") + " " + args],
 	
 	];
