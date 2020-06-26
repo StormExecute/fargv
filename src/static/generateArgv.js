@@ -6,6 +6,8 @@ const toJson = require("../../dependencies/toJson");
 
 const { toFargvStringArray, toFargvStringObject } = require("./fromArrayAndObject");
 
+const getValue = require("../../dependencies/getAnyPropValIfExists");
+
 /*
 
 Format:
@@ -16,7 +18,7 @@ Format:
 
 			name | argName | n = string
 			
-			value | argValue | v = any
+			value | argValue | v = string | number | bigint | array | object | true | Infinity | null | null | NaN | "undefined" && !undefined
 			
 			flag | f | flagDC = number
 			
@@ -126,11 +128,11 @@ const generateArgvFromTypesToString = function(argName, argValue, ...args) {
 		
 		if(!name) continue;
 		
-		let val = arg.value || arg.v || arg.argValue || "";
+		let val = getValue(arg, ["value", "v", "argValue"]);
 		
-		const flagRepeats = arg.flag || arg.f || /* flagDefinitionCharacters */ arg.flagDC || 2;
+		const flagRepeats = getValue(arg, ["flag", "f", /* flagDefinitionCharacters */ "flagDC"], 2);
 		
-		const prePush = arg.pre || arg.p || arg.prePush // || undefined;
+		const prePush = getValue(arg, ["pre", "p", "prePush"]); // || undefined)
 		
 		const equalSym = (arg.wes || arg.withoutES || arg.withoutEqualSym) ? "" : "=";
 		
@@ -145,6 +147,18 @@ const generateArgvFromTypesToString = function(argName, argValue, ...args) {
 		} else if(typeof val == "bigint") {
 			
 			val = val + "n";
+			
+		} else if(typeof val == "boolean" && val == false) {
+			
+			val = "false";
+			
+		} else if(val == null) {
+			
+			val = "null";
+			
+		} else if(Object.is(val, NaN)) {
+			
+			val = "NaN";
 			
 		}
 	
