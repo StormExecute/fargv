@@ -6,7 +6,7 @@ const staticDemand = function(args, withSkipArgs) {
 	
 	if(!isObject(this._options)) this._options = {};
 	
-	args = Array.isArray(args) ? args : [args];
+	args = Array.isArray(args) ? deepCloneArray([], args) : [args];
 	
 	const demandType = withSkipArgs ? "demandWithSkippedFlags" : "demandFlags";
 	
