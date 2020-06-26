@@ -11,6 +11,8 @@ const parseBigInt = require("./parseFunctional/bigint");
 
 const parseArrayAndObjectEl = require("./parseFunctional/arrayAndObjectEl");
 
+const getDefaultNoneValue = require("./getDefaultNoneValue");
+
 const parseFlags = require("./parseFlags");
 const parseThisFlag = require("./parseThisFlag");
 
@@ -86,6 +88,8 @@ fargv.prototype = Object.assign(fargv.prototype, {
 	errorHandler,
 	
 	checkDemand,
+	
+	getDefaultNoneValue,
 	
 	parseFlags,
 	parseThisFlag,

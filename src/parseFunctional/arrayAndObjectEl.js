@@ -6,7 +6,7 @@ const parseArrayAndObjectEl = function(el, from) {
 		
 		if(this.usableOptions.useDnvForFirstSpaceOP && from == "object" && el == " ") {
 			
-			el = this.usableOptions.objectParse.defaultNoneValue || this.usableOptions.mainParse.defaultNoneValue;
+			el = this.getDefaultNoneValue("objectParse") || this.getDefaultNoneValue("mainParse");
 			
 		} else if(el != " ") {
 			
@@ -22,9 +22,9 @@ const parseArrayAndObjectEl = function(el, from) {
 	
 	if(!el) {
 		
-		if(from == "array") return this.usableOptions.arrayParse.defaultNoneValue || this.usableOptions.mainParse.defaultNoneValue;
-		else if(from == "object") return this.usableOptions.objectParse.defaultNoneValue || this.usableOptions.mainParse.defaultNoneValue;
-		else return this.usableOptions.mainParse.defaultNoneValue;
+		if(from == "array") return this.getDefaultNoneValue("arrayParse") || this.getDefaultNoneValue("mainParse");
+		else if(from == "object") return this.getDefaultNoneValue("objectParse") || this.getDefaultNoneValue("mainParse");
+		else return this.getDefaultNoneValue("mainParse");
 		
 	}
 	

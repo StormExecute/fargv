@@ -30,7 +30,7 @@ const parseFlags = function(argsList, parsedArgs, rememberAllForDemandWithSkippe
 			
 			if(!(Array.isArray(this.usableOptions.noParseFlags) && this.usableOptions.noParseFlags.indexOf(argValue) != -1)) {
 				
-				if(!argValue) argValue = this.usableOptions.mainParse.defaultNoneValue;
+				if(!argValue) argValue = this.getDefaultNoneValue("mainParse");
 				
 				if(!this.usableOptions.noParse && argValue) argValue = this.parseThisFlag(argName, argValue);
 			
