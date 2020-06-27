@@ -57,7 +57,9 @@ Format:
 
 function fastGenerateError(position, throwInsteadWarns) {
 	
-	const errorMessage = `[fargv]->generateArgvFromObject._options._more.${position.toUpperCase()}: Option change detected immediately after announcement`;
+	const errorMessage = position ? 
+	`[fargv]->generateArgvFromObject._options._more.${position.toUpperCase()}: Option change detected immediately after announcement.` :
+	`[fargv]->generateArgvFromObject._options._more.AFTER: Found pointless adding options to the end.`;
 	
 	if(throwInsteadWarns) {
 		
@@ -85,7 +87,7 @@ const generateArgvFromUsuallyObject = function(getParsedArgs, objectOfValues, ob
 		
 	}
 	
-	if(!isObject(objectOfValues) || toJson(objectOfValues) == "{}") return defaultNegativeResult;
+	if(!isObject(objectOfValues) || toJson(objectOfValues) == "{}") return Object.assign({}, defaultNegativeResult);
 	
 	const result = [];
 	let moreOptions = false;
@@ -120,6 +122,8 @@ const generateArgvFromUsuallyObject = function(getParsedArgs, objectOfValues, ob
 		
 		const argValue = objectOfValues[argName];
 		
+		if(isObject(argValue)) continue;
+		
 		let arg = {
 			
 			name: argName,
@@ -143,19 +147,29 @@ const generateArgvFromUsuallyObject = function(getParsedArgs, objectOfValues, ob
 		
 		for(const position of ["before", "after"]) {
 			
-			const resultCopy = result;
+			const resultCopy = Object.assign([], result);
 			
-			if(toJson(moreOptions[position]) != "{}") {
+			if(isObject(moreOptions[position]) && toJson(moreOptions[position]) != "{}") {
 				
 				for(const argName in moreOptions[position]) {
+					
+					if(!isObject(moreOptions[position][argName])) continue;
 					
 					for(let i = 1; i < resultCopy.length; i++) {
 						
 						if(resultCopy[i].name == argName) {
 							
+							if(position == "after" && !result[i + 1]) {
+								
+								fastGenerateError(null, moreOptions._throwInsteadWarns);
+								
+								continue;
+								
+							}
+							
 							if(
 							
-								(position == "before" && result[i - 1]._options) 
+								(position == "before" && result[i - 1] && result[i - 1]._options) 
 								
 								||
 								
@@ -169,7 +183,11 @@ const generateArgvFromUsuallyObject = function(getParsedArgs, objectOfValues, ob
 								
 							}
 							
-							result.splice(position == "before" ? i : i + 1, 0, moreOptions[position][argName]);
+							const thisPosOptions = moreOptions[position][argName]._options ? 
+								Object.assign({}, moreOptions[position][argName]._options) :
+								{_options: Object.assign({}, moreOptions[position][argName])};
+							
+							result.splice(position == "before" ? i : i + 1, 0, Object.assign({}, thisPosOptions));
 							
 						}
 						
