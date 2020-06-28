@@ -43,6 +43,16 @@ module.exports = [
 	
 	assign(defaultArgv, {
 		
+		someNumber: "1",
+		
+		none: "",
+		
+		noneWithoutEqSym: undefined,
+		
+	}),
+	
+	assign(defaultArgv, {
+		
 		_: { execNodePath, execFilePath },
 		
 		a: parsedArray,

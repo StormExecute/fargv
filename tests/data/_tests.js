@@ -35,6 +35,14 @@ module.exports = [
 		excludeFlags: ["b"],
 		
 	},
+	
+	{
+		
+		rememberExecFilePath: false,
+		
+		noParseNoDefault: true,
+		
+	},
 
 	{
 		
