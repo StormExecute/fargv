@@ -35,6 +35,12 @@ module.exports = [
 	
 	assign(without(defaultArgv, "noneWithoutEqSym")),
 	
+	assign(without(defaultArgv, "b"), {
+		
+		_: { execFilePath }
+		
+	}),
+	
 	assign(defaultArgv, {
 		
 		_: { execNodePath, execFilePath },
