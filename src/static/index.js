@@ -1,12 +1,17 @@
-const options = require("./setOptions");
+const options = require("./set/options");
 
-const _default = require("./setDefault");
-const custom = require("./setCustom");
+const _default = require("./set/default");
+const custom = require("./set/custom");
 
-const { customWithGenerate, customWithGenerateFromObject } = require("./setCustomGenerate");
+const { customWithGenerate, customWithGenerateFromObject } = require("./set/customWithGenerate");
 
-const demand = require("./demand");
-const undemand = require("./undemand");
+const demand = require("./set/demand");
+const undemand = require("./set/undemand");
+
+const exclude = require("./set/exclude");
+
+const noParse = require("./set/noParse");
+const noParseFlags = require("./set/noParseFlags");
 
 const state = require("./getState");
 
@@ -24,13 +29,18 @@ module.exports = {
 	
 	options,
 	
-	_default,
+	"default": _default,
 	custom,
 	customWithGenerate,
 	customWithGenerateFromObject,
 	
 	demand,
 	undemand,
+	
+	exclude,
+	
+	noParse,
+	noParseFlags,
 	
 	state,
 	
