@@ -1,5 +1,7 @@
 const isObject = require("../../dependencies/isObject");
 
+const copyV = require("../../dependencies/copyValWithoutBind");
+
 const toJson = require("../../dependencies/toJson");
 
 /*
@@ -120,9 +122,7 @@ const generateArgvFromUsuallyObject = function(getParsedArgs, objectOfValues, ob
 	
 	for(const argName in objectOfValues) {
 		
-		const argValue = objectOfValues[argName];
-		
-		if(isObject(argValue)) continue;
+		const argValue = copyV(objectOfValues[argName]);
 		
 		let arg = {
 			
