@@ -2,6 +2,8 @@ const isObject = require("../../../dependencies/isObject");
 
 const staticUnDemand = function(args, withSkipArgs) {
 	
+	if(!Array.isArray(args) && typeof args != "string") return this;
+	
 	if(!isObject(this._options)) return this;
 	
 	const demandType = withSkipArgs ? "demandWithSkippedFlags" : "demandFlags";
