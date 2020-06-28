@@ -24,6 +24,8 @@ const {
 	
 	_default,
 	custom,
+	customWithGenerate,
+	customWithGenerateFromObject,
 	
 	demand,
 	undemand,
@@ -111,6 +113,8 @@ fargvWrapper = Object.assign(fargvWrapper, {
 	
 	default: _default,
 	custom,
+	customWithGenerate,
+	customWithGenerateFromObject,
 	
 	demand,
 	undemand,

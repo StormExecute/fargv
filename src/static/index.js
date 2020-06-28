@@ -3,6 +3,8 @@ const options = require("./setOptions");
 const _default = require("./setDefault");
 const custom = require("./setCustom");
 
+const { customWithGenerate, customWithGenerateFromObject } = require("./setCustomGenerate");
+
 const demand = require("./demand");
 const undemand = require("./undemand");
 
@@ -24,6 +26,8 @@ module.exports = {
 	
 	_default,
 	custom,
+	customWithGenerate,
+	customWithGenerateFromObject,
 	
 	demand,
 	undemand,
