@@ -1,4 +1,4 @@
-const isObject = require("../../dependencies/isObject");
+const isObject = require("../../../dependencies/isObject");
 
 const staticUnDemand = function(args, withSkipArgs) {
 	

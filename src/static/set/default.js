@@ -1,10 +1,10 @@
-const isObject = require("../../dependencies/isObject");
+const isObject = require("../../../dependencies/isObject");
 
-const copyV = require("../../dependencies/copyValWithoutBind");
+const copyV = require("../../../dependencies/copyValWithoutBind");
 
-const toJson = require("../../dependencies/toJson");
+const toJson = require("../../../dependencies/toJson");
 
-const getValue = require("../../dependencies/getAnyPropValIfExists");
+const getValue = require("../../../dependencies/getAnyPropValIfExists");
 
 /*
 

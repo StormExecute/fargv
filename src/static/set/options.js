@@ -1,6 +1,6 @@
-const isObject = require("../../dependencies/isObject");
+const isObject = require("../../../dependencies/isObject");
 
-const { deepCloneObject } = require("../../dependencies/deepClone");
+const { deepCloneObject } = require("../../../dependencies/deepClone");
 
 const staticSetOptions = function(options, redefine) {
 	

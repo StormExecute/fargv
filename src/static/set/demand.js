@@ -1,6 +1,6 @@
-const isObject = require("../../dependencies/isObject");
+const isObject = require("../../../dependencies/isObject");
 
-const { deepCloneArray } = require("../../dependencies/deepClone");
+const { deepCloneArray } = require("../../../dependencies/deepClone");
 
 const staticDemand = function(args, withSkipArgs) {
 	
