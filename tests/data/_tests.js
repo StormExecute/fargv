@@ -29,6 +29,12 @@ module.exports = [
 		includeEmptyFlags: false,
 		
 	},
+	
+	{
+		
+		excludeFlags: ["b"],
+		
+	},
 
 	{
 		
@@ -39,6 +45,8 @@ module.exports = [
 		mainTypes: true,
 		
 		arrayParse: {
+			
+			object: true,
 			
 			array: true,
 			
