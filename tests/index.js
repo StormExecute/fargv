@@ -73,6 +73,8 @@ function capitalizeFirstLetter(string) {
   
 }
 
+const defaultRunObject = name => "node " + path.join(__dirname, "objects/" + name + ".js") + " ";
+
 const repeats = 15;
 
 //[taskName, command]
@@ -88,9 +90,9 @@ if(process.platform.startsWith("win")) {
 	
 		["generateIndexModel", "node " + path.join(__dirname, "generate/generateStringIndexModel.js")],
 		
-		["demand", "node " + path.join(__dirname, "objects/demandFlags.js") + " " + args],
+		["demandFlags", defaultRunObject("demandFlags") + args],
 		
-		["defaultFlags", "node " + path.join(__dirname, "objects/defaultFlags.js") + " " + fargv.generateFromObject({
+		["defaultFlags", defaultRunObject("defaultFlags") + fargv.generateFromObject({
 			
 			flagA: undefined,
 			flagB: 3,
@@ -106,6 +108,8 @@ if(process.platform.startsWith("win")) {
 			
 			
 		})],
+		
+		["customFlags", defaultRunObject("customFlags")],
 		
 		["main", "start cmd /k node " + path.join(__dirname, "objects/flags.js") + " " + args],
 	
