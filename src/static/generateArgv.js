@@ -202,7 +202,7 @@ const generateArgvFromTypesToString = function(argName, argValue, ...args) {
 			
 		},
 		
-		asArray: function() {
+		asArray: function(options) {
 			
 			const result = [];
 			
@@ -210,7 +210,22 @@ const generateArgvFromTypesToString = function(argName, argValue, ...args) {
 				
 				const arg = this.result[argName];
 				
-				result.push(["-".repeat(arg.flagRepeats) + `${argName}${arg.equalSym}`, arg.value]);
+				if(options.withoutQuotes && arg.value) {
+					
+					arg.value = arg.value.slice(1);
+					arg.value = arg.value.slice(0, -1);
+					
+				}
+				
+				result.push(
+				
+					!options.concat ? ["-".repeat(arg.flagRepeats) + `${argName}${arg.equalSym}`, arg.value] :
+						
+						arg.value ? "-".repeat(arg.flagRepeats) + `${argName}${arg.equalSym}${arg.value}` :
+						
+						"-".repeat(arg.flagRepeats) + `${argName}`
+						
+				);
 				
 			}
 			
