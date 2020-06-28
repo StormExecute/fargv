@@ -219,11 +219,11 @@ const generateArgvFromTypesToString = function(argName, argValue, ...args) {
 				
 				result.push(
 				
-					!options.concat ? ["-".repeat(arg.flagRepeats) + `${argName}${arg.equalSym}`, arg.value] :
+					!options.concat ? 
+					
+						["-".repeat(arg.flagRepeats) + `${argName}${arg.equalSym}`, arg.value] :
 						
-						arg.value ? "-".repeat(arg.flagRepeats) + `${argName}${arg.equalSym}${arg.value}` :
-						
-						"-".repeat(arg.flagRepeats) + `${argName}`
+						"-".repeat(arg.flagRepeats) + `${argName}${arg.equalSym}${arg.value}`
 						
 				);
 				
