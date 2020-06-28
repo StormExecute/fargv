@@ -28,14 +28,50 @@ const parseFlags = function(argsList, parsedArgs, rememberAllForDemandWithSkippe
 
 			let argValue = thPArg[1];
 			
-			if(Array.isArray(this.usableOptions.excludeFlags) && this.usableOptions.excludeFlags.indexOf(argValue) != -1) continue;
+			if(Array.isArray(this.usableOptions.excludeFlags) && this.usableOptions.excludeFlags.indexOf(argName) != -1) continue;
 			
-			if(!(Array.isArray(this.usableOptions.noParseFlags) && this.usableOptions.noParseFlags.indexOf(argValue) != -1)) {
-				
-				if(!argValue) argValue = this.getDefaultNoneValue("mainParse");
-				
-				if(!this.usableOptions.noParse && argValue) argValue = this.parseThisFlag(argName, argValue);
+			/*
 			
+				if noParseNoDefault -> no parse
+				
+				else if !argValue -> default parse
+				
+				else if argValue ->
+					
+					if noParseFlags -> no parse
+					else -> parse
+				
+			*/
+			
+			if(
+				this.usableOptions.noParseNoDefault 
+				|| 
+				(Array.isArray(this.usableOptions.noParseNoDefaultFlags) && this.usableOptions.noParseNoDefaultFlags.indexOf(argName) != -1)
+			) {
+				
+				//nothing
+				
+			} else if(!argValue) {
+				
+				argValue = this.getDefaultNoneValue("mainParse");
+				
+			} else if(argValue) {
+				
+				if(
+				
+					this.usableOptions.noParse 
+					|| 
+					(Array.isArray(this.usableOptions.noParseFlags) && this.usableOptions.noParseFlags.indexOf(argName) != -1)
+				) {
+					
+					//nothing
+					
+				} else {
+					
+					argValue = this.parseThisFlag(argName, argValue);
+					
+				}
+				
 			}
 
 			parsedArgs[argName] = argValue
