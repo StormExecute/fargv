@@ -4,6 +4,8 @@ const parseFlags = function(argsList, parsedArgs, rememberAllForDemandWithSkippe
 
 		const thArg = argsList[a];
 		
+		if(typeof thArg != "string" && this.usableOptions.customArgv) continue;
+		
 		if(rememberAllForDemandWithSkippedFlags) {
 			
 			const thPArg = thArg.split("=");
