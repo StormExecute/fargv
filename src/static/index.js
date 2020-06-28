@@ -13,6 +13,13 @@ const exclude = require("./set/exclude");
 const noParse = require("./set/noParse");
 const noParseFlags = require("./set/noParseFlags");
 
+const allParse = require("./set/allParse");
+
+const warns = require("./set/warns");
+
+const arrayParse = require("./set/arrayParse");
+const objectParse = require("./set/objectParse");
+
 const state = require("./getState");
 
 const { toFargvStringArray, toFargvStringObject } = require("./fromArrayAndObject");
@@ -41,6 +48,13 @@ module.exports = {
 	
 	noParse,
 	noParseFlags,
+	
+	allParse,
+	
+	warns,
+	
+	arrayParse,
+	objectParse,
 	
 	state,
 	
