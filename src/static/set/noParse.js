@@ -2,13 +2,11 @@ const staticSetNoParse = function(state, isNoParseNoDefault) {
 	
 	const typeNoParse = "isNoParseNoDefault" ? "noParseNoDefault" : "noParse";
 	
-	this.options({
+	return this.options({
 		
 		[typeNoParse]: !!state
 		
 	});
-	
-	return this;
 	
 };
 

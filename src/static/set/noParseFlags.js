@@ -6,13 +6,11 @@ const staticSetNoParseFlags = function(noParseFlags, isNoParseNoDefaultFlags) {
 	
 	const typeNoParseFlags = isNoParseNoDefaultFlags ? "noParseNoDefaultFlags" : "noParseFlags";
 	
-	this.options({
+	return this.options({
 		
 		[typeNoParseFlags]: noParseFlags
 		
 	});
-	
-	return this;
 	
 };
 

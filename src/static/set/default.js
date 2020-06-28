@@ -64,15 +64,13 @@ const staticSetDefaultArgValues = function(objectOfValues) {
 		
 	}
 	
-	this.options({
+	return this.options({
 	
 		defaultArgv,
 		
 		defaultNoneValue: undefined
 		
 	});
-	
-	return this;
 	
 };
 

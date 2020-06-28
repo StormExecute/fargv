@@ -4,13 +4,11 @@ const staticSetExcludeFlags = function(excludeFlags) {
 	
 	excludeFlags = Array.isArray(excludeFlags) ? Object.assign([], excludeFlags) : [excludeFlags];
 	
-	this.options({
+	return this.options({
 		
 		excludeFlags
 		
 	});
-	
-	return this;
 	
 };
 
