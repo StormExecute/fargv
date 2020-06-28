@@ -1,20 +1,22 @@
+const main = (fargvStaticContext, type, ...args) => fargvStaticContext[type](...args).asArray({withoutQuotes: true, concat: true})
+
 const setCustomWithAutoGeneration = function(...args) {
 	
-	return this.custom(
+	const customArgv = main(this, "generate", ...args);
 	
-		this.generate(...args).asArray({withoutQuotes: true, concat: true})
-		
-	);
+	if(!Array.isArray(customArgv)) return this;
+	
+	return this.options({ customArgv });
 	
 };
 
 const setCustomWithAutoGenerationFromObject = function(...args) {
 	
-	return this.custom(
+	const customArgv = main(this, "generateFromObject", ...args);
 	
-		this.generateFromObject(...args).asArray({withoutQuotes: true, concat: true})
-		
-	);
+	if(!Array.isArray(customArgv)) return this;
+	
+	return this.options({ customArgv });
 	
 };
 
