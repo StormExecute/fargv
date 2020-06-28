@@ -14,9 +14,7 @@ const getDefaultNoneValue = require("./getDefaultNoneValue");
 const parseFlags = require("./parseFlags");
 const parseThisFlag = require("./parseThisFlag");
 
-const fargv = require("./fargvConstructor");
-
-const fargvWrapper = require("./fargvWrapper");
+const { fargvWrapper, fargv } = require("./fargvWrapper");
 
 fargv.prototype = Object.assign(fargv.prototype, {
 	

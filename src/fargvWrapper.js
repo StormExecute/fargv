@@ -82,4 +82,9 @@ function fargvWrapper(options) {
 
 fargvWrapper = Object.assign(fargvWrapper, staticMethods);
 
-module.exports = fargvWrapper;
+module.exports = {
+	
+	fargvWrapper,
+	fargv
+	
+};
