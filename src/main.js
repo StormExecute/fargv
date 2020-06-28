@@ -21,7 +21,9 @@ const fargv = require("./fargvConstructor");
 const {
 	
 	options,
+	
 	_default,
+	custom,
 	
 	demand,
 	undemand,
@@ -106,7 +108,9 @@ fargv.prototype = Object.assign(fargv.prototype, {
 fargvWrapper = Object.assign(fargvWrapper, {
 	
 	options,
+	
 	default: _default,
+	custom,
 	
 	demand,
 	undemand,
