@@ -26,6 +26,14 @@ const defaultIndexModel = {
 	
 };
 
-fs.writeFileSync(path.join(__dirname, defaultIndexModelPath), "module.exports = " + toPrettyStringObject(defaultIndexModel) + ";");
+fs.writeFileSync(
+
+	path.join(__dirname, defaultIndexModelPath),
+	
+	"module.exports = " + toPrettyStringObject(defaultIndexModel).replace(/\n/g, "\r\n") + ";",
+	
+	{encoding: 'utf8'},
+	
+);
 
 console.log("defaultIndexModel was generated.");
