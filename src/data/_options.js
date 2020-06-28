@@ -8,6 +8,7 @@ module.exports = {
 	
 	excludeFlags: null,
 	noParseFlags: null,
+	noParseNoDefaultFlags: null,
 	
 	rememberExecNodePath: false,
 	rememberExecFilePath: true,
@@ -31,6 +32,7 @@ module.exports = {
 	useDnvForFirstSpaceOP: true,
 	
 	noParse: false,
+	noParseNoDefault: false,
 	allParse: false,
 	
 	mainParse: {
