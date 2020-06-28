@@ -111,6 +111,28 @@ if(process.platform.startsWith("win")) {
 		
 		["customFlags", defaultRunObject("customFlags")],
 		
+		["excludeAndNoParseFlags", defaultRunObject("excludeAndNoParseFlags") + fargv.generateFromObject({
+			
+			a: true,
+			b: 1,
+			c: "str",
+			
+			d: 123,
+			none: "",
+			noneTwo: "",
+			
+			someOther: [1, 2, 3n],
+			
+		}, {
+			
+			noneTwo: {
+				
+				withoutEqualSym: true
+				
+			}
+			
+		})],
+		
 		["main", "start cmd /k node " + path.join(__dirname, "objects/flags.js") + " " + args],
 	
 	];
