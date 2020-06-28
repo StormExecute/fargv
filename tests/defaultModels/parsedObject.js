@@ -6,6 +6,40 @@ module.exports = {
 	
 	array: [ 'yeah', 'it', 's', 'supported!' ],
 	
-	q: {},
+	q: {
+		
+		a: 2,
+		
+		b: "str",
+		
+		c: {
+			
+			a: [
+			
+				{
+					
+					a: 5,
+					
+				},
+				
+				"then",
+				
+				"then2",
+			
+			],
+			
+			b: ["a", "b", "c"],
+			
+			c: 45n
+			
+		},
+		
+		d: [-1, -2, -3],
+		
+		e: "end",
+		
+		f: true
+		
+	},
 	
 };
