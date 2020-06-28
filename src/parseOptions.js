@@ -25,6 +25,8 @@ const defaultTypesModelAsObjectOfTrues = defaultTypesModel.map(el => ( { [el]: t
 
 const defaultParseModel = Object.keys(defaultOptions.mainParse);
 
+const parseWhat = ["mainParse", "arrayParse", "objectParse"];
+
 module.exports = function(options) {
 	
 	if(!isObject(options)) return Object.assign({}, defaultOptions);
@@ -33,12 +35,18 @@ module.exports = function(options) {
 	
 	const usableOptions = deepCloneObject({}, defaultOptions, options);
 	
-	if(usableOptions.noParse) return usableOptions;
+	if(usableOptions.noParse || usableOptions.noParseNoDefault) return usableOptions;
 	
-	if(!isObject(usableOptions.objectParse.ifDuplicateKey)) {
+	for(let i = 0; i < parseWhat.length; i++) {
+	
+		const parse = parseWhat[i];
 		
-		usableOptions.objectParse.ifDuplicateKey = Object.assign({}, defaultOptions.objectParse.ifDuplicateKey);
-		
+		if(!isObject(usableOptions[parseWhat])) {
+			
+			usableOptions[parseWhat] = deepCloneObject({}, defaultOptions[parseWhat]);
+			
+		}
+	
 	}
 
 	for(const k in options) {
@@ -54,7 +62,9 @@ module.exports = function(options) {
 	
 	if(usableOptions.allParse) {
 		
-		for(const parse of ["mainParse", "arrayParse", "objectParse"]) {
+		for(let i = 0; i < parseWhat.length; i++) {
+	
+			const parse = parseWhat[i];
 			
 			usableOptions[parse] = deepCloneObject(usableOptions[parse], defaultTypesModelAsObjectOfTrues);
 			
@@ -64,7 +74,9 @@ module.exports = function(options) {
 		
 	}
 	
-	for(const parse of ["mainParse", "arrayParse", "objectParse"]) {
+	for(let i = 0; i < parseWhat.length; i++) {
+	
+		const parse = parseWhat[i];
 		
 		const opts = deepCloneObject({}, usableOptions[parse]);
 		
