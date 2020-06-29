@@ -1,8 +1,10 @@
+const isObject = require("../../../dependencies/isObject");
+
 const staticSetArrayParseOptions = function(arrayParse) {
 	
-	if(!Array.isArray(arrayParse)) return this;
+	if(!isObject(arrayParse)) return this;
 	
-	arrayParse = Object.assign([], arrayParse);
+	arrayParse = Object.assign({}, arrayParse);
 	
 	return this.options({ arrayParse });
 	
