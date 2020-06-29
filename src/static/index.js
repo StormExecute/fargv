@@ -1,5 +1,7 @@
 const options = require("./set/options");
 
+const command = require("./set/command");
+
 const _default = require("./set/default");
 const custom = require("./set/custom");
 
@@ -14,6 +16,8 @@ const noParse = require("./set/noParse");
 const noParseFlags = require("./set/noParseFlags");
 
 const allParse = require("./set/allParse");
+
+const remember = require("./set/remember");
 
 const warns = require("./set/warns");
 
@@ -36,6 +40,8 @@ module.exports = {
 	
 	options,
 	
+	command,
+	
 	"default": _default,
 	custom,
 	customWithGenerate,
@@ -50,6 +56,8 @@ module.exports = {
 	noParseFlags,
 	
 	allParse,
+	
+	remember,
 	
 	warns,
 	
