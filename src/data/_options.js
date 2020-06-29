@@ -1,5 +1,10 @@
 module.exports = {
 	
+	commands: null,
+	
+	//else spread format
+	nextCommandsAsArray: false,
+	
 	customArgv: null,
 	defaultArgv: null,
 	
