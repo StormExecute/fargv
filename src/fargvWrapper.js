@@ -8,7 +8,9 @@ const staticMethods = require("./static");
 
 		options,
 		
-		_default,
+		command,
+		
+		"default": _default,
 		custom,
 		customWithGenerate,
 		customWithGenerateFromObject,
@@ -21,13 +23,22 @@ const staticMethods = require("./static");
 		noParse,
 		noParseFlags,
 		
+		allParse,
+		
+		remember,
+		
+		warns,
+		
+		arrayParse,
+		objectParse,
+		
 		state,
 		
-		fromArray,
-		fromObject,
+		fromArray: toFargvStringArray,
+		fromObject: toFargvStringObject,
 		
-		toArray,
-		toObject,
+		toArray: fromFargvStringArray,
+		toObject: fromFargvStringObject,
 		
 		toFargvStringArray,
 		toFargvStringObject,
@@ -53,12 +64,15 @@ const staticMethods = require("./static");
 		.default -> _options.defaultArgv
 		.demand(..., true) -> _options.demandWithSkippedFlags
 		.demand -> _options.demandFlags
-		.custom -> _options.customArgv
+		.custom, .customWithGenerate, .customWithGenerateFromObject -> _options.customArgv
 		.exclude -> _options.excludeFlags
 		.noParse -> _options.noParse
 		.noParse(..., true) -> _options.noParseNoDefault
 		.noParseFlags -> _options.noParseFlags
 		.noParseFlags(..., true) -> _options.noParseNoDefaultFlags
+		.arrayParse -> _options.arrayParse
+		.objectParse -> _options.objectParse
+		.warns -> _options -> rememberWarns, showWarns, throwInsteadWarns, parseWarn
 		
 */
 
