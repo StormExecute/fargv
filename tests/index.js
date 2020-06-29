@@ -133,6 +133,36 @@ if(process.platform.startsWith("win")) {
 			
 		})],
 		
+		["arrayAndObjectStaticParse", defaultRunObject("arrayAndObjectStaticParse") + fargv.generateFromObject({
+			
+			array: [
+			
+				{
+					
+					a: []
+					
+				},
+				
+				1,
+				
+				"str",
+				
+				[1, 2, 3]
+				
+			],
+			
+			object: {
+				
+				a: [],
+				
+				b: {a: 2}
+				
+			},
+			
+		})],
+		
+		["warningsTest", defaultRunObject("warningsTest")],
+		
 		["main", "start cmd /k node " + path.join(__dirname, "objects/flags.js") + " " + args],
 	
 	];
