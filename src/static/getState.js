@@ -10,6 +10,15 @@ const getStateOfOptionsAndDefaults = function(about) {
 		
 		break;
 		
+		case "commmands":
+		case "command":
+		case "comma":
+		case "com":
+		
+			return copyV(this._options.commands);
+		
+		break;
+		
 		case "custom":
 		
 			return copyV(this._options.customArgv);
