@@ -41,9 +41,9 @@ module.exports = function(options) {
 	
 		const parse = parseWhat[i];
 		
-		if(!isObject(usableOptions[parseWhat])) {
+		if(!isObject(usableOptions[parse])) {
 			
-			usableOptions[parseWhat] = deepCloneObject({}, defaultOptions[parseWhat]);
+			usableOptions[parse] = deepCloneObject({}, defaultOptions[parseWhat]);
 			
 		}
 	
@@ -84,14 +84,14 @@ module.exports = function(options) {
 		const mainTypes = opts.mainTypes;
 		const minorTypes = opts.minorTypes;
 		
-		//we leave only types
-		for(const k in opts) {
-		
-			if(defaultTypesModel.indexOf(k) == -1) delete opts[k];
-		
-		}
-		
 		if(allTypes) {
+			
+			//we leave only types
+			for(const k in opts) {
+			
+				if(defaultTypesModel.indexOf(k) == -1) delete opts[k];
+			
+			}
 			
 			for(const k in opts) {
 			
