@@ -10,15 +10,27 @@ const staticSetWarningOptions = function(optionsState) {
 		
 		options.rememberWarns = optionsState.remember;
 		
-	} else if(typeof optionsState.show == "boolean") {
+	}
+	
+	if(typeof optionsState.show == "boolean") {
 		
 		options.showWarns = optionsState.show;
 		
-	} else if(typeof optionsState["throw"] == "boolean") {
+	}
+	
+	if(typeof optionsState["throw"] == "boolean") {
 		
 		options.throwInsteadWarns = optionsState["throw"];
 		
-	} else if(typeof optionsState.parser == "function") {
+	}
+	
+	if(typeof optionsState["throwInsteadWarns"] == "boolean") {
+		
+		options.throwInsteadWarns = optionsState["throwInsteadWarns"];
+		
+	}
+	
+	if(typeof optionsState.parser == "function") {
 		
 		options.parseWarn = optionsState.parser;
 		
