@@ -90,6 +90,16 @@ if(process.platform.startsWith("win")) {
 	
 		["generateIndexModel", "node " + path.join(__dirname, "generate/generateStringIndexModel.js")],
 		
+		["commandsWithoutFlags", defaultRunObject("commandsWithoutFlags") + "configure someProp someValue"],
+		
+		["commandsWithFlags", defaultRunObject("commandsWithFlags") + "install someFirstPacket,someSecondPacket,someThirdPacket someNext " + fargv.generateFromObject({
+			
+			useSome: true,
+			save: true,
+			someArgs: [1, 2324, 4242, true, "yes"],
+			
+		})],
+		
 		["demandFlags", defaultRunObject("demandFlags") + args],
 		
 		["defaultFlags", defaultRunObject("defaultFlags") + fargv.generateFromObject({
