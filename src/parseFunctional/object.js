@@ -8,7 +8,7 @@ const parseObject = function (argValue, callNumber) {
 		
 		this.errorHandler(["Maximum call stack size exceeded appears!", 1], {
 			
-			from: "parseObject",
+			"from": "parseObject",
 			maxRecursiveCalls: objectOptions.maxRecursiveCalls,
 			nowCall: callNumber,
 			
@@ -208,7 +208,7 @@ const parseObject = function (argValue, callNumber) {
 						
 						this.errorHandler(["Duplicate object keys detected.", 304], {
 							
-							from: "parseObject",
+							"from": "parseObject",
 							maxRecursiveCalls: objectOptions.maxRecursiveCalls,
 							nowCall: callNumber,
 							tempKey,
@@ -256,7 +256,7 @@ const parseObject = function (argValue, callNumber) {
 		
 		this.errorHandler(["Can't parse object in object property.", 300], {
 			
-			from: "parseObject",
+			"from": "parseObject",
 			maxRecursiveCalls: objectOptions.maxRecursiveCalls,
 			nowCall: callNumber,
 			tempKey,
@@ -271,7 +271,7 @@ const parseObject = function (argValue, callNumber) {
 		
 		this.errorHandler(["Object doesn't have a colon.", 302], {
 			
-			from: "parseObject",
+			"from": "parseObject",
 			maxRecursiveCalls: objectOptions.maxRecursiveCalls,
 			nowCall: callNumber,
 			tempKey,
@@ -286,7 +286,7 @@ const parseObject = function (argValue, callNumber) {
 		
 		this.errorHandler(["Can't parse array in object property.", 301], {
 			
-			from: "parseObject",
+			"from": "parseObject",
 			maxRecursiveCalls: objectOptions.maxRecursiveCalls,
 			nowCall: callNumber,
 			tempKey,
@@ -301,7 +301,7 @@ const parseObject = function (argValue, callNumber) {
 		
 		this.errorHandler(["Parsing stuck on possible object prop value.", 303], {
 			
-			from: "parseObject",
+			"from": "parseObject",
 			maxRecursiveCalls: objectOptions.maxRecursiveCalls,
 			nowCall: callNumber,
 			tempKey,

@@ -1,10 +1,10 @@
 const isNumeric = require("../../dependencies/isNumeric");
 
-const parseArrayAndObjectEl = function(el, from) {
+const parseArrayAndObjectEl = function(el, _from) {
 	
 	if(this.usableOptions.allowSpacesAsValues) {
 		
-		if(this.usableOptions.useDnvForFirstSpaceOP && from == "object" && el == " ") {
+		if(this.usableOptions.useDnvForFirstSpaceOP && _from == "object" && el == " ") {
 			
 			el = this.getDefaultNoneValue("objectParse") || this.getDefaultNoneValue("mainParse");
 			
@@ -22,23 +22,23 @@ const parseArrayAndObjectEl = function(el, from) {
 	
 	if(!el) {
 		
-		if(from == "array") return this.getDefaultNoneValue("arrayParse") || this.getDefaultNoneValue("mainParse");
-		else if(from == "object") return this.getDefaultNoneValue("objectParse") || this.getDefaultNoneValue("mainParse");
+		if(_from == "array") return this.getDefaultNoneValue("arrayParse") || this.getDefaultNoneValue("mainParse");
+		else if(_from == "object") return this.getDefaultNoneValue("objectParse") || this.getDefaultNoneValue("mainParse");
 		else return this.getDefaultNoneValue("mainParse");
 		
 	}
 	
-	const options = from == "array" ? this.usableOptions.arrayParse : from == "object" ? this.usableOptions.objectParse : this.usableOptions.mainParse;
+	const options = _from == "array" ? this.usableOptions.arrayParse : _from == "object" ? this.usableOptions.objectParse : this.usableOptions.mainParse;
 	
 	if(options["number"] && isNumeric(el)) return parseFloat(el);
 	
 	const elCopy = el;
 	
-	el = this.parseMinorAndBoolean(el, from);
+	el = this.parseMinorAndBoolean(el, _from);
 	
 	if(elCopy != el) return el;
 	
-	return this.parseBigInt(el, from) //bigint || string
+	return this.parseBigInt(el, _from) //bigint || string
 	
 };
 

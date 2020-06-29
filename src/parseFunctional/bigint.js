@@ -2,9 +2,9 @@ const isNumeric = require("../../dependencies/isNumeric");
 
 const tryIsItBigInt = require("../../dependencies/tryIsItBigInt");
 
-const parseBigInt = function (argValue, from) {
+const parseBigInt = function (argValue, _from) {
 	
-	const options = !from ? this.usableOptions.mainParse : from == "array" ? this.usableOptions.arrayParse : from == "object" ? this.usableOptions.objectParse : {};
+	const options = !_from ? this.usableOptions.mainParse : _from == "array" ? this.usableOptions.arrayParse : _from == "object" ? this.usableOptions.objectParse : {};
 	
 	if(options["bigint"] && typeof BigInt != "undefined" && argValue.length > 1) {
 		

@@ -18,7 +18,7 @@ const defaultConfigs = {
 	
 };
 
-const main = function(from, sourceString, mergingOptions, fargvWrapper) {
+const main = function(_from, sourceString, mergingOptions, fargvWrapper) {
 	
 	const configs = Object.assign({}, defaultConfigs, {
 		
@@ -27,12 +27,12 @@ const main = function(from, sourceString, mergingOptions, fargvWrapper) {
 	});
 	
 	//mainParse
-	if(from == "arrayParse") configs.array = true;
-	else if(from == "objectParse") configs.object = true;
+	if(_from == "arrayParse") configs.array = true;
+	else if(_from == "objectParse") configs.object = true;
 	
-	if(!isObject(configs[from])) configs[from] = {};
+	if(!isObject(configs[_from])) configs[_from] = {};
 	
-	configs[from].allTypes = true;
+	configs[_from].allTypes = true;
 	
 	if(isObject(mergingOptions)) {
 		
@@ -62,7 +62,7 @@ const main = function(from, sourceString, mergingOptions, fargvWrapper) {
 			
 		}
 		
-		if(from == "arrayParse" && isObject(mergingOptionsCopy.objectParse)) {
+		if(_from == "arrayParse" && isObject(mergingOptionsCopy.objectParse)) {
 			
 			const copyObjectParse = copyV(mergingOptionsCopy.objectParse);
 			
@@ -72,7 +72,7 @@ const main = function(from, sourceString, mergingOptions, fargvWrapper) {
 			
 		}
 		
-		if(from == "objectParse" && isObject(mergingOptionsCopy.arrayParse)) {
+		if(_from == "objectParse" && isObject(mergingOptionsCopy.arrayParse)) {
 			
 			const copyArrayParse = copyV(mergingOptionsCopy.arrayParse);
 			
@@ -84,13 +84,13 @@ const main = function(from, sourceString, mergingOptions, fargvWrapper) {
 		
 		if(toJson(mergingOptionsCopy) != "{}") {
 			
-			configs[from].allTypes = false;
+			configs[_from].allTypes = false;
 			
 			for(const optionName in mergingOptionsCopy) {
 				
 				const optionValue = mergingOptionsCopy[optionName];
 				
-				configs[from][optionName] = copyV(optionValue);
+				configs[_from][optionName] = copyV(optionValue);
 				
 			}
 		

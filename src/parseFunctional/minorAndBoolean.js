@@ -1,6 +1,6 @@
-const minorAndBooleanParse = function (argValue, from) {
+const minorAndBooleanParse = function (argValue, _from) {
 	
-	const options = !from ? this.usableOptions.mainParse : from == "array" ? this.usableOptions.arrayParse : from == "object" ? this.usableOptions.objectParse : {};
+	const options = !_from ? this.usableOptions.mainParse : _from == "array" ? this.usableOptions.arrayParse : _from == "object" ? this.usableOptions.objectParse : {};
 	
 	switch(argValue) {
 		

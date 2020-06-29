@@ -8,7 +8,7 @@ const parseArray = function (argValue, callNumber) {
 		
 		this.errorHandler(["Maximum call stack size exceeded appears!", 1], {
 			
-			from: "parseArray",
+			"from": "parseArray",
 			maxRecursiveCalls: arrayOptions.maxRecursiveCalls,
 			nowCall: callNumber,
 			
@@ -192,7 +192,7 @@ const parseArray = function (argValue, callNumber) {
 		
 		this.errorHandler(["Can't parse array in array.", 200], {
 			
-			from: "parseArray",
+			"from": "parseArray",
 			maxRecursiveCalls: arrayOptions.maxRecursiveCalls,
 			nowCall: callNumber,
 			
@@ -206,7 +206,7 @@ const parseArray = function (argValue, callNumber) {
 		
 		this.errorHandler(["Can't parse object in array.", 201], {
 			
-			from: "parseArray",
+			"from": "parseArray",
 			maxRecursiveCalls: arrayOptions.maxRecursiveCalls,
 			nowCall: callNumber,
 			tempKey,

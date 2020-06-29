@@ -1,8 +1,8 @@
 const copyV = require("../dependencies/copyValWithoutBind");
 
-const getDefaultNoneValue = function(from) {
+const getDefaultNoneValue = function(_from) {
 	
-	return copyV(this.usableOptions[from].defaultNoneValue);
+	return copyV(this.usableOptions[_from].defaultNoneValue);
 	
 };
 

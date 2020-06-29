@@ -26,7 +26,7 @@ const fargvParseCommandArgs = function (rememberCommands, parsedArgs) {
 				
 				_noArgName: true,
 				
-				from: "parseCommands",
+				"from": "parseCommands",
 				
 				isArray: Array.isArray(command),
 				isStringCommand: typeof command[0] == "string",
