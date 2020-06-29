@@ -23,7 +23,23 @@ const errorHandler = function (mainMessage, debugDetails, momentAction, code) {
 	
 	const objArg = {"argName": this.argName};
 	
-	debugDetails = isObject(debugDetails) ? Object.assign(objArg, debugDetails) : objArg;
+	if(isObject(debugDetails)) {
+		
+		if(debugDetails._noArgName) {
+			
+			delete debugDetails._noArgName;
+			
+		} else {
+			
+			debugDetails = Object.assign(objArg, debugDetails);
+			
+		}
+		
+	} else {
+		
+		debugDetails = Object.assign({}, objArg);
+		
+	}
 	
 	let result = prefix + mainMessage;
 		
