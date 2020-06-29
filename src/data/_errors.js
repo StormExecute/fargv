@@ -14,4 +14,6 @@ module.exports = {
 	303: "Parsing stuck on possible object prop value.",
 	304: "Duplicate object keys detected.",
 	
+	400: "Wrong command parser.",
+	
 };
