@@ -1,4 +1,4 @@
-const parseFlags = function(argsList, parsedArgs, rememberAllForDemandWithSkippedFlags) {
+const parseFlags = function(argsList, parsedArgs, rememberAllForDemandWithSkippedFlags, rememberCommands) {
 	
 	for(let a = 0; a < argsList.length; a++) {
 
@@ -6,7 +6,7 @@ const parseFlags = function(argsList, parsedArgs, rememberAllForDemandWithSkippe
 		
 		if(typeof thArg != "string" && this.usableOptions.customArgv) continue;
 		
-		if(rememberAllForDemandWithSkippedFlags) {
+		if(rememberAllForDemandWithSkippedFlags && thArg.startsWith("-")) {
 			
 			const thPArg = thArg.split("=");
 			
@@ -16,9 +16,9 @@ const parseFlags = function(argsList, parsedArgs, rememberAllForDemandWithSkippe
 			
 		}
 		
-		const isArgument = this.usableOptions.unlimitedFlagDefinitionCharacters ? thArg.startsWith("-") : thArg.startsWith("--") || thArg.match(/^-\w/i);
+		const isFlag = this.usableOptions.unlimitedFlagDefinitionCharacters ? thArg.startsWith("-") : thArg.startsWith("--") || thArg.match(/^-\w/i);
 
-		if(isArgument && (!this.usableOptions.includeEmptyFlags ? thArg.includes("=") : true)) {
+		if(isFlag && (!this.usableOptions.includeEmptyFlags ? thArg.includes("=") : true)) {
 
 			const thPArg = thArg.split("=");
 			
@@ -75,6 +75,12 @@ const parseFlags = function(argsList, parsedArgs, rememberAllForDemandWithSkippe
 			}
 
 			parsedArgs[argName] = argValue
+			
+		} else if(rememberCommands && !thArg.startsWith("-") && !thArg.includes("=")) {
+			
+			//its a command
+			
+			rememberCommands.push(thArg);
 			
 		}
 
