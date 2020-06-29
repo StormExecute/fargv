@@ -28,9 +28,10 @@ class fargv {
 		if((!this.usableOptions.rememberExecNodePath && !this.usableOptions.rememberExecFilePath) || this.usableOptions.customArgv) delete parsedArgs["_"];
 		
 		const rememberAllForDemandWithSkippedFlags = Array.isArray(this.usableOptions.demandWithSkippedFlags) ? {} : false;
+		const rememberCommands = Array.isArray(this.usableOptions.commands) ? [] : false;
 		
-		//rememberAllForDemandWithSkippedFlags can change
-		parsedArgs = this.parseFlags(argsList, parsedArgs, rememberAllForDemandWithSkippedFlags);
+		//rememberAllForDemandWithSkippedFlags && rememberCommands can change
+		parsedArgs = this.parseFlags(argsList, parsedArgs, rememberAllForDemandWithSkippedFlags, rememberCommands);
 		
 		if(rememberAllForDemandWithSkippedFlags) {
 			
@@ -63,6 +64,8 @@ class fargv {
 			parsedArgs._warns = this.errors ? Object.assign([], this.errors) : [];
 			
 		}
+		
+		if(rememberCommands.length) this.parseCommands(rememberCommands, parsedArgs);
 
 		return parsedArgs
 		
