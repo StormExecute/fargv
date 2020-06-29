@@ -1,5 +1,9 @@
 const isObject = require("../../dependencies/isObject");
 
+const copyV = require("../../dependencies/copyValWithoutBind");
+
+const toJson = require("../../dependencies/toJson");
+
 const sysAlgo = "fargvToArrayAndObject";
 
 const defaultOptions = require("../data/_options");
@@ -10,27 +14,7 @@ const defaultConfigs = {
 	
 	showWarns: true,
 		
-	rememberWarns: false,
-		
-	allParse: true
-	
-};
-
-const addPossibleConfig = function(from, configs, mergingOptions, configName) {
-	
-	let configValue;
-	
-	const parseWhat = from == "object" ? "objectParse" : "arrayParse";
-	
-	if(!configs[parseWhat]) configs[parseWhat] = {};
-	
-	if(mergingOptions.hasOwnProperty(configName)) configValue = mergingOptions[configName];
-	else if(mergingOptions.parse.hasOwnProperty(configName)) configValue = mergingOptions.parse[configName];
-	else if(mergingOptions[parseWhat].hasOwnProperty(configName)) configValue = mergingOptions[parseWhat][configName];
-	
-	if(!configValue) return;
-		
-	configs[parseWhat][configName] = configValue;
+	rememberWarns: false
 	
 };
 
@@ -42,32 +26,76 @@ const main = function(from, sourceString, mergingOptions, fargvWrapper) {
 		
 	});
 	
+	//mainParse
+	if(from == "arrayParse") configs.array = true;
+	else if(from == "objectParse") configs.object = true;
+	
+	if(!isObject(configs[from])) configs[from] = {};
+	
+	configs[from].allTypes = true;
+	
 	if(isObject(mergingOptions)) {
-		
-		if(mergingOptions.hasOwnProperty("showWarns")) configs.showWarns = mergingOptions.showWarns;
-		if(mergingOptions.hasOwnProperty("rememberWarns")) configs.rememberWarns = mergingOptions.rememberWarns;
-		if(mergingOptions.hasOwnProperty("throwInsteadWarns")) configs.throwInsteadWarns = mergingOptions.throwInsteadWarns;
 		
 		const mergingOptionsCopy = Object.assign({}, mergingOptions);
 		
-		if(!isObject(mergingOptionsCopy.parse)) mergingOptionsCopy.parse = {};
-		
-		if(from == "object") {
+		if(mergingOptionsCopy.hasOwnProperty("showWarns")) {
 			
-			if(!isObject(mergingOptionsCopy.objectParse)) mergingOptionsCopy.objectParse = {};
+			configs.showWarns = mergingOptionsCopy.showWarns;
 			
-			addPossibleConfig(from, configs, mergingOptionsCopy, "ifDuplicateKey");
-			
-		} else if(from == "array") {
-			
-			if(!isObject(mergingOptionsCopy.arrayParse)) mergingOptionsCopy.arrayParse = {};
+			delete mergingOptionsCopy.showWarns;
 			
 		}
-
-		addPossibleConfig(from, configs, mergingOptionsCopy, "maxRecursiveCalls");
-		addPossibleConfig(from, configs, mergingOptionsCopy, "defaultNoneValue");
-
 		
+		if(mergingOptionsCopy.hasOwnProperty("rememberWarns")) {
+			
+			configs.rememberWarns = mergingOptionsCopy.rememberWarns;
+			
+			delete mergingOptionsCopy.rememberWarns;
+			
+		}
+		
+		if(mergingOptionsCopy.hasOwnProperty("throwInsteadWarns")) {
+			
+			configs.throwInsteadWarns = mergingOptionsCopy.throwInsteadWarns;
+			
+			delete mergingOptionsCopy.throwInsteadWarns;
+			
+		}
+		
+		if(from == "arrayParse" && isObject(mergingOptionsCopy.objectParse)) {
+			
+			const copyObjectParse = copyV(mergingOptionsCopy.objectParse);
+			
+			configs.objectParse = copyObjectParse;
+			
+			delete mergingOptions.objectParse;
+			
+		}
+		
+		if(from == "objectParse" && isObject(mergingOptionsCopy.arrayParse)) {
+			
+			const copyArrayParse = copyV(mergingOptionsCopy.arrayParse);
+			
+			configs.arrayParse = copyArrayParse;
+			
+			delete mergingOptions.arrayParse;
+			
+		}
+		
+		if(toJson(mergingOptionsCopy) != "{}") {
+			
+			configs[from].allTypes = false;
+			
+			for(const optionName in mergingOptionsCopy) {
+				
+				const optionValue = mergingOptionsCopy[optionName];
+				
+				configs[from][optionName] = copyV(optionValue);
+				
+			}
+		
+		}
+
 	} else {
 		
 		mergingOptions = {};
@@ -99,7 +127,7 @@ const fromFargvStringArray = function(sourceString, mergingOptions) {
 	if(!sourceString.startsWith("[")) sourceString = "[" + sourceString;
 	if(!sourceString.endsWith("]")) sourceString += "]";
 	
-	return main("array", sourceString, mergingOptions, this);
+	return main("arrayParse", sourceString, mergingOptions, this);
 	
 };
 const fromFargvStringObject = function(sourceString, mergingOptions) { 
@@ -107,7 +135,7 @@ const fromFargvStringObject = function(sourceString, mergingOptions) {
 	if(!sourceString.startsWith("{")) sourceString = "{" + sourceString;
 	if(!sourceString.endsWith("}")) sourceString += "}";
 	
-	return main("object", sourceString, mergingOptions, this);
+	return main("objectParse", sourceString, mergingOptions, this);
 	
 };
 
