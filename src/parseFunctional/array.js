@@ -32,11 +32,26 @@ const parseArray = function (argValue, callNumber) {
 	let arrayInArrayForStr = 0;
 	let objectInObjectForStr = 0;
 	
+	//for no conflicts with options: arrayParse: {array: true, object: false}
+	/*
+	
+		Example:
+		
+			fargv.toArray("[{a: [], b: 3}]", {
+				
+				object: false,
+				array: true,
+				
+			}
+	
+	*/
+	let skipArrayParseIfNoParseObject = false;
+	
 	for(let i = 0; i < argValue.length; i++) {
 		
 		const thSym = argValue[i];
 		
-		if(arrayOptions["array"] && thSym == "[" && !objectInObject) {
+		if(arrayOptions["array"] && thSym == "[" && !objectInObject && !skipArrayParseIfNoParseObject) {
 			
 			//for concat deep arrays
 			if(arrayInArray) tempArrayInArraySymbols += thSym;
@@ -90,6 +105,8 @@ const parseArray = function (argValue, callNumber) {
 		
 		} else if(thSym == "{") {
 			
+			if(!objectInObjectForStr) skipArrayParseIfNoParseObject = true;
+			
 			objectInObjectForStr += 1;
 			
 		}
@@ -120,6 +137,8 @@ const parseArray = function (argValue, callNumber) {
 		} else if(thSym == "}") {
 			
 			objectInObjectForStr -= 1;
+			
+			if(!objectInObjectForStr) skipArrayParseIfNoParseObject = false;
 			
 		}
 		
