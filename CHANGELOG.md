@@ -73,11 +73,10 @@
 		* NaN
 		* Infinity
 	* arrayParse
-		* ALL MAIN PARSE CONFIGS
-		* + maxRecursiveCalls
+		* ALL MAIN PARSE CONFIGS and maxRecursiveCalls
 	* objectParse
 		* ALL ARRAY PARSE CONFIGS
-		* + ifDuplicateKey
+		* ifDuplicateKey
 			* rewrite
 			* warn
 	
@@ -117,5 +116,4 @@
 		* NaN
 		* Infinity
 	* arrayParse + objectParse
-		* ALL MAIN PARSE CONFIGS
-		* + maxRecursiveCalls
+		* ALL MAIN PARSE CONFIGS and maxRecursiveCalls
