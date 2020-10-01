@@ -1,23 +1,25 @@
 /*
-
-	objectDiff
-	(c) 2020 Cameron Osakiski
-	objectDiff(by Cameron Osakiski) may be freely distributed under the MIT license.
-	
-	dependencies:
-	
-		isObject from jQuery under the MIT license,
-		toJson from github,
-		sortObject from stackoverflow
-
+ *
+ *	objectDiff.js
+ *
+ *	Object difference comparison tool
+ *
+ *	(c) 2020-06-26 Cameron Osakiski
+ *
+ *	This script may be freely distributed under the MIT license
+ *
+ *	Dependencies: isObject - from jQuery under the MIT license, toJson - from github, sortObject - from stackoverflow, isEmptyObject
+ *
 */
 
 const isObject = require("./isObject");
 const toJson = require("./toJson");
+const isEmptyObject = require("./isEmptyObject");
 
 const sortObject = require("./objectSort");
 
 const delimiter = "-";
+const objStrArr = ["obj1", "obj2"];
 
 const objectDifference = (obj1, obj2) => {
 	
@@ -25,7 +27,9 @@ const objectDifference = (obj1, obj2) => {
 	
 	let result = {};
 
-	for(const thisObjStr of ["obj1", "obj2"]) {
+	for(let i = 0; i < 2; ++i) {
+		
+		const thisObjStr = objStrArr[i];
 		
 		let thisObj = obj1;
 		let thisObj2 = obj2;
@@ -95,7 +99,7 @@ const objectDifference = (obj1, obj2) => {
 		
 	}
 	
-	return toJson(result) == "{}" ? false : sortObject(result);
+	return isEmptyObject(result) ? false : sortObject(result);
 	
 };
 
