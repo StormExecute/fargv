@@ -1,33 +1,45 @@
 const copyV = require("./copyValWithoutBind");
 
-const getAnyObjectPropValueIfItExists = (sourceObject, possibleOptions, _defaultIfNoExists) => {
+/*
+
+	Usage && Example:
 	
-	let result = _defaultIfNoExists || "";
+		var object1 = {b: NaN, c: false};
 	
-	let found = 0;
-	
-	for(let i = 0; i < possibleOptions.length; i++) {
+		getAnyObjectPropValueIfItExists(object1, ["a", "b", "c"]);
+		//result -> NaN
 		
-		if(found) continue;
+		getAnyObjectPropValueIfItExists(object1, ["a", "d"]);
+		//result -> ""
+		
+		getAnyObjectPropValueIfItExists(object1, ["a", "d"], 123);
+		//result -> 123
+		
+		var object2 = {d: undefined};
+		
+		getAnyObjectPropValueIfItExists(object2, ["a", "d"]);
+		//result -> ""
+
+*/
+
+//plainObject, array, any
+const getAnyObjectPropValueIfItExists = (sourceObject, possibleOptions, _defaultIfNotExists) => {
+	
+	for(let i = 0; i < possibleOptions.length; ++i) {
 		
 		const prop = possibleOptions[i];
 		
-		if(
-			sourceObject[prop] 
-		|| (typeof sourceObject[prop] != "undefined" && sourceObject[prop] == null) 
-		|| (typeof sourceObject[prop] != "undefined" && isNaN(sourceObject[prop])) 
-		|| sourceObject[prop] == false
-		) {
+		if(sourceObject[prop] !== undefined) {
 			
-			result = copyV(sourceObject[prop]);
-			
-			found = 1;
+			return copyV(sourceObject[prop]);
 			
 		}
 		
 	}
-	
-	return result;
+
+	if(_defaultIfNotExists !== undefined) return copyV(_defaultIfNotExists);
+
+	return "";
 	
 };
 
