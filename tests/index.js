@@ -77,141 +77,164 @@ const defaultRunObject = name => "node " + path.join(__dirname, "objects/" + nam
 
 const repeats = 15;
 
+console.log("-".repeat(repeats) + "Tests started" + "-".repeat(repeats) + "\n");
+
+process.on("exit", () => console.log("-".repeat(repeats) + "Tests finished" + "-".repeat(repeats) + "\n"));
+
 //[taskName, command]
-let commands = [];
+let commands = [
 
-console.log("-".repeat(repeats) + "Test started" + "-".repeat(repeats) + "\n");
+	["generateIndexModel", "node " + path.join(__dirname, "generate/generateStringIndexModel.js")],
 
-process.on("exit", () => console.log("-".repeat(repeats) + "Test finished" + "-".repeat(repeats) + "\n"));
+	["commandsWithoutFlags", defaultRunObject("commandsWithoutFlags") + "configure someProp someValue"],
 
-if(process.platform.startsWith("win")) {
-	
-	commands = [
-	
-		["generateIndexModel", "node " + path.join(__dirname, "generate/generateStringIndexModel.js")],
-		
-		["commandsWithoutFlags", defaultRunObject("commandsWithoutFlags") + "configure someProp someValue"],
-		
-		["commandsWithFlags", defaultRunObject("commandsWithFlags") + "install someFirstPacket,someSecondPacket,someThirdPacket someNext " + fargv.generateFromObject({
-			
-			useSome: true,
-			save: true,
-			someArgs: [1, 2324, 4242, true, "yes"],
-			
-		})],
-		
-		["demandFlags", defaultRunObject("demandFlags") + args],
-		
-		["defaultFlags", defaultRunObject("defaultFlags") + fargv.generateFromObject({
-			
-			flagA: undefined,
-			flagB: 3,
-			flagC: "value",
-			//flagD
-			flagE: ["default", "non-standard"],
-			flagF: {
-				
-				a: "non-standard",
-				b: "default",
-				
+	["commandsWithFlags", defaultRunObject("commandsWithFlags") + "install someFirstPacket,someSecondPacket,someThirdPacket someNext " + fargv.generateFromObject({
+
+		useSome: true,
+		save: true,
+		someArgs: [1, 2324, 4242, true, "yes"],
+
+	})],
+
+	["demandFlags", defaultRunObject("demandFlags") + args],
+
+	["defaultFlags", defaultRunObject("defaultFlags") + fargv.generateFromObject({
+
+		flagA: undefined,
+		flagB: 3,
+		flagC: "value",
+		//flagD
+		flagE: ["default", "non-standard"],
+		flagF: {
+
+			a: "non-standard",
+			b: "default",
+
+		},
+
+
+	})],
+
+	["customFlags", defaultRunObject("customFlags")],
+
+	["excludeAndNoParseFlags", defaultRunObject("excludeAndNoParseFlags") + fargv.generateFromObject({
+
+		a: true,
+		b: 1,
+		c: "str",
+
+		d: 123,
+		none: "",
+		noneTwo: "",
+
+		someOther: [1, 2, 3n],
+
+	}, {
+
+		noneTwo: {
+
+			withoutEqualSym: true
+
+		}
+
+	})],
+
+	["arrayAndObjectStaticParse", defaultRunObject("arrayAndObjectStaticParse") + fargv.generateFromObject({
+
+		array: [
+
+			{
+
+				a: []
+
 			},
-			
-			
-		})],
-		
-		["customFlags", defaultRunObject("customFlags")],
-		
-		["excludeAndNoParseFlags", defaultRunObject("excludeAndNoParseFlags") + fargv.generateFromObject({
-			
-			a: true,
-			b: 1,
-			c: "str",
-			
-			d: 123,
-			none: "",
-			noneTwo: "",
-			
-			someOther: [1, 2, 3n],
-			
-		}, {
-			
-			noneTwo: {
-				
-				withoutEqualSym: true
-				
-			}
-			
-		})],
-		
-		["arrayAndObjectStaticParse", defaultRunObject("arrayAndObjectStaticParse") + fargv.generateFromObject({
-			
-			array: [
-			
-				{
-					
-					a: []
-					
-				},
-				
-				1,
-				
-				"str",
-				
-				[1, 2, 3]
-				
-			],
-			
-			object: {
-				
-				a: [],
-				
-				b: {a: 2}
-				
-			},
-			
-		})],
-		
-		["warningsTest", defaultRunObject("warningsTest")],
-		
-		["main", "start cmd /k node " + path.join(__dirname, "objects/flags.js") + " " + args],
-	
-	];
-	
-} else {
-	
-	throw new Error("Tests for other OS are temporarily not supported.");
-	
-}
 
-function startTest(commands) {
-	
+			1,
+
+			"str",
+
+			[1, 2, 3]
+
+		],
+
+		object: {
+
+			a: [],
+
+			b: {a: 2}
+
+		},
+
+	})],
+
+	["warningsTest", defaultRunObject("warningsTest")],
+
+];
+
+function startTests(commands) {
+
 	const command = commands[0];
-	
+
 	exec(command[1], (error, stdout, stderr) => {
-		
+
 		if (error) console.error(`${capitalizeFirstLetter(command[0])} Exec Error:\n\n${error}`);
 		else if(stdout) console.log(`${capitalizeFirstLetter(command[0])} Stdout: ${stdout}`);
 		else if(stderr) console.error(`${capitalizeFirstLetter(command[0])} Stderr: ${stderr}`);
 		else if(!stdout) console.log(`${capitalizeFirstLetter(command[0])} Stdout: Unknown`);
-		
+
 		commands = commands.slice(1);
-		
+
 		if(commands.length == 1) {
-			
+
+			const finalCommand = commands[commands.length - 1];
+
+			if(finalCommand[0] != "main") throw new Error(finalCommand[0]);
+
 			console.log("Main test results have been opened in a new window and await closure...\n");
-			
-			exec(commands[commands.length - 1][1]);
-			
-			return;
-			
+
+			//!execSync
+			return exec(finalCommand[1]);
+
 		} else if(commands.length > 1) {
-			
-			startTest(commands);
-			
+
+			startTests(commands);
+
 		}
-		
+
 	});
-	
+
 }
 
-startTest(Object.assign([], commands));
+if(process.platform.startsWith("win")) {
+
+	commands.push(["main", "start cmd /k node " + path.join(__dirname, "objects/flags.js") + " " + args]);
+
+	startTests(Object.assign([], commands));
+
+} else if(process.platform.includes("linux")) {
+
+	const getLinuxTerminal = require("./_getLinuxTerminal");
+
+	getLinuxTerminal(terminal => {
+
+		if(terminal == null) {
+
+			commands.push(["Unable to run final test - terminal not found!", ""]);
+
+		}
+
+		if(terminal == "konsole" || terminal == "xfce4-terminal") {
+
+			commands.push(["main", terminal + " --hold -e node " + path.join(__dirname, "objects/flags.js") + " " + args]);
+
+		}
+
+		startTests(Object.assign([], commands));
+
+	});
+
+} else {
+	
+	throw new Error("Tests for this OS are temporarily not supported.");
+	
+}
