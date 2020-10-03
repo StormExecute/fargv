@@ -15,5 +15,7 @@ module.exports = {
 	304: "Duplicate object keys detected.",
 	
 	400: "Wrong command parser.",
+
+	500: "parseBigInt SyntaxError: numeric separators '_' are not allowed in numbers that start with '0'",
 	
 };
