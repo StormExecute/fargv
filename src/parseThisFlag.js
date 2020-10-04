@@ -1,12 +1,18 @@
-const isNumeric = require("../dependencies/isNumeric");
-
 const parseThisFlag = function(aName, aValue) {
 		
 	this.argName = aName || "?";
-	
-	if(this.usableOptions.mainParse["number"] && isNumeric(aValue)) return parseFloat(aValue);
 
-	let argValue = this.parseMinorAndBoolean(aValue);
+	let argValue = "";
+	
+	if(this.usableOptions.mainParse["number"]) {
+
+		argValue = this.parseNumeric(aValue);
+
+	}
+
+	if(argValue != aValue) return argValue;
+
+	argValue = this.parseMinorAndBoolean(aValue);
 	
 	if(argValue != aValue) return argValue;
 	

@@ -29,10 +29,16 @@ const parseArrayAndObjectEl = function(el, _from) {
 	}
 	
 	const options = _from == "array" ? this.usableOptions.arrayParse : _from == "object" ? this.usableOptions.objectParse : this.usableOptions.mainParse;
-	
-	if(options["number"] && isNumeric(el)) return parseFloat(el);
-	
+
 	const elCopy = el;
+	
+	if(options["number"]) {
+
+		el = this.parseNumeric(el, _from);
+
+	}
+
+	if(elCopy != el) return el;
 	
 	el = this.parseMinorAndBoolean(el, _from);
 	
