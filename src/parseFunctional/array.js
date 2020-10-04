@@ -209,7 +209,6 @@ const parseArray = function (argValue, callNumber) {
 			"from": "parseArray",
 			maxRecursiveCalls: arrayOptions.maxRecursiveCalls,
 			nowCall: callNumber,
-			tempKey,
 			
 		}, "auto");
 		
