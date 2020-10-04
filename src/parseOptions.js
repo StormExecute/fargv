@@ -6,6 +6,8 @@ const defaultOptions = require("./data/_options");
 
 const defaultTypesModel = [
 
+	"numericSeparator",
+
 	"number",
 	
 	"bigint",
@@ -34,7 +36,7 @@ module.exports = function(options) {
 	if(options.___fargvISPARSED) return Object.assign({}, options);
 	
 	const usableOptions = deepCloneObject({}, defaultOptions, options);
-	
+
 	if(usableOptions.noParse || usableOptions.noParseNoDefault) return usableOptions;
 	
 	for(let i = 0; i < parseWhat.length; i++) {
