@@ -1,10 +1,10 @@
 module.exports = {
-	
+
 	commands: null,
 	
 	//else spread format
 	nextCommandsAsArray: false,
-	
+
 	customArgv: null,
 	defaultArgv: null,
 	
@@ -48,6 +48,8 @@ module.exports = {
 		
 		mainTypes: false,
 		minorTypes: false,
+
+		numericSeparator: false,
 		
 		"number": true,
 		
@@ -74,6 +76,8 @@ module.exports = {
 		
 		mainTypes: false,
 		minorTypes: false,
+
+		numericSeparator: false,
 		
 		"number": true,
 		
@@ -121,6 +125,8 @@ module.exports = {
 		
 		mainTypes: false,
 		minorTypes: false,
+
+		numericSeparator: false,
 		
 		"number": true,
 		
