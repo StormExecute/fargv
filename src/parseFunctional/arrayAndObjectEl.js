@@ -38,7 +38,7 @@ const parseArrayAndObjectEl = function(el, _from) {
 
 	}
 
-	if(elCopy != el) return el;
+	if(elCopy !== el) return el;
 	
 	el = this.parseMinorAndBoolean(el, _from);
 	

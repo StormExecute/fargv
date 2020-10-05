@@ -10,7 +10,7 @@ const parseThisFlag = function(aName, aValue) {
 
 	}
 
-	if(argValue != aValue) return argValue;
+	if(argValue !== aValue) return argValue;
 
 	argValue = this.parseMinorAndBoolean(aValue);
 	
