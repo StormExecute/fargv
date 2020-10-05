@@ -23,5 +23,7 @@ module.exports = {
 	504: "SyntaxError: identifier starts immediately after numeric literal.",
 	505: "SyntaxError: missing exponent.",
 	506: "SyntaxError: unexpected 'e' token.",
+	507: "SyntaxError: the 'e' token is not supported in the bigint syntax.",
+	508: "SyntaxError: the '.' token is not supported in the bigint syntax.",
 
 };
