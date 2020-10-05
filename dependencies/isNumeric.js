@@ -6,7 +6,7 @@
 
 function isNumeric(obj, removeUnderscores) {
 
-	if(removeUnderscores) {
+	if(removeUnderscores && typeof obj == "string") {
 
 		obj = obj.replace(/_/g, "");
 
