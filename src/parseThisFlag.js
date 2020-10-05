@@ -34,7 +34,7 @@ const parseThisFlag = function(aName, aValue) {
 		
 	}
 	
-	return this.parseBigInt(argValue) //bigint || string
+	return argValue;
 	
 }
 

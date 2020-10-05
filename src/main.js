@@ -6,7 +6,6 @@ const parseNumeric = require("./parseFunctional/numeric");
 const parseMinorAndBoolean = require("./parseFunctional/minorAndBoolean");
 const parseArray = require("./parseFunctional/array");
 const parseObject = require("./parseFunctional/object");
-const parseBigInt = require("./parseFunctional/bigint");
 
 const parseArrayAndObjectEl = require("./parseFunctional/arrayAndObjectEl");
 
@@ -36,7 +35,6 @@ fargv.prototype = Object.assign(fargv.prototype, {
 	parseMinorAndBoolean,
 	parseArray,
 	parseObject,
-	parseBigInt,
 	
 	parseArrayAndObjectEl,
 	

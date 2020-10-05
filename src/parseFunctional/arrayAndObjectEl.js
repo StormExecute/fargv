@@ -44,7 +44,7 @@ const parseArrayAndObjectEl = function(el, _from) {
 	
 	if(elCopy != el) return el;
 	
-	return this.parseBigInt(el, _from) //bigint || string
+	return el;
 	
 };
 

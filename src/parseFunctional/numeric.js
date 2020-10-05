@@ -6,11 +6,11 @@
 
 const isNumeric = require("../../dependencies/isNumeric");
 
-function returnAsNumeric(obj) {
+function returnAsNumeric(obj, isBigInt) {
 
 	if(obj.length > 1 && (obj[0] == "0" || (obj[0] == "-" && obj[1] == "0"))) {
 
-		if(obj[1] == "x" || obj[1] == "X") {
+		if((obj[1] == "x" || obj[1] == "X") && !isBigInt) {
 
 			//to return the original result of objects such as 0x123, 0xbbbbbbbbeeee111 etc...
 			return parseInt(obj);
@@ -18,21 +18,41 @@ function returnAsNumeric(obj) {
 		} else {
 
 			//to return the original result of objects such as 0111, 0b1_1 etc...
-			return eval(obj);
+			return !isBigInt ? eval(obj) : BigInt(eval(obj));
 
 		}
 
 	}
 
-	return parseFloat(obj);
+	return !isBigInt ? parseFloat(obj) : BigInt(obj);
 
 }
 
-function parseNumeric(argValue, _from) {
+function parseNumeric(originArgValue, _from) {
 
 	const options = !_from ? this.usableOptions.mainParse : _from == "array" ? this.usableOptions.arrayParse : _from == "object" ? this.usableOptions.objectParse : {};
 
-	if(!isNumeric(argValue, options.numericSeparator)) return argValue;
+	let isBigInt = false;
+
+	if(!isNumeric(originArgValue, options.numericSeparator)) {
+
+		//bigint check
+		if(
+			options["bigint"] && typeof BigInt != "undefined" &&
+			originArgValue.length > 1 && originArgValue[originArgValue.length - 1] == "n" &&
+			isNumeric(originArgValue.slice(0, -1), options.numericSeparator)
+		) {
+
+			isBigInt = true;
+
+		} else {
+
+			return originArgValue;
+
+		}
+	}
+
+	const argValue = !isBigInt ? originArgValue : originArgValue.slice(0, -1);
 
 	if(options.numericSeparator) {
 		//argValue >= 1
@@ -43,7 +63,39 @@ function parseNumeric(argValue, _from) {
 		for(let i = 0; i < argValue.length; ++i) {
 
 			if(argValue[i] == "_" && !argValueHasUnderscore) argValueHasUnderscore = true;
-			if(argValue[i] == "e" && !argValueHasE) argValueHasE = true;
+
+			if(argValue[i] == "e" && !argValueHasE) {
+
+				if(isBigInt) {
+
+					this.errorHandler(["SyntaxError: the 'e' token is not supported in the bigint syntax.", 507], {
+
+						"from": "parseBigInt",
+
+					}, "auto");
+
+					return originArgValue;
+
+				} else {
+
+					argValueHasE = true;
+
+				}
+
+			}
+
+			if(argValue[i] == "." && isBigInt) {
+
+				this.errorHandler(["SyntaxError: the '.' token is not supported in the bigint syntax.", 508], {
+
+					"from": "parseBigInt",
+
+				}, "auto");
+
+				return originArgValue;
+
+
+			}
 
 			//__
 			if(argValue[i] == "_" && (i + 1) < argValue.length && argValue[i + 1] == "_") {
@@ -54,9 +106,11 @@ function parseNumeric(argValue, _from) {
 
 				}, "auto");
 
-				return argValue;
+				return originArgValue;
 
 			}
+
+			if(isBigInt) continue;
 
 			//_. || _e
 			if(
@@ -71,7 +125,7 @@ function parseNumeric(argValue, _from) {
 
 				}, "auto");
 
-				return argValue;
+				return originArgValue;
 
 			}
 
@@ -84,7 +138,7 @@ function parseNumeric(argValue, _from) {
 
 				}, "auto");
 
-				return argValue;
+				return originArgValue;
 
 			}
 
@@ -97,7 +151,7 @@ function parseNumeric(argValue, _from) {
 
 				}, "auto");
 
-				return argValue;
+				return originArgValue;
 
 			}
 
@@ -110,7 +164,7 @@ function parseNumeric(argValue, _from) {
 
 				}, "auto");
 
-				return argValue;
+				return originArgValue;
 
 			}
 
@@ -124,11 +178,11 @@ function parseNumeric(argValue, _from) {
 
 			}, "auto");
 
-			return argValue;
+			return originArgValue;
 
 		}
 
-		if(!argValueHasUnderscore) return returnAsNumeric(argValue);
+		if(!argValueHasUnderscore) return returnAsNumeric(argValue, isBigInt);
 		//argValue > 1
 
 		if(argValue[0] == "_" || argValue[argValue.length - 1] == "_") {
@@ -139,7 +193,7 @@ function parseNumeric(argValue, _from) {
 
 			}, "auto");
 
-			return argValue;
+			return originArgValue;
 
 		}
 
@@ -193,15 +247,15 @@ function parseNumeric(argValue, _from) {
 
 			}, "auto");
 
-			return argValue;
+			return originArgValue;
 
 		}
 
-		return returnAsNumeric(argValue.replace(/_/g, ""));
+		return returnAsNumeric(argValue.replace(/_/g, ""), isBigInt);
 
 	}
 
-	return returnAsNumeric(argValue);
+	return returnAsNumeric(argValue, isBigInt);
 
 }
 
