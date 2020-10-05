@@ -8,13 +8,14 @@
  *
  *	This script may be freely distributed under the MIT license
  *
- *	Dependencies: isObject - from jQuery under the MIT license, toJson - from github, sortObject - from stackoverflow, isEmptyObject
+ *	Dependencies: isObject - from jQuery under the MIT license, sortObject - from stackoverflow, isEmptyObject, arrayEquals
  *
 */
 
 const isObject = require("./isObject");
-const toJson = require("./toJson");
 const isEmptyObject = require("./isEmptyObject");
+
+const arrayEquals = require("./arrayEquals");
 
 const sortObject = require("./objectSort");
 
@@ -74,11 +75,11 @@ const objectDifference = (obj1, obj2) => {
 					//catch for ignore dublicates
 					
 				} else if(Array.isArray(obj1prop) && Array.isArray(obj2prop)) {
-					
-					if(toJson(obj1prop) != toJson(obj2prop)) {
-						
+
+					if(!arrayEquals(obj1prop, obj2prop)) {
+
 						result[thisDiffName] = obj1prop;
-						
+
 					}
 					
 				} else if(obj1prop != obj2prop) {
