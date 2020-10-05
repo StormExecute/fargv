@@ -22,5 +22,6 @@ module.exports = {
 	503: "SyntaxError: underscore can appear only between digits, not after the last digit in a number.",
 	504: "SyntaxError: identifier starts immediately after numeric literal.",
 	505: "SyntaxError: missing exponent.",
+	506: "SyntaxError: unexpected 'e' token.",
 
 };
