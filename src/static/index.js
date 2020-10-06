@@ -2,6 +2,9 @@ const options = require("./set/options");
 
 const createOptions = require("./createOptionsIfNotExists");
 
+const reset = require("./reset");
+const resetAll = require("./resetAll");
+
 const command = require("./set/command");
 
 const _default = require("./set/default");
@@ -43,6 +46,9 @@ module.exports = {
 	options,
 
 	createOptions,
+
+	reset,
+	resetAll,
 
 	command,
 
