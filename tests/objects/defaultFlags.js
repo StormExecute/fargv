@@ -1,3 +1,5 @@
+const isObject = require("../../dependencies/isObject");
+
 const objectEquals = require("../../dependencies/objectEquals");
 const objectDifference = require("../../dependencies/objectDiff");
 
@@ -22,22 +24,6 @@ const requiredResult = {
 		
 	},
 	
-	"flagF-a2": {
-		
-		a: "default",
-		b: "default",
-		
-	},
-	
-	flagG: ["default", "default"],
-	
-	flagH: {
-		
-		a: "default",
-		b: "default",
-		
-	},
-	
 	flagI: {
 		
 		some: {
@@ -53,41 +39,43 @@ const requiredResult = {
 //fargv.default sets mainParse.defaultNoneValue to undefined
 
 const testFlags = fargv.default({
-	
+
 	flagA: true,
-	
+
 	flagB: 1,
-	
+
 	flagC: "some",
-	
+
 	flagD: "default",
-	
+
 	flagE: {
-		
+
 		_options: {
-			
+
 			v: ["default", "default"],
 			a: "flagG"
-			
+
 		}
-		
+
 	},
-	
+
 	flagF: {
-		
+
 		_options: {
-			
+
 			v: {
-				
+
 				a: "default",
 				b: "default",
-				
+
 			},
-			
+
 			a: ["flagH", "flagF-a2"]
-			
+
 		}
 	},
+
+}).default({
 	
 	flagI: {
 		
@@ -121,7 +109,14 @@ const testFlags = fargv.default({
 	
 }, true);
 
-if(objectEquals(testFlags, requiredResult)) {
+if(
+	objectEquals(testFlags, requiredResult) &&
+	isObject(fargv._options) && isObject(fargv._options.defaultArgv) &&
+	Array.isArray(fargv._options.defaultArgv.flagE) && Array.isArray(fargv._options.defaultArgv.flagE[1]) &&
+	~fargv._options.defaultArgv.flagE[1].indexOf("flagG") &&
+	Array.isArray(fargv._options.defaultArgv.flagF) && Array.isArray(fargv._options.defaultArgv.flagF[1]) &&
+	~fargv._options.defaultArgv.flagF[1].indexOf("flagH") &&~fargv._options.defaultArgv.flagF[1].indexOf("flagF-a2")
+) {
 	
 	console.log("OK.");
 	
