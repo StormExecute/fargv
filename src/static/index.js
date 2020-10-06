@@ -1,5 +1,7 @@
 const options = require("./set/options");
 
+const createOptions = require("./createOptionsIfNotExists");
+
 const command = require("./set/command");
 
 const _default = require("./set/default");
@@ -39,9 +41,11 @@ const init = require("./emulateInit");
 module.exports = {
 	
 	options,
-	
+
+	createOptions,
+
 	command,
-	
+
 	"default": _default,
 	custom,
 	customWithGenerate,
