@@ -51,6 +51,12 @@ const getStateOfOptionsAndDefaults = function(about) {
 		
 		break;
 		
+		case "optionsReal":
+		
+			return copyV(this._options);
+		
+		break;
+		
 		default:
 		
 			return copyV(this._options) || {};
