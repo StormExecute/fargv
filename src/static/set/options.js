@@ -4,6 +4,14 @@ const { deepCloneObject } = require("../../../dependencies/deepClone");
 
 const staticSetOptions = function(options, redefine) {
 	
+	if(options == "reset") {
+	
+		this._options = null;
+		
+		return this;
+	
+	}
+	
 	if(!isObject(options)) return this;
 	
 	if(redefine) {
@@ -12,7 +20,7 @@ const staticSetOptions = function(options, redefine) {
 		
 	} else {
 		
-		if(!isObject(this._options)) this._options = {};
+		this.createOptions();
 		
 		this._options = deepCloneObject(this._options, options);
 		

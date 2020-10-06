@@ -1,16 +1,20 @@
-const isObject = require("../../../dependencies/isObject");
-
 const { deepCloneArray } = require("../../../dependencies/deepClone");
 
 const staticDemand = function(args, withSkipArgs) {
 	
 	if(!Array.isArray(args) && typeof args != "string") return this;
 	
-	if(!isObject(this._options)) this._options = {};
-	
-	args = Array.isArray(args) ? deepCloneArray([], args) : [args];
+	this.createOptions();
 	
 	const demandType = withSkipArgs ? "demandWithSkippedFlags" : "demandFlags";
+	
+	if(args == "reset") {
+	
+		this._options[demandType] = null;
+		
+	}
+	
+	args = Array.isArray(args) ? deepCloneArray([], args) : [args];
 	
 	return this.options({
 		

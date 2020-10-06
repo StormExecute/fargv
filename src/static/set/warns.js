@@ -1,6 +1,27 @@
 const isObject = require("../../../dependencies/isObject");
 
+const { deepCloneObject } = require("../../../dependencies/deepClone");
+
+const defaultOptions = require("../../data/_options");
+
 const staticSetWarningOptions = function(optionsState) {
+	
+	if(optionsState == "reset") {
+		
+		this.createOptions();
+		
+		this._options = deepCloneObject(this._options, {
+			
+			rememberWarns: defaultOptions.rememberWarns,
+			showWarns: defaultOptions.showWarns,
+			throwInsteadWarns: defaultOptions.throwInsteadWarns,
+			parseWarn: defaultOptions.parseWarn,
+			
+		});
+		
+		return this;
+		
+	}
 	
 	if(!isObject(optionsState)) return this;
 	

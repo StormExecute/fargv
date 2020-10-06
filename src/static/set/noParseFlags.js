@@ -1,12 +1,10 @@
-const isObject = require("../../../dependencies/isObject");
-
 const { deepCloneArray } = require("../../../dependencies/deepClone");
 
 const staticSetNoParseFlags = function(noParseFlags, isNoParseNoDefaultFlags) {
 	
 	if(!Array.isArray(noParseFlags) && typeof noParseFlags != "string") return this;
 	
-	if(!isObject(this._options)) this._options = {};
+	this.createOptions();
 	
 	const typeNoParseFlags = isNoParseNoDefaultFlags ? "noParseNoDefaultFlags" : "noParseFlags";
 	

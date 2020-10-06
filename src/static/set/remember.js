@@ -1,11 +1,27 @@
 const isObject = require("../../../dependencies/isObject");
 
+const { deepCloneObject } = require("../../../dependencies/deepClone");
+
 const getValue = require("../../../dependencies/getAnyPropValIfExists");
 
-//just in case
 const defaultOptions = require("../../data/_options");
 
 const staticSetRemember = function(rememberState) {
+	
+	if(rememberState == "reset") {
+		
+		this.createOptions();
+		
+		this._options = deepCloneObject(this._options, {
+			
+			rememberExecFilePath: defaultOptions.rememberExecFilePath,
+			rememberExecNodePath: defaultOptions.rememberExecNodePath,
+			
+		});
+		
+		return this;
+		
+	}
 	
 	if(!isObject(rememberState)) return this;
 	
