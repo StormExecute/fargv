@@ -1,18 +1,16 @@
-const isObject = require("../../../dependencies/isObject");
-
 const { deepCloneArray } = require("../../../dependencies/deepClone");
 
-const staticSetExcludeFlags = function(excludeFlags) {
+const staticSetExcludeFlags = function(excludeFlags, redefine) {
 	
 	if(!Array.isArray(excludeFlags) && typeof excludeFlags != "string") return this;
 	
-	if(!isObject(this._options)) this._options = {};
+	this.createOptions();
 	
-	if(excludeFlags == "reset") {
+	if(excludeFlags == "reset" || redefine) {
 	
 		this._options.excludeFlags = null;
 		
-		return this;
+		if(excludeFlags == "reset") return this;
 	
 	}
 	
