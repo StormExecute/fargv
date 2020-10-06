@@ -1,4 +1,5 @@
 const isObject = require("../dependencies/isObject");
+const isEmptyObject = require("../dependencies/isEmptyObject");
 
 const copyV = require("../dependencies/copyValWithoutBind");
 
@@ -27,19 +28,19 @@ class fargv {
 		
 		if((!this.usableOptions.rememberExecNodePath && !this.usableOptions.rememberExecFilePath) || this.usableOptions.customArgv) delete parsedArgs["_"];
 		
-		const rememberAllForDemandWithSkippedFlags = Array.isArray(this.usableOptions.demandWithSkippedFlags) ? {} : false;
+		const rememberAllFlags = {};
 		const rememberCommands = Array.isArray(this.usableOptions.commands) ? [] : false;
 		
-		//rememberAllForDemandWithSkippedFlags && rememberCommands can change
-		parsedArgs = this.parseFlags(argsList, parsedArgs, rememberAllForDemandWithSkippedFlags, rememberCommands);
+		//rememberAllFlags && rememberCommands can change
+		/*parsedArgs = */this.parseFlags(argsList, parsedArgs, rememberAllFlags, rememberCommands);
 		
-		if(rememberAllForDemandWithSkippedFlags) {
+		if(Array.isArray(this.usableOptions.demandWithSkippedFlags) && !isEmptyObject(rememberAllFlags)) {
 			
-			this.checkDemand("demandWithSkippedFlags", rememberAllForDemandWithSkippedFlags);
+			this.checkDemand("demandWithSkippedFlags", rememberAllFlags);
 			
 		}
 		
-		if(Array.isArray(this.usableOptions.demandFlags)) {
+		if(Array.isArray(this.usableOptions.demandFlags) && !isEmptyObject(parsedArgs)) {
 			
 			this.checkDemand("demandFlags", parsedArgs);
 			
@@ -48,12 +49,35 @@ class fargv {
 		if(isObject(this.usableOptions.defaultArgv)) {
 			
 			for(const defaultArgName in this.usableOptions.defaultArgv) {
+
+				const [defaultValue, aliases] = copyV(this.usableOptions.defaultArgv[defaultArgName]);
 				
-				if(typeof parsedArgs[defaultArgName] == "undefined") {
+				let findAliasStatus = false;
+				
+				//we must delete aliases anyway
+				for(let i = 0; i < aliases.length; i++) {
 					
-					parsedArgs[defaultArgName] = copyV(this.usableOptions.defaultArgv[defaultArgName]);
+					if(findAliasStatus) {
+						
+						delete parsedArgs[aliases[i]];
+						
+						continue;
+						
+					}
+					
+					if(typeof parsedArgs[aliases[i]] != "undefined") {
+						
+						findAliasStatus = true;
+						
+						if(typeof parsedArgs[defaultArgName] == "undefined") parsedArgs[defaultArgName] = copyV(parsedArgs[aliases[i]]);
+						
+						delete parsedArgs[aliases[i]];
+						
+					}
 					
 				}
+				
+				if(!findAliasStatus && typeof parsedArgs[defaultArgName] == "undefined") parsedArgs[defaultArgName] = defaultValue;
 				
 			}
 			
@@ -70,7 +94,13 @@ class fargv {
 		return parsedArgs
 		
 	}
-	
+
+	//abstract methods
+
+	checkDemand(demandType, parsedArgs){}
+	parseFlags(argsList, parsedArgs, rememberAllFlags, rememberCommands){}
+	parseCommands(rememberCommands, parsedArgs){}
+
 }
 
 module.exports = fargv;
