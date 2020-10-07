@@ -14,8 +14,6 @@ const staticSetArrayParseOptions = function(arrayParse, redefine) {
 	
 	if(!isObject(arrayParse)) return this;
 	
-	this.createOptions();
-	
 	arrayParse = Object.assign({}, arrayParse);
 	
 	return this.options({ arrayParse });
