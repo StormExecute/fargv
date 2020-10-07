@@ -1,3 +1,83 @@
+/*
+
+	commands: array = [
+
+		...Array<command<string>, handler<function>>,
+
+	],
+
+	nextCommandsAsArray: boolean,
+
+	customArgv: array = [
+
+		...Array<flagName<string>, flagValue<string>>,
+
+	],
+
+	defaultArgv: plainObject = {
+,
+		...[name]: Array<value<any>, aliases<array: ...string,>>,
+
+	},
+
+	demandWithSkippedFlags && demandFlags &&
+	excludeFlags && noParseFlags && noParseNoDefaultFlags:
+
+		Array<...string,>,
+
+	rememberExecNodePath && rememberExecFilePath &&
+	rememberWarns && showWarns:
+
+		boolean,
+
+	parseWarn: void (user) function({ mainMessage, debugDetails, code, fullMessage }),
+
+	throwInsteadWarns && includeEmptyFlags &&
+	unlimitedFlagDefinitionCharacters &&
+	supportOnlyLatinArgs && allowSpacesAsValues &&
+	useDnvForFirstSpaceOP && noParse && noParseNoDefault &&
+	allParse:
+
+		boolean,
+
+	mainParse: plainObject = {
+
+		defaultNoneValue: any(default: null),
+
+		...[others]: boolean,
+
+	},
+
+	arrayParse: {
+
+		maxRecursiveCalls: number,
+
+		defaultNoneValue: any(default: null),
+
+		...[others]: boolean,
+
+	},
+
+	objectParse: {
+
+		ifDuplicateKey: {
+
+			rewrite: boolean(default: true),
+
+			warn: boolean(default: true)
+
+		},
+
+		maxRecursiveCalls: number,
+
+		defaultNoneValue: any(default: null),
+
+		...[others]: boolean,
+
+	},
+
+*/
+
 module.exports = {
 
 	commands: null,
@@ -96,18 +176,6 @@ module.exports = {
 	},
 	
 	objectParse: {
-		
-		/*
-		
-			ifDuplicateKey = {
-				
-				rewrite: boolean<true>
-				
-				warn: boolean<true>
-				
-			}
-		
-		*/
 		
 		ifDuplicateKey: {
 			
