@@ -24,13 +24,14 @@ const toPrettyStringObject = (sourceObject, useQuotesForProps) => {
 			objectValue = fromArray(objectValue, true);
 			
 		} else if(typeof objectValue == "bigint") {
-			
+
 			objectValue = objectValue + "n";
-			
-		} else if(isNumeric(objectValue) || objectValue == true || objectValue == false || objectValue == null || objectValue == undefined || objectValue == NaN || objectValue == Infinity) {
-			
+
+		//undefined == null && undefined == undefined
+		} else if(isNumeric(objectValue) || objectValue == true || objectValue == false || objectValue == undefined || Object.is(NaN, objectValue) || objectValue == Infinity) {
+
 			useQuotesForValues = '';
-			
+
 		}
 		
 		result += `\n\n\t${useQuotesForProps}${objectProp}${useQuotesForProps}: ${useQuotesForValues}${objectValue}${useQuotesForValues},`;
