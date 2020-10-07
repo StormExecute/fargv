@@ -1,5 +1,7 @@
 const isObject = require("../dependencies/isObject");
 
+const { deepCloneObject } = require("../dependencies/deepClone");
+
 const staticMethods = require("./static/index");
 
 let abstractStaticMethods = {
@@ -91,11 +93,23 @@ abstractStaticMethods = Object.assign(abstractStaticMethods, staticMethods);
 
 const fargv = require("./fargvConstructor");
 
-function fargvWrapper(options) {
+function fargvWrapper(options, mergingWithFargvWrapperOptions) {
 	
 	//static fargv.options doesnt set they as default
+
+	//console.log(isObject(options), mergingWithFargvWrapperOptions);
 	
 	if(isObject(options)) {
+
+		if(mergingWithFargvWrapperOptions) {
+
+			fargvWrapper.createOptions();
+
+			fargvWrapper._options = deepCloneObject(fargvWrapper._options, options);
+
+			return new fargv(fargvWrapper._options);
+
+		}
 		
 		return new fargv(options);
 		
