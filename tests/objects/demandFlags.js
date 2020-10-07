@@ -1,8 +1,6 @@
 const fargv = require("../../src/main");
 
-fargv.demand("someNumber");
-
-fargv.demand(["a", "b"]);
+fargv.demand("someNumber").demand(["a", "b"]);
 
 fargv.demand("???");
 
@@ -14,6 +12,8 @@ fargv.undemand(["noneExistsArg", "and his friend"]);
 
 fargv.demand(["099"], true);
 
-fargv();
+//{ supportOnlyLatinArgs: false } -> 099 is included to parseArgs ;
+//exclude("099") -> this is a higher priority, so 099 is excluded from parsedArgs
+fargv.exclude("099")({ supportOnlyLatinArgs: false }, true);
 
 console.log("OK.");
