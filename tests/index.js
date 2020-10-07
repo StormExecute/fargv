@@ -126,12 +126,19 @@ let commands = [
 		d: 123,
 		none: "",
 		noneTwo: "",
+		noneThree: "",
 
 		someOther: [1, 2, 3n],
 
 	}, {
 
 		noneTwo: {
+
+			withoutEqualSym: true
+
+		},
+
+		noneThree: {
 
 			withoutEqualSym: true
 
