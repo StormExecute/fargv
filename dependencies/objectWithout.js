@@ -1,14 +1,12 @@
-const isObject = require("./isObject");
+const { deepCloneObject } = require("./deepClone");
 
 const without = (obj, fields) => {
 	
-	if(!isObject(obj)) return obj;
-	
 	if(!Array.isArray(fields)) fields = [fields];
 	
-	const copy = Object.assign({}, obj);
+	const copy = deepCloneObject({}, obj);
 	
-	for(let i = 0; i < fields.length; i++) {
+	for(let i = 0; i < fields.length; ++i) {
 		
 		delete copy[fields[i]];
 		
