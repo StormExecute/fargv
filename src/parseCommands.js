@@ -1,48 +1,13 @@
-const cutFirstEq = function(sourceStr, eqStr) {
-	
-	let out = "";
-	
-	for(let i = 0; i < sourceStr.length; i++) {
-		
-		if(sourceStr[i] == eqStr[i]) continue;
-		
-		out += sourceStr[i];
-		
-	}
-	
-	return out;
-	
-};
+const cutByInitialMatch = require("../dependencies/cutByInitialMatch");
+
+const includeCommand = require("./includeCommand");
 
 const fargvParseCommandArgs = function (rememberCommands, parsedArgs) {
 	
-	for(let i = 0; i < this.usableOptions.commands.length; i++) {
-		
-		const command = this.usableOptions.commands[i];
-		
-		if(!Array.isArray(command) || typeof command[0] != "string" || typeof command[1] != "function") {
-		
-			return this.errorHandler(["Wrong command parser.", 400], {
-				
-				_noArgName: true,
-				
-				"from": "parseCommands",
-				
-				isArray: Array.isArray(command),
-				isStringCommand: typeof command[0] == "string",
-				isFunctionHandler: typeof command[1] == "function",
-				
-				command: command[0],
-				handler: command[1],
-				
-			}, "auto");
-		
-		}
-		
-	}
+	if(!this.validateCommands()) return;
 	
 	this.usableOptions.commands = this.usableOptions.commands.sort((a, b) => b[0].split(" ").length - a[0].split(" ").length);
-	
+
 	const copyOfParsedArgs = Object.assign({}, parsedArgs);
 	
 	const state = {};
@@ -65,19 +30,21 @@ const fargvParseCommandArgs = function (rememberCommands, parsedArgs) {
 	
 	state.flags = copyOfParsedArgs;
 	
+	const argvCommandsToStr = rememberCommands.join(" ");
+	
 	for(let i = 0; i < this.usableOptions.commands.length; i++) {
 		
-		let argvCommandsToStr = rememberCommands.join(" ");
+		let argvCommandsToStrThis = argvCommandsToStr;
 		
 		const [command, handler] = this.usableOptions.commands[i];
 		
-		if(argvCommandsToStr.includes(command)) {
+		if(includeCommand(argvCommandsToStrThis, command)) {
 			
-			argvCommandsToStr = cutFirstEq(argvCommandsToStr, command);
+			argvCommandsToStrThis = cutByInitialMatch(argvCommandsToStrThis, command);
 			
-			if(argvCommandsToStr[0] == " ") argvCommandsToStr = argvCommandsToStr.slice(1);
+			if(argvCommandsToStrThis[0] == " ") argvCommandsToStrThis = argvCommandsToStrThis.slice(1);
 			
-			const nextCommands = argvCommandsToStr.split(" ");
+			const nextCommands = argvCommandsToStrThis.split(" ");
 			
 			if(this.usableOptions.nextCommandsAsArray) {
 				
