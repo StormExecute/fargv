@@ -14,6 +14,7 @@ const getDefaultNoneValue = require("./getDefaultNoneValue");
 const parseFlags = require("./parseFlags");
 const parseThisFlag = require("./parseThisFlag");
 
+const validateCommands = require("./validateCommands");
 const parseCommands = require("./parseCommands");
 
 const { fargvWrapper, fargv } = require("./fargvWrapper");
@@ -29,6 +30,7 @@ fargv.prototype = Object.assign(fargv.prototype, {
 	parseFlags,
 	parseThisFlag,
 
+	validateCommands,
 	parseCommands,
 
 	parseNumeric,
