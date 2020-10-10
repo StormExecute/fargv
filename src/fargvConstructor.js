@@ -27,9 +27,14 @@ class fargv {
 		}
 		
 		if((!this.usableOptions.rememberExecNodePath && !this.usableOptions.rememberExecFilePath) || this.usableOptions.customArgv) delete parsedArgs["_"];
-		
+
+		const optionsHaveCommands = Array.isArray(this.usableOptions.commands);
+		const optionsHaveSeparateCommandHandler = typeof this.usableOptions.separateCommandHandler == "function";
+
 		const rememberAllFlags = {};
-		const rememberCommands = Array.isArray(this.usableOptions.commands) ? [] : false;
+		const rememberCommands = (
+			optionsHaveCommands || optionsHaveSeparateCommandHandler
+		) ? [] : false;
 		
 		//rememberAllFlags && rememberCommands can change
 		/*parsedArgs = */this.parseFlags(argsList, parsedArgs, rememberAllFlags, rememberCommands);
@@ -89,7 +94,19 @@ class fargv {
 			
 		}
 		
-		if(rememberCommands.length) this.parseCommands(rememberCommands, parsedArgs);
+		if(optionsHaveCommands && rememberCommands.length) {
+
+			this.parseCommands(rememberCommands, parsedArgs);
+
+		} else if(optionsHaveSeparateCommandHandler) {
+
+			this.parseCommands.callSeparateCommandHandler(
+				this.usableOptions,
+				this.parseCommands.makeState(parsedArgs),
+				rememberCommands
+			);
+
+		}
 
 		return parsedArgs
 		
