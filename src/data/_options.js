@@ -5,7 +5,10 @@
 		...Array<command<string>, handler<function>>,
 
 	],
+	separateCommandHandler: void (user) function(state, nextCommands || ...nextCommands),
 
+	callAppropriateCommandHandlerOnlyOnce: boolean,
+	alwaysCallSeparateCommandHanler: boolean,
 	nextCommandsAsArray: boolean,
 
 	customArgv: array = [
@@ -81,6 +84,10 @@
 module.exports = {
 
 	commands: null,
+	separateCommandHandler: null,
+
+	callAppropriateCommandHandlerOnlyOnce: true,
+	alwaysCallSeparateCommandHanler: false,
 	
 	//else spread format
 	nextCommandsAsArray: false,
