@@ -18,6 +18,7 @@ let abstractStaticMethods = {
 	resetAll(){},
 
 	command(command, handler, help){},
+	separateCommand(handler, alwaysCallSeparateCommandHanler){},
 
 	option(optionName, optionConfig){},
 
@@ -96,8 +97,6 @@ const fargv = require("./fargvConstructor");
 function fargvWrapper(options, mergingWithFargvWrapperOptions) {
 	
 	//static fargv.options doesnt set they as default
-
-	//console.log(isObject(options), mergingWithFargvWrapperOptions);
 	
 	if(isObject(options)) {
 
