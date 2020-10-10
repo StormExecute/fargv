@@ -64,13 +64,18 @@ fargv
 		
 	})
 	.command("configure", function(state, nextCommands) {
-		
+
 		upTest("just configure", state, nextCommands)
-		
+
 	})
 	.command("configure someProp", function(state, nextCommands) {
-		
+
 		upTest("configure subclass", state, nextCommands);
-		
+
 	})
-	.init();
+	.command(function () {
+
+		console.error("Something went wrong.");
+
+	})
+	.init({ callAppropriateCommandHandlerOnlyOnce: false }, true);
