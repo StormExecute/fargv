@@ -6,6 +6,7 @@ const reset = require("./reset");
 const resetAll = require("./resetAll");
 
 const command = require("./set/command");
+const separateCommand = require("./set/separateCommand");
 
 const _default = require("./set/default");
 const custom = require("./set/custom");
@@ -51,6 +52,7 @@ module.exports = {
 	resetAll,
 
 	command,
+	separateCommand,
 
 	"default": _default,
 	custom,
