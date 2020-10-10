@@ -185,9 +185,9 @@ function startTests(commands) {
 	exec(command[1], (error, stdout, stderr) => {
 
 		if (error) console.error(`${capitalizeFirstLetter(command[0])} Exec Error:\n\n${error}`);
-		else if(stdout) console.log(`${capitalizeFirstLetter(command[0])} Stdout: ${stdout}`);
 		else if(stderr) console.error(`${capitalizeFirstLetter(command[0])} Stderr: ${stderr}`);
-		else if(!stdout) console.log(`${capitalizeFirstLetter(command[0])} Stdout: Unknown`);
+		else if(stdout) console.log(`${capitalizeFirstLetter(command[0])} Stdout: ${stdout}`);
+		else if(!stdout) console.log(`${capitalizeFirstLetter(command[0])} Stdout: Unknown\n`);
 
 		commands = commands.slice(1);
 
