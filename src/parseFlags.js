@@ -1,18 +1,18 @@
-const parseFlags = function(argsList, parsedArgs, rememberAllForDemandWithSkippedFlags, rememberCommands) {
+const parseFlags = function(argsList, parsedArgs, rememberAllFlags, rememberAllCommands) {
 	
 	for(let a = 0; a < argsList.length; a++) {
 
 		const thArg = argsList[a];
-		
+
 		if(typeof thArg != "string" && this.usableOptions.customArgv) continue;
 		
-		if(rememberAllForDemandWithSkippedFlags && thArg.startsWith("-")) {
+		if(thArg.startsWith("-")) {
 			
 			const thPArg = thArg.split("=");
 			
 			const argName = thPArg[0].replace(/^-+/, "");
 			
-			rememberAllForDemandWithSkippedFlags[argName] = 1;
+			rememberAllFlags[argName] = 1;
 			
 		}
 		
@@ -26,7 +26,7 @@ const parseFlags = function(argsList, parsedArgs, rememberAllForDemandWithSkippe
 			
 			if(this.usableOptions.supportOnlyLatinArgs && argName.match(/[^a-z]/i)) continue;
 
-			let argValue = thPArg[1];
+			let argValue = thPArg.length > 1 ? thPArg[1] : undefined;
 			
 			if(Array.isArray(this.usableOptions.excludeFlags) && this.usableOptions.excludeFlags.indexOf(argName) != -1) continue;
 			
@@ -76,17 +76,17 @@ const parseFlags = function(argsList, parsedArgs, rememberAllForDemandWithSkippe
 
 			parsedArgs[argName] = argValue
 			
-		} else if(rememberCommands && !thArg.startsWith("-") && !thArg.includes("=")) {
+		} else if(!thArg.startsWith("-") && !thArg.includes("=")) {
 			
 			//its a command
-			
-			rememberCommands.push(thArg);
+
+			rememberAllCommands.push(thArg);
 			
 		}
 
 	}
 	
-	return parsedArgs;
+	return true;
 
 }
 
