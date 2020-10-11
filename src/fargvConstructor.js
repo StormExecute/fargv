@@ -5,6 +5,30 @@ const copyV = require("../dependencies/copyValWithoutBind");
 
 const parseOptions = require("./parseOptions");
 
+/*
+
+	Fargv props:
+
+		usableOptions,
+		errors
+
+	parsedArgs props:
+
+		_: plainObject = {
+
+			execNodePath?: string,
+			execFilePath?: string,
+
+		},
+
+		_warns: Array<...string,>,
+
+
+
+		...[others]: any,
+
+*/
+
 class fargv {
 	
 	constructor(options) {
@@ -32,12 +56,10 @@ class fargv {
 		const optionsHaveSeparateCommandHandler = typeof this.usableOptions.separateCommandHandler == "function";
 
 		const rememberAllFlags = {};
-		const rememberCommands = (
-			optionsHaveCommands || optionsHaveSeparateCommandHandler
-		) ? [] : false;
+		const rememberAllCommands = [];
 		
 		//rememberAllFlags && rememberCommands can change
-		/*parsedArgs = */this.parseFlags(argsList, parsedArgs, rememberAllFlags, rememberCommands);
+		/*parsedArgs = */this.parseFlags(argsList, parsedArgs, rememberAllFlags, rememberAllCommands);
 		
 		if(Array.isArray(this.usableOptions.demandWithSkippedFlags) && !isEmptyObject(rememberAllFlags)) {
 			
@@ -94,16 +116,16 @@ class fargv {
 			
 		}
 		
-		if(optionsHaveCommands && rememberCommands.length) {
+		if(optionsHaveCommands && rememberAllCommands.length) {
 
-			this.parseCommands(rememberCommands, parsedArgs);
+			this.parseCommands(rememberAllCommands, parsedArgs);
 
 		} else if(optionsHaveSeparateCommandHandler) {
 
 			this.parseCommands.callSeparateCommandHandler(
 				this.usableOptions,
 				this.parseCommands.makeState(parsedArgs),
-				rememberCommands
+				rememberAllCommands
 			);
 
 		}
