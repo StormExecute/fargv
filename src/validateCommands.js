@@ -1,6 +1,7 @@
 const validateCommands = function() {
 
 	if(!Array.isArray(this.usableOptions.commands)) return false;
+	if(!this.usableOptions.commands.length) return false;
 	
 	for(let i = 0; i < this.usableOptions.commands.length; ++i) {
 		
