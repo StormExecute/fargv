@@ -1,3 +1,5 @@
+const nodePath = require("path");
+
 const isObject = require("../dependencies/isObject");
 const isEmptyObject = require("../dependencies/isEmptyObject");
 
@@ -14,10 +16,11 @@ const parseOptions = require("./parseOptions");
 
 	parsedArgs props:
 
-		_: plainObject = {
+		_?: plainObject = {
 
 			execNodePath?: string,
 			execFilePath?: string,
+			execFileBasename?: string,
 
 		},
 
@@ -47,6 +50,7 @@ class fargv {
 		
 			if(this.usableOptions.rememberExecNodePath) parsedArgs["_"].execNodePath = process.argv[0];
 			if(this.usableOptions.rememberExecFilePath) parsedArgs["_"].execFilePath = process.argv[1];
+			if(this.usableOptions.rememberExecFileBasename) parsedArgs["_"].execFileBasename = nodePath.basename(process.argv[1]);
 			
 		}
 		
@@ -58,7 +62,7 @@ class fargv {
 		const rememberAllFlags = {};
 		const rememberAllCommands = [];
 		
-		//rememberAllFlags && rememberCommands can change
+		//rememberAllFlags && rememberAllCommands can change
 		/*parsedArgs = */this.parseFlags(argsList, parsedArgs, rememberAllFlags, rememberAllCommands);
 		
 		if(Array.isArray(this.usableOptions.demandWithSkippedFlags) && !isEmptyObject(rememberAllFlags)) {
