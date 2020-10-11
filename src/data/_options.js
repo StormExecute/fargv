@@ -2,7 +2,7 @@
 
 	commands: array = [
 
-		...Array<command<string>, handler<function>>,
+		...Array < command<string>, handler<function>, aliases: array<...string,> >,
 
 	],
 	separateCommandHandler: void (user) function(state, nextCommands || ...nextCommands),
@@ -13,13 +13,13 @@
 
 	customArgv: array = [
 
-		...Array<flagName<string>, flagValue<string>>,
+		...Array < flagName<string>, flagValue<string> >,
 
 	],
 
 	defaultArgv: plainObject = {
 ,
-		...[name]: Array<value<any>, aliases<array: ...string,>>,
+		...[name]: Array < value<any>, aliases: array<...string,> >,
 
 	},
 
@@ -28,7 +28,7 @@
 
 		Array<...string,>,
 
-	rememberExecNodePath && rememberExecFilePath &&
+	rememberExecNodePath && rememberExecFilePath && rememberExecFileBasename &&
 	rememberWarns && showWarns:
 
 		boolean,
@@ -104,6 +104,7 @@ module.exports = {
 	
 	rememberExecNodePath: false,
 	rememberExecFilePath: true,
+	rememberExecFileBasename: true,
 	
 	rememberWarns: false,
 	
