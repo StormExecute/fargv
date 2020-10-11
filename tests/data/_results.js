@@ -1,4 +1,4 @@
-const { execFilePath, execNodePath } = require("../_paths");
+const { execFilePath, execNodePath, execFileBasename } = require("../_paths");
 
 const defaultArgv = require("../defaultModels");
 
@@ -19,7 +19,7 @@ module.exports = [
 
 	{
 		
-		_: { execFilePath },
+		_: { execFilePath, execFileBasename },
 		
 		...defaultArgv
 		
@@ -27,7 +27,7 @@ module.exports = [
 	
 	assign(defaultArgv, {
 		
-		_: { execNodePath },
+		_: { execNodePath, execFileBasename },
 		
 		someNumber: "1",
 		
@@ -37,7 +37,7 @@ module.exports = [
 	
 	assign(without(defaultArgv, "b"), {
 		
-		_: { execFilePath }
+		_: { execFilePath, execFileBasename }
 		
 	}),
 	
@@ -53,7 +53,7 @@ module.exports = [
 	
 	assign(defaultArgv, {
 		
-		_: { execNodePath, execFilePath },
+		_: { execNodePath, execFilePath, execFileBasename },
 		
 		a: parsedArray,
 		

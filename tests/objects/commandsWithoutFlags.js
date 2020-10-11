@@ -1,4 +1,4 @@
-const path = require("path");
+const nodePath = require("path");
 
 const objectEquals = require("../../dependencies/objectEquals");
 const objectDifference = require("../../dependencies/objectDiff");
@@ -7,9 +7,16 @@ const fargv = require("../../src/main");
 
 const { execFilePath } = require("../_paths");
 
+const thisExecFilePath = nodePath.resolve(execFilePath, "../commandsWithoutFlags.js");
+
 const requiredState = {
 	
-	_: { execFilePath: path.resolve(execFilePath, "../commandsWithoutFlags.js") },
+	_: {
+
+		execFilePath: thisExecFilePath,
+		execFileBasename: nodePath.basename(thisExecFilePath),
+
+	},
 	
 	flags: {}
 	
