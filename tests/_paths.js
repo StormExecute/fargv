@@ -1,4 +1,5 @@
 const fs = require("fs");
+const path = require("path");
 
 //execNodePath = C/Program Files (x86)?/nodejs/node.exe
 const windows = {
@@ -17,6 +18,20 @@ const linux = {
 	execNodeNvmPath: '/.nvm/versions/node/' + process.version + '/bin/node'
 
 };
+
+const makeExecFileBasename = os => {
+
+	if(os == windows) return path.basename( os.execFilePath.replace(/\\/g, "/") )
+
+	return path.basename(os.execFilePath)
+
+};
+
+[linux, windows].forEach(os => {
+
+	os.execFileBasename = makeExecFileBasename(os);
+
+});
 
 if(process.platform.startsWith("win")) {
 
@@ -37,6 +52,7 @@ if(process.platform.startsWith("win")) {
 	}
 
 	module.exports.execFilePath = windows.execFilePath;
+	module.exports.execFileBasename = windows.execFileBasename;
 
 }  else if(process.platform.includes("linux")) {
 
@@ -53,6 +69,8 @@ if(process.platform.startsWith("win")) {
 		module.exports.execNodePath = linux.execNodePath;
 
 	}
+
+	module.exports.execFileBasename = linux.execFileBasename;
 
 } else {
 	
