@@ -39,9 +39,9 @@ class fargv {
 		
 		const argsList = Array.isArray(this.usableOptions.customArgv) ? copyV(this.usableOptions.customArgv) : process.argv.slice(2);
 
-		let parsedArgs = {
+		const parsedArgs = {
 			
-			_: {},
+			//_: {},
 
 			warns: null,
 
@@ -49,22 +49,38 @@ class fargv {
 			commands: [],
 			
 		};
-		
-		if(!this.usableOptions.customArgv) {
-		
+
+		const returnFilter = typeof this.usableOptions.returnFilter == "string" ?
+			[this.usableOptions.returnFilter] : this.usableOptions.returnFilter === null
+				? null : [];
+
+		if(returnFilter && !returnFilter.length) {
+
+			for (let i = 0; i < this.usableOptions.returnFilter.length; ++i) {
+
+				returnFilter.push(this.usableOptions.returnFilter[i]);
+
+			}
+
+		}
+
+		if(
+			!this.usableOptions.customArgv
+			&&
+			(this.usableOptions.rememberExecNodePath || this.usableOptions.rememberExecFilePath || this.usableOptions.rememberExecFileBasename)
+			&&
+			(
+				!returnFilter
+				||
+				~returnFilter.indexOf("_")
+			)
+		) {
+
+			parsedArgs._ = {};
+
 			if(this.usableOptions.rememberExecNodePath) parsedArgs["_"].execNodePath = process.argv[0];
 			if(this.usableOptions.rememberExecFilePath) parsedArgs["_"].execFilePath = process.argv[1];
 			if(this.usableOptions.rememberExecFileBasename) parsedArgs["_"].execFileBasename = nodePath.basename(process.argv[1]);
-			
-		}
-		
-		if(
-			(!this.usableOptions.rememberExecNodePath && !this.usableOptions.rememberExecFilePath && !this.usableOptions.rememberExecFileBasename)
-			||
-			this.usableOptions.customArgv
-		) {
-
-			delete parsedArgs["_"];
 
 		}
 
@@ -77,15 +93,15 @@ class fargv {
 		//rememberAllFlags && rememberAllCommands can change
 		/*parsedArgs = */this.parseFlags(argsList, parsedArgs, rememberAllFlags, rememberAllCommands);
 		
-		if(Array.isArray(this.usableOptions.demandWithSkippedFlags) && !isEmptyObject(rememberAllFlags)) {
+		if(Array.isArray(this.usableOptions.demandWithSkippedFlags)) {
 			
 			this.checkDemand("demandWithSkippedFlags", rememberAllFlags);
 			
 		}
 		
-		if(Array.isArray(this.usableOptions.demandFlags) && !isEmptyObject(parsedArgs)) {
+		if(Array.isArray(this.usableOptions.demandFlags)) {
 			
-			this.checkDemand("demandFlags", parsedArgs);
+			this.checkDemand("demandFlags", parsedArgs.flags);
 			
 		}
 		
@@ -102,31 +118,49 @@ class fargv {
 					
 					if(findAliasStatus) {
 						
-						delete parsedArgs[aliases[i]];
+						delete parsedArgs.flags[aliases[i]];
 						
 						continue;
 						
 					}
 					
-					if(typeof parsedArgs[aliases[i]] != "undefined") {
+					if(typeof parsedArgs.flags[aliases[i]] != "undefined") {
 						
 						findAliasStatus = true;
 						
-						if(typeof parsedArgs[defaultArgName] == "undefined") parsedArgs[defaultArgName] = copyV(parsedArgs[aliases[i]]);
+						if(typeof parsedArgs.flags[defaultArgName] == "undefined") {
+
+							parsedArgs.flags[defaultArgName] = copyV(parsedArgs.flags[aliases[i]]);
+
+						}
 						
-						delete parsedArgs[aliases[i]];
+						delete parsedArgs.flags[aliases[i]];
 						
 					}
 					
 				}
 				
-				if(!findAliasStatus && typeof parsedArgs[defaultArgName] == "undefined") parsedArgs[defaultArgName] = defaultValue;
+				if(!findAliasStatus && typeof parsedArgs.flags[defaultArgName] == "undefined") {
+
+					parsedArgs.flags[defaultArgName] = defaultValue;
+
+				}
 				
 			}
 			
 		}
 		
-		if(this.usableOptions.rememberWarns && Array.isArray(this.errors) && this.errors.length) {
+		if(
+			this.usableOptions.rememberWarns
+			&&
+			Array.isArray(this.errors)  && this.errors.length
+			&&
+			(
+				!returnFilter
+				||
+				~returnFilter.indexOf("warns")
+			)
+		) {
 
 			parsedArgs.warns = [];
 
@@ -140,7 +174,7 @@ class fargv {
 		
 		if(optionsHaveCommands && rememberAllCommands.length) {
 
-			this.parseCommands(rememberAllCommands, parsedArgs);
+			this.parseCommands(rememberAllCommands, parsedArgs.flags);
 
 		} else if(optionsHaveSeparateCommandHandler) {
 
@@ -152,13 +186,49 @@ class fargv {
 
 		}
 
-		for (let i = 0; i < rememberAllCommands.length; ++i) {
+		if(
+			!returnFilter
+			||
+			~returnFilter.indexOf("commands")
+		) {
 
-			parsedArgs.commands.push(rememberAllCommands[i]);
+			for (let i = 0; i < rememberAllCommands.length; ++i) {
+
+				parsedArgs.commands.push(rememberAllCommands[i]);
+
+			}
 
 		}
 
-		return parsedArgs
+		if(!returnFilter) {
+
+			return parsedArgs;
+
+		} else if(returnFilter.length == 1) {
+
+			if(!parsedArgs[returnFilter[0]]) return {};
+
+			//return it on top-level
+
+			return parsedArgs[returnFilter[0]];
+
+		} else {
+
+			const returnArgs = {};
+
+			for (let i = 0; i < returnFilter.length; ++i) {
+
+				if(parsedArgs.hasOwnProperty(returnFilter[i])) {
+
+					returnArgs[returnFilter[i]] = copyV(parsedArgs[returnFilter[i]]);
+
+				}
+
+			}
+
+			return returnArgs;
+
+		}
 		
 	}
 
