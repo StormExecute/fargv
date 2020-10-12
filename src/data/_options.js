@@ -28,6 +28,8 @@
 
 		Array<...string,>,
 
+	returnFilter: string | Array<...string,>,
+
 	rememberExecNodePath && rememberExecFilePath && rememberExecFileBasename &&
 	rememberWarns && showWarns:
 
@@ -101,6 +103,8 @@ module.exports = {
 	excludeFlags: null,
 	noParseFlags: null,
 	noParseNoDefaultFlags: null,
+
+	returnFilter: null,
 	
 	rememberExecNodePath: false,
 	rememberExecFilePath: true,
