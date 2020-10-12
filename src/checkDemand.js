@@ -1,12 +1,18 @@
-const checkDemand = function(demandType, parsedArgs) {
-	
-	const copyOfDemandFlags = Object.assign([], this.usableOptions[demandType]);
+const checkDemandFlags = function(demandType, parsedArgs) {
+
+	const copyOfDemandFlags = [];
+
+	for (let i = 0; i < this.usableOptions[demandType].length; ++i) {
+
+		copyOfDemandFlags.push(this.usableOptions[demandType][i]);
+
+	}
 	
 	for(const argName in parsedArgs) {
 		
 		const indexOf = copyOfDemandFlags.indexOf(argName);
 		
-		if(indexOf != -1) {
+		if(~indexOf) {
 			
 			copyOfDemandFlags.splice(indexOf, 1);
 			
@@ -26,4 +32,4 @@ const checkDemand = function(demandType, parsedArgs) {
 	
 };
 
-module.exports = checkDemand;
+module.exports = checkDemandFlags;
