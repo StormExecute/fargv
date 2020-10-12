@@ -74,7 +74,7 @@ const parseFlags = function(argsList, parsedArgs, rememberAllFlags, rememberAllC
 				
 			}
 
-			parsedArgs[argName] = argValue
+			parsedArgs.flags[argName] = argValue
 			
 		} else if(!thArg.startsWith("-") && !thArg.includes("=")) {
 			
