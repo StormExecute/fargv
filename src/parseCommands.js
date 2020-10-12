@@ -1,3 +1,4 @@
+const { deepCloneObject } = require("../dependencies/deepClone");
 const cutByInitialMatch = require("../dependencies/cutByInitialMatch");
 
 const includeCommand = require("./includeCommand");
@@ -20,27 +21,9 @@ const callHandler = (nextCommandsAsArray, handler, state, nextCommands) => {
 
 const makeState = parsedArgs => {
 
-	const copyOfParsedArgs = Object.assign({}, parsedArgs);
+	const state = deepCloneObject({}, parsedArgs);
 
-	const state = {};
-
-	if(copyOfParsedArgs._) {
-
-		state._ = copyOfParsedArgs._;
-
-		delete copyOfParsedArgs._;
-
-	}
-
-	if(copyOfParsedArgs._warns) {
-
-		state.warns = copyOfParsedArgs._warns;
-
-		delete copyOfParsedArgs._warns;
-
-	}
-
-	state.flags = copyOfParsedArgs;
+	if(state.commands) delete state.commands;
 
 	return state;
 
