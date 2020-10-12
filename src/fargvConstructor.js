@@ -24,11 +24,10 @@ const parseOptions = require("./parseOptions");
 
 		},
 
-		_warns: Array<...string,>,
+		warns: null | Array<...string,>,
 
-
-
-		...[others]: any,
+		flags: Object<...any,>,
+		commands: Array<...string,>
 
 */
 
@@ -42,7 +41,12 @@ class fargv {
 
 		let parsedArgs = {
 			
-			_: {}
+			_: {},
+
+			warns: null,
+
+			flags: {},
+			commands: [],
 			
 		};
 		
@@ -54,7 +58,15 @@ class fargv {
 			
 		}
 		
-		if((!this.usableOptions.rememberExecNodePath && !this.usableOptions.rememberExecFilePath) || this.usableOptions.customArgv) delete parsedArgs["_"];
+		if(
+			(!this.usableOptions.rememberExecNodePath && !this.usableOptions.rememberExecFilePath && !this.usableOptions.rememberExecFileBasename)
+			||
+			this.usableOptions.customArgv
+		) {
+
+			delete parsedArgs["_"];
+
+		}
 
 		const optionsHaveCommands = Array.isArray(this.usableOptions.commands);
 		const optionsHaveSeparateCommandHandler = typeof this.usableOptions.separateCommandHandler == "function";
@@ -114,9 +126,15 @@ class fargv {
 			
 		}
 		
-		if(this.usableOptions.rememberWarns) {
-			
-			parsedArgs._warns = this.errors ? Object.assign([], this.errors) : [];
+		if(this.usableOptions.rememberWarns && Array.isArray(this.errors) && this.errors.length) {
+
+			parsedArgs.warns = [];
+
+			for (let i = 0; i < this.errors.length; ++i) {
+
+				parsedArgs.warns.push(this.errors[i]);
+
+			}
 			
 		}
 		
@@ -131,6 +149,12 @@ class fargv {
 				this.parseCommands.makeState(parsedArgs),
 				rememberAllCommands
 			);
+
+		}
+
+		for (let i = 0; i < rememberAllCommands.length; ++i) {
+
+			parsedArgs.commands.push(rememberAllCommands[i]);
 
 		}
 
