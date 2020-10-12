@@ -23,6 +23,8 @@ const noParseFlags = require("./set/noParseFlags");
 
 const allParse = require("./set/allParse");
 
+const returnFilter = require("./set/returnFilter");
+
 const remember = require("./set/remember");
 
 const warns = require("./set/warns");
@@ -40,7 +42,7 @@ const { tryToArray, tryToObject } = require("./tryToArrayAndObject");
 const generate = require("./generateArgv");
 const generateFromObject = require("./generateArgvFromObject");
 
-const init = require("./emulateInit");
+const { init, initF, initC, initFC } = require("./emulateInit");
 
 module.exports = {
 	
@@ -68,6 +70,8 @@ module.exports = {
 	noParseFlags,
 	
 	allParse,
+
+	returnFilter,
 	
 	remember,
 	
@@ -97,5 +101,10 @@ module.exports = {
 	generateFromObject,
 	
 	init,
+
+	initF,
+	initC,
+	initFC,
+	initCF: initFC,
 	
 };
