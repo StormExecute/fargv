@@ -39,6 +39,8 @@ let abstractStaticMethods = {
 
 	allParse(allParseState){},
 
+	returnFilter(newReturnFilterValue){},
+
 	remember(rememberState){},
 
 	warns(optionsState){},
@@ -67,6 +69,11 @@ let abstractStaticMethods = {
 	generateFromObject(getParsedArgs, objectOfValues, objectOfConfigs){},
 
 	init(options, mergingWithFargvWrapperOptions){},
+
+	initF(options, mergingWithFargvWrapperOptions){},
+	initC(options, mergingWithFargvWrapperOptions){},
+	initFC(options, mergingWithFargvWrapperOptions){},
+	initCF(options, mergingWithFargvWrapperOptions){},
 
 }
 
