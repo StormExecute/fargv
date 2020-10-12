@@ -9,10 +9,27 @@ const without = require("../../dependencies/objectWithout");
 
 const { deepCloneObject } = require("../../dependencies/deepClone");
 
-const assign = function(defaultObj, newObj) {
+const assign = function(defaultObj, flags, topLevelObject) {
+
+	flags = flags || {};
+	topLevelObject = topLevelObject || {};
 	
-	return deepCloneObject({}, defaultObj, newObj)
+	return deepCloneObject({}, {
+
+		warns: null,
+
+		flags: defaultObj,
+
+		commands: {},
+
+	}, { flags }, topLevelObject)
 	
+};
+
+const defaultUnderscore = {
+
+	_: { execNodePath, execFileBasename },
+
 };
 
 module.exports = [
@@ -20,25 +37,26 @@ module.exports = [
 	{
 		
 		_: { execFilePath, execFileBasename },
+
+		warns: null,
 		
-		...defaultArgv
+		flags: { ...defaultArgv },
+		commands: {},
 		
 	},
 	
 	assign(defaultArgv, {
-		
-		_: { execNodePath, execFileBasename },
-		
+
 		someNumber: "1",
-		
-	}),
+
+	}, defaultUnderscore),
 	
 	assign(without(defaultArgv, "noneWithoutEqSym")),
 	
-	assign(without(defaultArgv, "b"), {
-		
+	assign(without(defaultArgv, "b"), null, {
+
 		_: { execFilePath, execFileBasename }
-		
+
 	}),
 	
 	assign(defaultArgv, {
@@ -53,8 +71,6 @@ module.exports = [
 	
 	assign(defaultArgv, {
 		
-		_: { execNodePath, execFilePath, execFileBasename },
-		
 		a: parsedArray,
 		
 		"099": 123,
@@ -65,6 +81,10 @@ module.exports = [
 		
 		object: parsedObject,
 		
+	}, {
+
+		_: { execNodePath, execFilePath, execFileBasename }
+
 	}),
 
 ];
