@@ -19,16 +19,6 @@ const callHandler = (nextCommandsAsArray, handler, state, nextCommands) => {
 
 };
 
-const makeState = parsedArgs => {
-
-	const state = deepCloneObject({}, parsedArgs);
-
-	if(state.commands) delete state.commands;
-
-	return state;
-
-};
-
 const callSeparateCommandHandler = ({ nextCommandsAsArray, separateCommandHandler }, state, rememberCommands) => {
 
 	callHandler(
@@ -48,7 +38,7 @@ const fargvParseCommandArgs = function (rememberCommands, parsedArgs) {
 
 	this.usableOptions.commands = this.usableOptions.commands.sort((a, b) => b[0].split(" ").length - a[0].split(" ").length);
 
-	const state = makeState(parsedArgs);
+	const state = deepCloneObject({}, parsedArgs);
 	
 	const argvCommandsToStr = rememberCommands.join(" ");
 
@@ -94,7 +84,6 @@ const fargvParseCommandArgs = function (rememberCommands, parsedArgs) {
 	
 };
 
-fargvParseCommandArgs.makeState = makeState;
 fargvParseCommandArgs.callSeparateCommandHandler = callSeparateCommandHandler;
 
 module.exports = fargvParseCommandArgs;
