@@ -20,7 +20,7 @@ const assign = function(defaultObj, flags, topLevelObject) {
 
 		flags: defaultObj,
 
-		commands: {},
+		commands: [],
 
 	}, { flags }, topLevelObject)
 	
@@ -41,7 +41,7 @@ module.exports = [
 		warns: null,
 		
 		flags: { ...defaultArgv },
-		commands: {},
+		commands: [],
 		
 	},
 	
@@ -51,7 +51,7 @@ module.exports = [
 
 	}, defaultUnderscore),
 	
-	assign(without(defaultArgv, "noneWithoutEqSym")),
+	assign(without(defaultArgv, "noneWithoutEqSym"), null, { _: { execFileBasename } }),
 	
 	assign(without(defaultArgv, "b"), null, {
 

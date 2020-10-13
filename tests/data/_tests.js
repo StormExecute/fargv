@@ -39,6 +39,7 @@ module.exports = [
 	{
 		
 		rememberExecFilePath: false,
+		rememberExecFileBasename: false,
 		
 		noParseNoDefault: true,
 		
