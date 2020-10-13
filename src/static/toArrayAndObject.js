@@ -1,8 +1,7 @@
 const isObject = require("../../dependencies/isObject");
+const isEmptyObject = require("../../dependencies/isEmptyObject");
 
 const copyV = require("../../dependencies/copyValWithoutBind");
-
-const toJson = require("../../dependencies/toJson");
 
 const sysAlgo = "fargvToArrayAndObject";
 
@@ -82,7 +81,7 @@ const main = function(_from, sourceString, mergingOptions, fargvWrapper) {
 			
 		}
 		
-		if(toJson(mergingOptionsCopy) != "{}") {
+		if(!isEmptyObject(mergingOptionsCopy)) {
 			
 			configs[_from].allTypes = false;
 			
@@ -108,33 +107,33 @@ const main = function(_from, sourceString, mergingOptions, fargvWrapper) {
 		
 		return {
 			
-			value: emulateParse[sysAlgo],
+			value: emulateParse.flags[sysAlgo],
 			
-			_warns: emulateParse._warns //|| []
+			warns: emulateParse.warns
 			
 		};
 		
 	} else {
 		
-		return emulateParse[sysAlgo];
+		return emulateParse.flags[sysAlgo];
 		
 	}
 	
 };
 
 const fromFargvStringArray = function(sourceString, mergingOptions) {
-	
-	if(!sourceString.startsWith("[")) sourceString = "[" + sourceString;
-	if(!sourceString.endsWith("]")) sourceString += "]";
+
+	if(sourceString[0] != "[") sourceString = "[" + sourceString;
+	if(sourceString[sourceString.length - 1] != "]") sourceString += "]";
 	
 	return main("arrayParse", sourceString, mergingOptions, this);
 	
 };
-const fromFargvStringObject = function(sourceString, mergingOptions) { 
-	
-	if(!sourceString.startsWith("{")) sourceString = "{" + sourceString;
-	if(!sourceString.endsWith("}")) sourceString += "}";
-	
+const fromFargvStringObject = function(sourceString, mergingOptions) {
+
+	if(sourceString[0] != "{") sourceString = "{" + sourceString;
+	if(sourceString[sourceString.length - 1] != "}") sourceString += "}";
+
 	return main("objectParse", sourceString, mergingOptions, this);
 	
 };
