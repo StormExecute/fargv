@@ -3,6 +3,8 @@ const nodePath = require("path");
 const isObject = require("../dependencies/isObject");
 const isEmptyObject = require("../dependencies/isEmptyObject");
 
+const { deepCloneObject } = require("../dependencies/deepClone");
+
 const copyV = require("../dependencies/copyValWithoutBind");
 
 const parseOptions = require("./parseOptions");
@@ -39,7 +41,7 @@ class fargv {
 		
 		const argsList = Array.isArray(this.usableOptions.customArgv) ? copyV(this.usableOptions.customArgv) : process.argv.slice(2);
 
-		const parsedArgs = {
+		let parsedArgs = {
 			
 			//_: {},
 
@@ -171,20 +173,6 @@ class fargv {
 			}
 			
 		}
-		
-		if(optionsHaveCommands && rememberAllCommands.length) {
-
-			this.parseCommands(rememberAllCommands, parsedArgs.flags);
-
-		} else if(optionsHaveSeparateCommandHandler) {
-
-			this.parseCommands.callSeparateCommandHandler(
-				this.usableOptions,
-				this.parseCommands.makeState(parsedArgs),
-				rememberAllCommands
-			);
-
-		}
 
 		if(
 			!returnFilter
@@ -200,35 +188,53 @@ class fargv {
 
 		}
 
-		if(!returnFilter) {
+		if(returnFilter && returnFilter.length == 1) {
 
-			return parsedArgs;
+			if(!parsedArgs[returnFilter[0]]) {
 
-		} else if(returnFilter.length == 1) {
+				parsedArgs = {};
 
-			if(!parsedArgs[returnFilter[0]]) return {};
+			} else {
 
-			//return it on top-level
+				//move it on top-level
 
-			return parsedArgs[returnFilter[0]];
+				parsedArgs = parsedArgs[returnFilter[0]];
 
-		} else {
+			}
 
-			const returnArgs = {};
+		} else if(returnFilter && returnFilter.length > 1) {
+
+			const filterArgs = {};
 
 			for (let i = 0; i < returnFilter.length; ++i) {
 
 				if(parsedArgs.hasOwnProperty(returnFilter[i])) {
 
-					returnArgs[returnFilter[i]] = copyV(parsedArgs[returnFilter[i]]);
+					filterArgs[returnFilter[i]] = copyV(parsedArgs[returnFilter[i]]);
 
 				}
 
 			}
 
-			return returnArgs;
+			parsedArgs = filterArgs;
 
 		}
+		
+		if(optionsHaveCommands && rememberAllCommands.length) {
+
+			this.parseCommands(rememberAllCommands, parsedArgs);
+
+		} else if(optionsHaveSeparateCommandHandler) {
+
+			this.parseCommands.callSeparateCommandHandler(
+				this.usableOptions,
+				deepCloneObject({}, parsedArgs),
+				rememberAllCommands
+			);
+
+		}
+
+		return parsedArgs;
 		
 	}
 
