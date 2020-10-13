@@ -65,6 +65,7 @@ function upTest(about, state, nextCommands) {
 }
 
 fargv
+	.returnFilter(["_", "flags"])
 	.options({
 		
 		nextCommandsAsArray: true

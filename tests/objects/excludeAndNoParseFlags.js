@@ -30,6 +30,7 @@ const testFlags = fargv
 					.noParseFlags(["noneTwo", "noneThree"], true)
 					.allParse(true)
 					.options({ rememberExecFilePath: false })
+					.options({ returnFilter: "flags" })
 					.init();
 					
 if(objectEquals(testFlags, requiredResult)) {

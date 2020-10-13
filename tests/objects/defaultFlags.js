@@ -87,7 +87,7 @@ const testFlags = fargv.default({
 		
 	},
 	
-}).init({
+}).initF({
 	
 	rememberExecFilePath: false,
 	

@@ -41,7 +41,7 @@ const testFlags = fargv.arrayParse({
 	
 	mainTypes: true,
 	
-}).init();
+}).init().flags;
 
 if(objectEquals(testFlags, requiredResult)) {
 	

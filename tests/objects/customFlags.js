@@ -23,7 +23,7 @@ const requiredResult = {
 	
 };
 
-const testFlags = fargv.customWithGenerateFromObject({
+const { flags: testFlags } = fargv.customWithGenerateFromObject({
 	
 	a: 24,
 	

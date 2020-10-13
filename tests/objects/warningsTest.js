@@ -11,6 +11,8 @@ const parser = function(warnDetails) {
 	
 };
 
+const returnFilter = ["flags", "warns"];
+
 const requiredResultOptions = {
 	
 	rememberWarns: true,
@@ -26,6 +28,8 @@ const requiredResultOptions = {
 		"-a={b}"
 	
 	],
+
+	returnFilter,
 	
 };
 
@@ -52,6 +56,8 @@ const testOptions = fargv.warns({
 		"-a={b}"
 	
 	],
+
+	returnFilter,
 	
 });
 
@@ -65,9 +71,9 @@ if(!parserCalled) {
 	
 	const requiredResultFlags = {
 		
-		a: {},
+		flags: { a: {} },
 		
-		_warns: [requiredWarning],
+		warns: [requiredWarning],
 		
 	};
 	
