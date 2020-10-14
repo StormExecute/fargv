@@ -1,62 +1,77 @@
 const isObject = require("../../dependencies/isObject");
 
-const defaultConfigs = {
-	
+const mustConfigs = {
+
+	throwInsteadWarns: false,
+
 	showWarns: false,
+
 	rememberWarns: true,
-	
-	//getPositiveResultIfIsItPossible: false
-	
-	getPositiveResult: false,
-	getNegativeResult: false,
-	
+
 };
 
-const main = (attemp, getPositiveResult, getNegativeResult) => {
-	
-	if(attemp._warns.length && getNegativeResult) {
-		
-		return attemp._warns;
-		
-	} else if(attemp._warns.length) {
-		
-		return false;
-	
-	} else if(getPositiveResult) {
-		
-		return attemp.value;
-		
-	} else {
-	
-		return true;
-	
-	}
-	
-};
+//!!!The main functionality is duplicated in the test specifications for better performance!!!
 
 const tryToArray = function(sourceString, mergingOptions) {
 	
-	const configs = isObject(mergingOptions) ? Object.assign({}, defaultConfigs, mergingOptions) : Object.assign({}, defaultConfigs);
+	const configs = isObject(mergingOptions) ? Object.assign({}, mergingOptions, mustConfigs) : Object.assign({}, mustConfigs);
 	
 	const attemp = this.fromFargvStringArray(sourceString, configs);
-	
-	return main(attemp, configs.getPositiveResult, configs.getNegativeResult);
+
+	if(!attemp.warns) return attemp.value;
+
+	return false;
 	
 };
 
 const tryToObject = function(sourceString, mergingOptions) {
-	
-	const configs = isObject(mergingOptions) ? Object.assign({}, defaultConfigs, mergingOptions) : Object.assign({}, defaultConfigs);
+
+	const configs = isObject(mergingOptions) ? Object.assign({}, mergingOptions, mustConfigs) : Object.assign({}, mustConfigs);
 	
 	const attemp = this.fromFargvStringObject(sourceString, configs);
+
+	if(!attemp.warns) return attemp.value;
+
+	return false;
 	
-	return main(attemp, configs.getPositiveResult, configs.getNegativeResult);
-	
+};
+
+const sourceStringCanBeStrictFargvArray = function (sourceString, mergingOptions) {
+
+	if(sourceString[0] != "[") return false;
+	if(sourceString[sourceString.length - 1] != "]") return false;
+
+	const configs = isObject(mergingOptions) ? Object.assign({}, mergingOptions, mustConfigs) : Object.assign({}, mustConfigs);
+
+	const attemp = this.fromFargvStringArray(sourceString, configs);
+
+	if(!attemp.warns) return attemp.value;
+
+	return false;
+
+};
+
+const sourceStringCanBeStrictFargvObject = function (sourceString, mergingOptions) {
+
+	if(sourceString[0] != "{") return false;
+	if(sourceString[sourceString.length - 1] != "}") return false;
+
+	const configs = isObject(mergingOptions) ? Object.assign({}, mergingOptions, mustConfigs) : Object.assign({}, mustConfigs);
+
+	const attemp = this.fromFargvStringObject(sourceString, configs);
+
+	if(!attemp.warns) return attemp.value;
+
+	return false;
+
 };
 
 module.exports = {
 	
 	tryToArray,
-	tryToObject
+	tryToObject,
+
+	tryToStrictArray: sourceStringCanBeStrictFargvArray,
+	tryToStrictObject: sourceStringCanBeStrictFargvObject,
 	
 };
