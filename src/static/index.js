@@ -37,7 +37,7 @@ const state = require("./getState");
 const { toFargvStringArray, toFargvStringObject } = require("./fromArrayAndObject");
 const { fromFargvStringArray, fromFargvStringObject } = require("./toArrayAndObject");
 
-const { tryToArray, tryToObject } = require("./tryToArrayAndObject");
+const { tryToArray, tryToObject, tryToStrictArray, tryToStrictObject } = require("./tryToArrayAndObject");
 
 const generate = require("./generateArgv");
 const generateFromObject = require("./generateArgvFromObject");
@@ -94,8 +94,11 @@ module.exports = {
 	fromFargvStringArray,
 	fromFargvStringObject,
 	
-	tryToArray,
-	tryToObject,
+	strIsArray: tryToArray,
+	strIsObject: tryToObject,
+
+	strIsStrictArray: tryToStrictArray,
+	strIsStrictObject: tryToStrictObject,
 	
 	generate,
 	generateFromObject,
