@@ -115,7 +115,11 @@ const main = function(_from, sourceString, mergingOptions, fargvWrapper) {
 		
 	} else {
 		
-		return emulateParse.flags[sysAlgo];
+		return {
+
+			value: emulateParse.flags[sysAlgo]
+
+		};
 		
 	}
 	
