@@ -62,8 +62,11 @@ let abstractStaticMethods = {
 	fromFargvStringArray(sourceString, mergingOptions){},
 	fromFargvStringObject(sourceString, mergingOptions){},
 
-	tryToArray(sourceString, mergingOptions){},
-	tryToObject(sourceString, mergingOptions){},
+	strIsArray(sourceString, mergingOptions){},
+	strIsObject(sourceString, mergingOptions){},
+
+	strIsStrictArray(sourceString, mergingOptions){},
+	strIsStrictObject(sourceString, mergingOptions){},
 
 	generate(argName, argValue, ...args){},
 	generateFromObject(getParsedArgs, objectOfValues, objectOfConfigs){},
