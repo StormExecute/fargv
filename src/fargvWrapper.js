@@ -115,7 +115,7 @@ function fargvWrapper(options, mergingWithFargvWrapperOptions) {
 
 			fargvWrapper._options = deepCloneObject(fargvWrapper._options, options);
 
-			return new fargv(fargvWrapper._options);
+			return (new fargv(fargvWrapper._options)).result;
 
 		}
 
