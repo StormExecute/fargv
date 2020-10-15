@@ -1,5 +1,7 @@
 const isObject = require("../../../dependencies/isObject");
 
+const defaultOptions = require("../../data/_options");
+
 /*
 
 	Format:
@@ -53,32 +55,32 @@ const staticSetCommand = function(command, handler) {
 	
 	}
 	
-	const newCommand = commandIsArray ? [] : [[command, handler]];
+	const newCommand = commandIsArray ? new Array(3) : [command, handler, []];
 
 	if(commandIsArray) {
 
-		for(let i = 0; i < command.length; ++i) {
+		if(!command.length || typeof command[0] != "string") return this;
 
-			if(typeof command[i] == "string") {
+		newCommand[0] = command[0];
+		newCommand[1] = handler;
+		newCommand[2] = [];
 
-				newCommand.push([command[i], handler]);
+		for (let i = 1; i < command.length; ++i) {
+
+			//if its single command
+			if(typeof command[i] == "string" && command[i].split(" ").length == 1) {
+
+				newCommand[2].push(command[i]);
 
 			}
 
 		}
 
-		//here
-		if(!newCommand.length) return this;
-
 	}
 	
 	if(!Array.isArray(this._options.commands)) this._options.commands = [];
 
-	for (let i = 0; i < newCommand.length; ++i) {
-
-		this._options.commands.push(newCommand[i]);
-
-	}
+	this._options.commands.push(newCommand);
 	
 	return this;
 	
