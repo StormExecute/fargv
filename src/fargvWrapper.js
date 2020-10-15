@@ -107,7 +107,6 @@ const fargv = require("./fargvConstructor");
 function fargvWrapper(options, mergingWithFargvWrapperOptions) {
 	
 	//static fargv.options doesnt set they as default
-	
 	if(isObject(options)) {
 
 		if(mergingWithFargvWrapperOptions) {
@@ -119,12 +118,12 @@ function fargvWrapper(options, mergingWithFargvWrapperOptions) {
 			return new fargv(fargvWrapper._options);
 
 		}
-		
-		return new fargv(options);
+
+		return (new fargv(options)).result;
 		
 	} else {
-		
-		return new fargv(fargvWrapper._options);
+
+		return (new fargv(fargvWrapper._options)).result;
 		
 	}
 	
