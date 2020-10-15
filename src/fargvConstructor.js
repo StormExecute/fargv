@@ -34,6 +34,9 @@ const parseOptions = require("./parseOptions");
 */
 
 class fargv {
+
+	//its only to avoid IDE conflitcs
+	result = {}
 	
 	constructor(options) {
 		
@@ -174,6 +177,28 @@ class fargv {
 			
 		}
 
+		//checking command aliases
+		if(rememberAllCommands.length && this.usableOptions.commands) {
+
+			//aliases can be applied only for first command
+			const sourceCommand = rememberAllCommands[0];
+
+			for (let i = 0; i < this.usableOptions.commands.length; ++i) {
+
+				const optionCommand = this.usableOptions.commands[i];
+
+				if (optionCommand[2].length && ~optionCommand[2].indexOf(sourceCommand)) {
+
+					rememberAllCommands[0] = optionCommand[0];
+
+					break;
+
+				}
+
+			}
+
+		}
+
 		if(
 			!returnFilter
 			||
@@ -190,7 +215,7 @@ class fargv {
 
 		if(returnFilter && returnFilter.length == 1) {
 
-			if(!parsedArgs[returnFilter[0]]) {
+			if(!parsedArgs.hasOwnProperty(returnFilter[0])) {
 
 				parsedArgs = {};
 
@@ -234,7 +259,7 @@ class fargv {
 
 		}
 
-		return parsedArgs;
+		return { result: parsedArgs };
 		
 	}
 
