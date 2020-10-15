@@ -1,4 +1,6 @@
-const { deepCloneObject } = require("../dependencies/deepClone");
+const isObject = require("../dependencies/isObject");
+const { deepCloneObject, deepCloneArray } = require("../dependencies/deepClone");
+
 const cutByInitialMatch = require("../dependencies/cutByInitialMatch");
 
 const includeCommand = require("./includeCommand");
@@ -38,7 +40,11 @@ const fargvParseCommandArgs = function (rememberCommands, parsedArgs) {
 
 	this.usableOptions.commands = this.usableOptions.commands.sort((a, b) => b[0].split(" ").length - a[0].split(" ").length);
 
-	const state = deepCloneObject({}, parsedArgs);
+	const state = isObject(parsedArgs) ?
+			deepCloneObject({}, parsedArgs)
+		: Array.isArray(parsedArgs) ?
+			deepCloneArray([], parsedArgs)
+		: parsedArgs;
 	
 	const argvCommandsToStr = rememberCommands.join(" ");
 
