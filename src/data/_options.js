@@ -1,5 +1,51 @@
 /*
 
+	help: plainObject = {
+
+		flagsToCall: Array<...string,>,
+
+		status: boolean,
+
+		showForSpecificCommand: boolean,
+		showForSpecificFlag: boolean,
+
+		showExamples && showExamplesForSpecific: boolean | "commands" | "flags",
+
+		exit: boolean,
+
+		commands: plainObject = {
+
+			...[commandName]: plainObject = {
+
+				a | alias | aliases: array | string,
+				desc: string,
+				usage: string,
+				flags: array | string,
+				examples: array | string,
+
+			},
+
+		},
+
+		flags: plainObject = {
+
+			...[flagName]: plainObject = {
+
+				desc: string,
+				required: boolean | string,
+				deprecated: boolean | string,
+				empty: boolean,
+				type: "string" | "number" | "array" | "object" | "bigint" | "boolean",
+				default: any,
+				a | alias | aliases: array | string,
+				examples: array | string,
+
+			},
+
+		},
+
+	},
+
 	commands: array = [
 
 		...Array < command<string>, handler<function>, aliases: array<...string,> >,
@@ -84,6 +130,26 @@
 */
 
 module.exports = {
+
+	help: {
+
+		flagsToCall: ["h", "help"],
+
+		status: false,
+
+		showForSpecificCommand: true,
+		showForSpecificFlag: true,
+
+		showExamples: true,
+
+		showExamplesForSpecific: true,
+
+		exit: true,
+
+		commands: null,
+		flags: null,
+
+	},
 
 	commands: null,
 	separateCommandHandler: null,
