@@ -1,5 +1,9 @@
 const isObject = require("../../../dependencies/isObject");
 
+const { deepCloneObject } = require("../../../dependencies/deepClone");
+
+const getValue = require("../../../dependencies/getAnyPropValIfExists");
+
 const defaultOptions = require("../../data/_options");
 
 /*
@@ -22,13 +26,21 @@ const defaultOptions = require("../../data/_options");
 					
 				}
 				
-			}
+			}, {
+
+				a | alias | aliases: array | string,
+				desc: string,
+				usage: string,
+				flags: array | string,
+				examples: array | string,
+
+			}?
 
 		)
 
 */
 
-const staticSetCommand = function(command, handler) {
+const staticSetCommand = function(command, handler, help) {
 
 	//setSeparateCommandHandler
 	if(typeof command == "function") {
@@ -75,6 +87,60 @@ const staticSetCommand = function(command, handler) {
 			}
 
 		}
+
+	}
+
+	if(isObject(help)) {
+
+		help = deepCloneObject({}, help);
+
+		const alias = getValue(help, ["alias", "a", "aliases"]);
+
+		if(alias) {
+
+			const aliases = Array.isArray(alias) ? alias : [alias];
+
+			if(newCommand[2].length) {
+
+				for (let i = 0; i < newCommand[2].length; ++i) {
+
+					if(!~aliases.indexOf(newCommand[2][i])) {
+
+						aliases.push(newCommand[2][i]);
+
+					}
+
+				}
+
+			}
+
+			for (let i = 0; i < aliases.length; ++i) {
+
+				if(!~newCommand[2].indexOf(aliases[i])) {
+
+					newCommand[2].push(aliases[i])
+
+				}
+
+			}
+
+			help.alias = aliases;
+
+		}
+
+		if(!isObject(this._options.help)) {
+
+			this._options.help = deepCloneObject({}, defaultOptions.help, {status: true});
+
+		}
+
+		if(!isObject(this._options.help.commands)) {
+
+			this._options.help.commands = {};
+
+		}
+
+		this._options.help.commands[command] = help;
 
 	}
 	
