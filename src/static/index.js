@@ -8,6 +8,9 @@ const resetAll = require("./resetAll");
 const command = require("./set/command");
 const separateCommand = require("./set/separateCommand");
 
+const optionFlag = require("./set/optionFlag");
+const optionCommand = require("./set/optionCommand");
+
 const _default = require("./set/default");
 const custom = require("./set/custom");
 
@@ -55,6 +58,9 @@ module.exports = {
 
 	command,
 	separateCommand,
+
+	optionFlag,
+	optionCommand,
 
 	"default": _default,
 	custom,
