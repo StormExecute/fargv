@@ -37,12 +37,20 @@ module.exports = function(options) {
 	
 	const usableOptions = deepCloneObject({}, defaultOptions, options);
 
+	if(!isObject(usableOptions.help)) {
+
+		usableOptions.help = Object.assign({}, defaultOptions.help);
+
+	}
+
 	if(usableOptions.noParse || usableOptions.noParseNoDefault) return usableOptions;
-	
+
+	//sets defaultOptions just in case
 	for(let i = 0; i < parseWhat.length; i++) {
 	
 		const parse = parseWhat[i];
-		
+
+		//!!! only if !plainObject
 		if(!isObject(usableOptions[parse])) {
 			
 			usableOptions[parse] = deepCloneObject({}, defaultOptions[parseWhat]);
@@ -51,6 +59,7 @@ module.exports = function(options) {
 	
 	}
 
+	//move the appropriate lower options to mainParse
 	for(const k in options) {
 		
 		if(defaultParseModel.indexOf(k) != -1) {
