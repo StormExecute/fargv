@@ -11,6 +11,8 @@ const separateCommand = require("./set/separateCommand");
 const optionFlag = require("./set/optionFlag");
 const optionCommand = require("./set/optionCommand");
 
+const help = require("./set/integrateHelp");
+
 const _default = require("./set/default");
 const custom = require("./set/custom");
 
@@ -61,6 +63,8 @@ module.exports = {
 
 	optionFlag,
 	optionCommand,
+
+	help,
 
 	"default": _default,
 	custom,
