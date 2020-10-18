@@ -110,50 +110,7 @@ class fargv {
 			
 		}
 		
-		if(isObject(this.usableOptions.defaultArgv)) {
-			
-			for(const defaultArgName in this.usableOptions.defaultArgv) {
-
-				const [defaultValue, aliases] = copyV(this.usableOptions.defaultArgv[defaultArgName]);
-				
-				let findAliasStatus = false;
-				
-				//we must delete aliases anyway
-				for(let i = 0; i < aliases.length; i++) {
-					
-					if(findAliasStatus) {
-						
-						delete parsedArgs.flags[aliases[i]];
-						
-						continue;
-						
-					}
-					
-					if(typeof parsedArgs.flags[aliases[i]] != "undefined") {
-						
-						findAliasStatus = true;
-						
-						if(typeof parsedArgs.flags[defaultArgName] == "undefined") {
-
-							parsedArgs.flags[defaultArgName] = copyV(parsedArgs.flags[aliases[i]]);
-
-						}
-						
-						delete parsedArgs.flags[aliases[i]];
-						
-					}
-					
-				}
-				
-				if(!findAliasStatus && typeof parsedArgs.flags[defaultArgName] == "undefined") {
-
-					parsedArgs.flags[defaultArgName] = defaultValue;
-
-				}
-				
-			}
-			
-		}
+		this.parseFlagAliases(parsedArgs);
 		
 		if(
 			this.usableOptions.rememberWarns
@@ -178,26 +135,7 @@ class fargv {
 		}
 
 		//checking command aliases
-		if(rememberAllCommands.length && this.usableOptions.commands) {
-
-			//aliases can be applied only for first command
-			const sourceCommand = rememberAllCommands[0];
-
-			for (let i = 0; i < this.usableOptions.commands.length; ++i) {
-
-				const optionCommand = this.usableOptions.commands[i];
-
-				if (optionCommand[2].length && ~optionCommand[2].indexOf(sourceCommand)) {
-
-					rememberAllCommands[0] = optionCommand[0];
-
-					break;
-
-				}
-
-			}
-
-		}
+		this.parseCommandAliases(rememberAllCommands);
 
 		if(
 			!returnFilter
@@ -267,6 +205,8 @@ class fargv {
 
 	checkDemand(demandType, parsedArgs){}
 	parseFlags(argsList, parsedArgs, rememberAllFlags, rememberCommands){}
+	parseFlagAliases(parsedArgs){}
+	parseCommandAliases(rememberAllCommands){}
 	parseCommands(rememberCommands, parsedArgs){}
 
 }
