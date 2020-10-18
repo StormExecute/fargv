@@ -1,3 +1,5 @@
+const isObject = require("../dependencies/isObject");
+
 const copyV = require("../dependencies/copyValWithoutBind");
 
 const parseFlagAliases = function (parsedArgs) {
