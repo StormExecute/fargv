@@ -13,6 +13,17 @@ const parseFlags = function(argsList, parsedArgs, rememberAllFlags, rememberAllC
 			const argName = thPArg[0].replace(/^-+/, "");
 			
 			rememberAllFlags[argName] = 1;
+
+			if(this.usableOptions.help.status == true && this.usableOptions.help.flagsToCall.indexOf(argName) != -1 && !this._fargvShowHelpStatus) {
+
+				this.parseFlagAliases(parsedArgs);
+				this.parseCommandAliases(rememberAllCommands);
+
+				this.showHelp(!!this.usableOptions.help.exit, rememberAllCommands, rememberAllFlags);
+
+				this._fargvShowHelpStatus = true;
+
+			}
 			
 		}
 		
