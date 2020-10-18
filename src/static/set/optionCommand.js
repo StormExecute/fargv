@@ -55,6 +55,8 @@ const staticSetOptionCommandToHelp = function(commandName, commandHelpConfig) {
 
 	this._options.help.commands[commandName] = commandConfig;
 
+	return this;
+
 };
 
 module.exports = staticSetOptionCommandToHelp;
