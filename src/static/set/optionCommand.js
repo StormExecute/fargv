@@ -39,19 +39,21 @@ const staticSetOptionCommandToHelp = function(commandName, commandHelpConfig) {
 
 	const commandConfig = deepCloneObject({}, commandHelpConfig);
 
-	if(commandConfig.a) {
+	if(commandConfig.a && !commandConfig.alias) {
 
 		commandConfig.alias = commandConfig.a;
 
 		delete commandConfig.a;
 
-	} else if(commandConfig["aliases"]) {
+	} else if(commandConfig["aliases"] && !commandConfig.alias) {
 
 		commandConfig.alias = commandConfig["aliases"];
 
 		delete commandConfig["aliases"];
 
 	}
+
+	if(typeof commandConfig.alias == "string") commandConfig.alias = [commandConfig.alias];
 
 	this._options.help.commands[commandName] = commandConfig;
 

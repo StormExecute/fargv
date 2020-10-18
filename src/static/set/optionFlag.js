@@ -42,19 +42,21 @@ const staticSetOptionFlagToHelp = function(optionName, optionConfig) {
 	
 	const flagConfig = deepCloneObject({}, optionFlagDefaultModel, optionConfig);
 
-	if(flagConfig.a) {
+	if(flagConfig.a && !flagConfig.alias) {
 
 		flagConfig.alias = flagConfig.a;
 
 		delete flagConfig.a;
 
-	} else if(flagConfig["aliases"]) {
+	} else if(flagConfig["aliases"] && !flagConfig.alias) {
 
 		flagConfig.alias = flagConfig["aliases"];
 
 		delete flagConfig["aliases"];
 
 	}
+
+	if(typeof flagConfig.alias == "string") flagConfig.alias = [flagConfig.alias];
 	
 	if(typeof flagConfig.default != "undefined") {
 		
