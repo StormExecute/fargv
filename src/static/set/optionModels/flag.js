@@ -9,8 +9,9 @@ const optionFlagDefaultModel = {
 	empty: null,
 	
 	type: null,
-	
-	default: null,
+
+	//it must be undefined to avoid calling fargv.default for in vain in fargv.optionFlag
+	default: undefined,
 	alias: null,
 	
 	examples: null,
