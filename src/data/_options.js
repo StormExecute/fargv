@@ -11,6 +11,9 @@
 
 		mainCustomEndText: string,
 
+		showMainCommands: boolean,
+		showMainFlags: boolean,
+
 		showForSpecificCommand: boolean,
 		showForSpecificFlag: boolean,
 
@@ -146,6 +149,9 @@ module.exports = {
 		mainDesc: null,
 
 		mainCustomEndText: null,
+
+		showMainCommands: true,
+		showMainFlags: true,
 
 		showForSpecificCommand: true,
 		showForSpecificFlag: true,
