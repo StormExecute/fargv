@@ -27,7 +27,11 @@ const parseFlagAliases = function (parsedArgs) {
 
 					findAliasStatus = true;
 
-					if(typeof parsedArgs.flags[defaultArgName] == "undefined") {
+					if(
+						typeof parsedArgs.flags[defaultArgName] == "undefined"
+						&&
+						!(Array.isArray(this.usableOptions.excludeFlags) && ~this.usableOptions.excludeFlags.indexOf(defaultArgName))
+					) {
 
 						parsedArgs.flags[defaultArgName] = copyV(parsedArgs.flags[aliases[i]]);
 
@@ -39,7 +43,11 @@ const parseFlagAliases = function (parsedArgs) {
 
 			}
 
-			if(!findAliasStatus && typeof parsedArgs.flags[defaultArgName] == "undefined") {
+			if(
+				!findAliasStatus &&
+				typeof parsedArgs.flags[defaultArgName] == "undefined" &&
+				!(Array.isArray(this.usableOptions.excludeFlags) && ~this.usableOptions.excludeFlags.indexOf(defaultArgName))
+			) {
 
 				parsedArgs.flags[defaultArgName] = defaultValue;
 
