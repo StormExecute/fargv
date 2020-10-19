@@ -16,7 +16,6 @@ const parseFlags = function(argsList, parsedArgs, rememberAllFlags, rememberAllC
 
 			if(this.usableOptions.help.status == true && this.usableOptions.help.flagsToCall.indexOf(argName) != -1 && !this._fargvShowHelpStatus) {
 
-				this.parseFlagAliases(parsedArgs);
 				this.parseCommandAliases(rememberAllCommands);
 
 				this.showHelp(!!this.usableOptions.help.exit, rememberAllCommands, rememberAllFlags);
