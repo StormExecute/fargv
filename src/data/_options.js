@@ -6,6 +6,11 @@
 
 		status: boolean,
 
+		mainUsage: string,
+		mainDesc: string,
+
+		mainCustomEndText: string,
+
 		showForSpecificCommand: boolean,
 		showForSpecificFlag: boolean,
 
@@ -136,6 +141,11 @@ module.exports = {
 		flagsToCall: ["h", "help"],
 
 		status: false,
+
+		mainUsage: null,
+		mainDesc: null,
+
+		mainCustomEndText: null,
 
 		showForSpecificCommand: true,
 		showForSpecificFlag: true,
