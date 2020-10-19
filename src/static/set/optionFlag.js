@@ -57,36 +57,34 @@ const staticSetOptionFlagToHelp = function(optionName, optionConfig) {
 	}
 
 	if(typeof flagConfig.alias == "string") flagConfig.alias = [flagConfig.alias];
-	
-	if(typeof flagConfig.default != "undefined") {
-		
-		if(flagConfig.alias) {
-		
-			this.default({
-				
-				[optionName]: {
-					
-					_options: {
-						
-						value: flagConfig.default,
-						alias: flagConfig.alias,
-						
-					}
-					
+
+	if(flagConfig.alias) {
+
+		this.default({
+
+			[optionName]: {
+
+				_options: {
+
+					value: typeof flagConfig.default != "undefined"
+						? flagConfig.default
+						: defaultOptions.mainParse.defaultNoneValue,
+					alias: flagConfig.alias,
+
 				}
-				
-			});
-		
-		} else {
-			
-			this.default({
-				
-				[optionName]: flagConfig.default
-				
-			});
-			
-		}
-		
+
+			}
+
+		});
+
+	} else if(typeof flagConfig.default != "undefined") {
+
+		this.default({
+
+			[optionName]: flagConfig.default
+
+		});
+
 	}
 	
 	this._options.help.flags[optionName] = flagConfig;
