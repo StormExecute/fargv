@@ -112,7 +112,10 @@ const staticIntegrateHelp = function(objectOfHelp, redefine) {
 	if(typeof objectOfHelp.mainCustomEndText == "string") this._options.help.mainCustomEndText = objectOfHelp.mainCustomEndText;
 
 	if(objectOfHelp.hasOwnProperty("exit")) this._options.help.exit = !!objectOfHelp.exit;
-	
+
+	if(objectOfHelp.hasOwnProperty("showMainCommands")) this._options.help.showMainCommands = !!objectOfHelp.showMainCommands;
+	if(objectOfHelp.hasOwnProperty("showMainFlags")) this._options.help.showMainFlags = !!objectOfHelp.showMainFlags;
+
 	if(objectOfHelp.hasOwnProperty("showForSpecificCommand")) this._options.help.showForSpecificCommand = !!objectOfHelp.showForSpecificCommand;
 	if(objectOfHelp.hasOwnProperty("showForSpecificFlag")) this._options.help.showForSpecificFlag = !!objectOfHelp.showForSpecificFlag;
 	
