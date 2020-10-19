@@ -176,6 +176,31 @@ let commands = [
 
 	["warningsTest", defaultRunObject("warningsTest")],
 
+	["showHelpTest-All", defaultRunObject("showHelp") + fargv.generateFromObject({
+
+		HELP: 1
+
+	})],
+
+	["showHelpTest-SpecificFlag", defaultRunObject("showHelp") + "lala " + fargv.generateFromObject({
+
+		HELP: 2
+
+	})],
+
+	["showHelpTest-SpecificCommand", defaultRunObject("showHelp") + fargv.generate({
+
+		n: "s",
+		f: 1,
+		withoutEqualSym: true,
+
+	}, {
+
+		n: "HELP",
+		v: 3,
+
+	})],
+
 ];
 
 function startTests(commands) {
