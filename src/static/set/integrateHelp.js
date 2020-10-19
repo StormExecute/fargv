@@ -106,7 +106,11 @@ const staticIntegrateHelp = function(objectOfHelp, redefine) {
 		}
 
 	}
-	
+
+	if(typeof objectOfHelp.mainUsage == "string") this._options.help.mainUsage = objectOfHelp.mainUsage;
+	if(typeof objectOfHelp.mainDesc == "string") this._options.help.mainDesc = objectOfHelp.mainDesc;
+	if(typeof objectOfHelp.mainCustomEndText == "string") this._options.help.mainCustomEndText = objectOfHelp.mainCustomEndText;
+
 	if(objectOfHelp.hasOwnProperty("exit")) this._options.help.exit = !!objectOfHelp.exit;
 	
 	if(objectOfHelp.hasOwnProperty("showForSpecificCommand")) this._options.help.showForSpecificCommand = !!objectOfHelp.showForSpecificCommand;
