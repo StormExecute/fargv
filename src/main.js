@@ -1,5 +1,7 @@
 const errorHandler = require("./errorHandler");
 
+const showHelp = require("./showHelp");
+
 const checkDemand = require("./checkDemand");
 
 const parseNumeric = require("./parseFunctional/numeric");
@@ -10,6 +12,9 @@ const parseObject = require("./parseFunctional/object");
 const parseArrayAndObjectEl = require("./parseFunctional/arrayAndObjectEl");
 
 const getDefaultNoneValue = require("./getDefaultNoneValue");
+
+const parseFlagAliases = require("./parseFlagAliases");
+const parseCommandAliases = require("./parseCommandAliases");
 
 const parseFlags = require("./parseFlags");
 const parseThisFlag = require("./parseThisFlag");
@@ -23,9 +28,14 @@ fargv.prototype = Object.assign(fargv.prototype, {
 	
 	errorHandler,
 
+	showHelp,
+
 	checkDemand,
 	
 	getDefaultNoneValue,
+
+	parseFlagAliases,
+	parseCommandAliases,
 	
 	parseFlags,
 	parseThisFlag,
