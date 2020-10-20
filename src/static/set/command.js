@@ -175,7 +175,7 @@ const staticSetCommand = function(command, handler, help) {
 						&&
 						!(isArrayOptionsCommands && checkDuplicateAliases(this._options.commands, a))
 						&&
-						!~a.indexOf(command[i])
+						!~aliases.indexOf(a)
 					) {
 
 						aliases.push(a);
