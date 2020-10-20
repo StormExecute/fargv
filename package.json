@@ -6,8 +6,8 @@
   "description": "A simple parser of process.argv for nodejs",
   "homepage": "https://github.com/StormExecute/fargv/#readme",
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/StormExecute/fargv.git"
+    "type": "git",
+    "url": "https://github.com/StormExecute/fargv.git"
   },
   "main": "src/main.js",
   "scripts": {
@@ -21,17 +21,25 @@
     "fargv",
     "fast-argv",
     "fast-argv-parser",
-	"flag",
-	"flags",
-	"flags-parser",
+    "flag",
+    "flags",
+    "flags-parser",
     "arg",
     "args",
     "args-parser",
     "argv",
     "argv-parser",
     "parser",
+    "parsing",
     "argument",
     "arguments",
-    "arguments-parser"
-  ]
+    "arguments-parser",
+    "option",
+    "cli",
+    "command"
+  ],
+  "dependencies": {
+    "cliui": "^6.0.0"
+  },
+  "__modifiedBy": "npm-xeraglobal"
 }
