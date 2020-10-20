@@ -29,7 +29,26 @@ Format:
 	
 */
 
-//plainObject | string, boolean
+//defaultArgv: plainObject<usableOptions.defaultArgv>, alias: string; returns boolean
+const checkDuplicateAliases = (defaultArgv, alias) => {
+
+	for(const prop in defaultArgv) {
+
+		const v = defaultArgv[prop];
+
+		if(Array.isArray(v)) {
+
+			if(~v[1].indexOf(alias)) return true;
+
+		}
+
+	}
+
+	return false;
+
+};
+
+//objectOfValues: plainObject | string, redefine: boolean; returns this<fargvWrapper>
 const staticSetDefaultArgValues = function(objectOfValues, redefine) {
 	
 	if(objectOfValues == "reset" || redefine) {
@@ -43,6 +62,8 @@ const staticSetDefaultArgValues = function(objectOfValues, redefine) {
 	}
 	
 	if(!isObject(objectOfValues) || isEmptyObject(objectOfValues)) return this;
+
+	const isObjectDefaultArgv = isObject(this._options.defaultArgv);
 	
 	const defaultArgv = {};
 	
@@ -70,7 +91,21 @@ const staticSetDefaultArgValues = function(objectOfValues, redefine) {
 				
 				for(let i = 0; i < alias.length; ++i) {
 					
-					if(typeof alias[i] == "string") {
+					if(
+						typeof alias[i] == "string"
+						&&
+						alias[i] != argName
+						&&
+						!(isObjectDefaultArgv && this._options.defaultArgv[alias[i]])
+						&&
+						!(isObjectDefaultArgv && checkDuplicateAliases(this._options.defaultArgv, alias[i]))
+						&&
+						!defaultArgv[alias[i]]
+						&&
+						!checkDuplicateAliases(defaultArgv, alias[i])
+						&&
+						!~defaultArgv[argName][1].indexOf(alias[i])
+					) {
 						
 						defaultArgv[argName][1].push(alias[i]);
 						
@@ -78,7 +113,19 @@ const staticSetDefaultArgValues = function(objectOfValues, redefine) {
 					
 				}
 				
-			} else if(typeof alias == "string") {
+			} else if(
+				typeof alias == "string"
+				&&
+				alias != argName
+				&&
+				!(isObjectDefaultArgv && this._options.defaultArgv[alias])
+				&&
+				!(isObjectDefaultArgv && checkDuplicateAliases(this._options.defaultArgv, alias))
+				&&
+				!defaultArgv[alias]
+				&&
+				!checkDuplicateAliases(defaultArgv, alias)
+			) {
 				
 				defaultArgv[argName][1] = [alias];
 				
@@ -94,9 +141,60 @@ const staticSetDefaultArgValues = function(objectOfValues, redefine) {
 
 			} else {
 
-				if(!Array.isArray(argValue[2]) && typeof argValue[2] != "string") continue;
+				if(
+					typeof argValue[2] == "string"
+					&&
+					argValue[2] != argName
+					&&
+					!(isObjectDefaultArgv && this._options.defaultArgv[argValue[2]])
+					&&
+					!defaultArgv[argValue[2]]
+					&&
+					!checkDuplicateAliases(defaultArgv, argValue[2])
+					&&
+					!(isObjectDefaultArgv && checkDuplicateAliases(this._options.defaultArgv, argValue[2]))
+				) {
 
-				if(typeof argValue[2] == "string") argValue[2] = [argValue[2]];
+					argValue[2] = [argValue[2]];
+
+				} else if(Array.isArray(argValue[2])) {
+
+					const temp = [];
+
+					for(let i = 0; i < argValue[2].length; ++i) {
+
+						const v = argValue[2][i];
+
+						if(
+							typeof v == "string"
+							&&
+							v != argName
+							&&
+							!(isObjectDefaultArgv && this._options.defaultArgv[v])
+							&&
+							!(isObjectDefaultArgv && checkDuplicateAliases(this._options.defaultArgv, v))
+							&&
+							!defaultArgv[v]
+							&&
+							!checkDuplicateAliases(defaultArgv, v)
+							&&
+							!~temp.indexOf(v)
+						) {
+
+							temp.push(v);
+
+						}
+
+					}
+
+					if(temp.length) argValue[2] = temp;
+					else continue;
+
+				} else {
+
+					continue;
+
+				}
 
 				argValue.splice(0, 1);
 

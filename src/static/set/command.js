@@ -40,6 +40,33 @@ const defaultOptions = require("../../data/_options");
 
 */
 
+//optionsCommands: plainObject<usableOptions.commands>, alias: string; returns: boolean
+const checkDuplicateAliases = (optionsCommands, alias) => {
+
+	for(let i = 0; i < optionsCommands.length; ++i) {
+
+		const command = optionsCommands[i];
+
+		if(Array.isArray(command)) {
+
+			if(optionsCommands[0] == alias) {
+
+				return true;
+
+			} else if(Array.isArray(optionsCommands[2])) {
+
+				if (~optionsCommands[2].indexOf(alias)) return true;
+
+			}
+
+		}
+
+	}
+
+	return false;
+
+};
+
 const staticSetCommand = function(command, handler, help) {
 
 	//setSeparateCommandHandler
@@ -66,6 +93,8 @@ const staticSetCommand = function(command, handler, help) {
 		return this;
 	
 	}
+
+	const isArrayOptionsCommands = Array.isArray(this._options.commands);
 	
 	const newCommand = commandIsArray ? new Array(3) : [command, handler, []];
 
@@ -80,7 +109,18 @@ const staticSetCommand = function(command, handler, help) {
 		for (let i = 1; i < command.length; ++i) {
 
 			//if its single command
-			if(typeof command[i] == "string" && command[i].split(" ").length == 1) {
+			if(
+				typeof command[i] == "string"
+				&&
+				command[i].split(" ").length == 1
+				&&
+				command[i] != newCommand[0]
+				&&
+				//and duplicate command names
+				!(isArrayOptionsCommands && checkDuplicateAliases(this._options.commands, command[i]))
+				&&
+				!~newCommand[2].indexOf(command[i])
+			) {
 
 				newCommand[2].push(command[i]);
 
@@ -90,15 +130,61 @@ const staticSetCommand = function(command, handler, help) {
 
 	}
 
+	if(newCommand[2].length && !isObject(help)) {
+
+		help = { alias: [] };
+
+	}
+
 	if(isObject(help)) {
 
 		help = deepCloneObject({}, help);
 
-		const alias = getValue(help, ["alias", "a", "aliases"]);
+		let alias = getValue(help, ["alias", "a", "aliases"]);
+
+		if(!alias && newCommand[2].length) alias = [];
 
 		if(alias) {
 
-			const aliases = Array.isArray(alias) ? alias : [alias];
+			const aliases = [];
+
+			if(
+				typeof alias == "string"
+				&&
+				alias.split(" ").length == 1
+				&&
+				alias != newCommand[0]
+				&&
+				!(isArrayOptionsCommands && checkDuplicateAliases(this._options.commands, alias))
+			) {
+
+				aliases.push(alias);
+
+			} else if(Array.isArray(alias)) {
+
+				for (let i = 0; i < alias.length; ++i) {
+
+					const a = alias[i];
+
+					if(
+						typeof a == "string"
+						&&
+						a.split(" ").length == 1
+						&&
+						a != newCommand[0]
+						&&
+						!(isArrayOptionsCommands && checkDuplicateAliases(this._options.commands, a))
+						&&
+						!~a.indexOf(command[i])
+					) {
+
+						aliases.push(a);
+
+					}
+
+				}
+
+			}
 
 			if(newCommand[2].length) {
 
@@ -140,11 +226,11 @@ const staticSetCommand = function(command, handler, help) {
 
 		}
 
-		this._options.help.commands[command] = help;
+		this._options.help.commands[newCommand[0]] = help;
 
 	}
 	
-	if(!Array.isArray(this._options.commands)) this._options.commands = [];
+	if(!isArrayOptionsCommands) this._options.commands = [];
 
 	this._options.commands.push(newCommand);
 	
