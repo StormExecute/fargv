@@ -65,11 +65,7 @@
 	alwaysCallSeparateCommandHanler: boolean,
 	nextCommandsAsArray: boolean,
 
-	customArgv: array = [
-
-		...Array < flagName<string>, flagValue<string> >,
-
-	],
+	customArgv: array<string...,>,
 
 	defaultArgv: plainObject = {
 ,
