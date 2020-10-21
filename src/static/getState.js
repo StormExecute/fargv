@@ -1,6 +1,10 @@
+const isObject = require("../../dependencies/isObject");
+
 const copyV = require("../../dependencies/copyValWithoutBind");
 
 const getStateOfOptionsAndDefaults = function(about) {
+
+	if(!isObject(this._options)) return undefined;
 	
 	switch(about) {
 		
@@ -10,7 +14,7 @@ const getStateOfOptionsAndDefaults = function(about) {
 		
 		break;
 		
-		case "commmands":
+		case "commands":
 		case "command":
 		case "comma":
 		case "com":
@@ -56,10 +60,16 @@ const getStateOfOptionsAndDefaults = function(about) {
 			return copyV(this._options);
 		
 		break;
+
+		case "help":
+
+			return copyV(this._options.help);
+
+		break;
 		
 		default:
 		
-			return copyV(this._options) || {};
+			return copyV(this._options);
 		
 		break;
 		
