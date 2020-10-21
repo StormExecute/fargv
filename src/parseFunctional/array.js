@@ -160,13 +160,13 @@ const parseArray = function (argValue, callNumber) {
 		
 		if(skipComma) {
 			
-			if(thSym == ",") skipComma = false;
+			if(thSym == this.usableOptions.defaultCommaSplitSym) skipComma = false;
 			
 			continue;
 			
 		}
 		
-		if(thSym == "," && !arrayInArrayForStr && !objectInObjectForStr) {
+		if(thSym == this.usableOptions.defaultCommaSplitSym && !arrayInArrayForStr && !objectInObjectForStr) {
 			
 			result[resultI] = this.parseArrayAndObjectEl(result[resultI], "array");
 			

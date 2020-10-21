@@ -200,6 +200,8 @@ module.exports = {
 	unlimitedFlagDefinitionCharacters: true,
 	
 	supportOnlyLatinArgs: true,
+
+	defaultCommaSplitSym: ",",
 	
 	allowSpacesAsValues: true,
 	

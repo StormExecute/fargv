@@ -57,7 +57,7 @@ const parseObject = function (argValue, callNumber) {
 		
 		if(skipComma) {
 			
-			if(thSym == ",") skipComma = false;
+			if(thSym == this.usableOptions.defaultCommaSplitSym) skipComma = false;
 			
 			continue;
 			
@@ -176,7 +176,7 @@ const parseObject = function (argValue, callNumber) {
 				
 			}
 			
-			if(thSym == "," && !arrayInArrayForStr && !objectInObjectForStr) {
+			if(thSym == this.usableOptions.defaultCommaSplitSym && !arrayInArrayForStr && !objectInObjectForStr) {
 			
 				result[tempKey] = this.parseArrayAndObjectEl(result[tempKey], "object");
 				
