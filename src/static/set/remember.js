@@ -13,7 +13,8 @@ const staticSetRemember = function(rememberState) {
 		this.createOptions();
 		
 		this._options = deepCloneObject(this._options, {
-			
+
+			rememberExecFileBasename: defaultOptions.rememberExecFileBasename,
 			rememberExecFilePath: defaultOptions.rememberExecFilePath,
 			rememberExecNodePath: defaultOptions.rememberExecNodePath,
 			
@@ -26,12 +27,19 @@ const staticSetRemember = function(rememberState) {
 	if(!isObject(rememberState)) return this;
 	
 	const options = {};
+
+	if(typeof rememberState.file == "boolean" || typeof rememberState.fileName == "boolean" || typeof rememberState.execFileBasename == "boolean") {
+
+		options.rememberExecFileBasename = getValue(rememberState, ["file", "fileName", "execFileBasename"], defaultOptions.rememberExecFileBasename);
+
+	}
 	
-	if(typeof rememberState.file == "boolean" || typeof rememberState.filePath == "boolean" || typeof rememberState.execFilePath == "boolean") {
+	if(typeof rememberState.filePath == "boolean" || typeof rememberState.execFilePath == "boolean") {
 		
-		options.rememberExecFilePath = getValue(rememberState, ["file", "filePath", "execFilePath"], defaultOptions.rememberExecFilePath);
+		options.rememberExecFilePath = getValue(rememberState, ["filePath", "execFilePath"], defaultOptions.rememberExecFilePath);
 		
 	}
+
 	if(typeof rememberState.node == "boolean" || typeof rememberState.nodePath == "boolean" || typeof rememberState.execNodePath == "boolean") {
 		
 		options.rememberExecNodePath = getValue(rememberState, ["node", "nodePath", "execNodePath"], defaultOptions.rememberExecNodePath);
