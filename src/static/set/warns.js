@@ -39,13 +39,11 @@ const staticSetWarningOptions = function(optionsState) {
 		
 	}
 	
-	if(typeof optionsState["throw"] == "boolean") {
+	if(typeof optionsState["throw"] == "boolean" && !optionsState.hasOwnProperty("throwInsteadWarns")) {
 		
 		options.throwInsteadWarns = optionsState["throw"];
 		
-	}
-	
-	if(typeof optionsState["throwInsteadWarns"] == "boolean") {
+	} else if(typeof optionsState["throwInsteadWarns"] == "boolean" && !optionsState.hasOwnProperty("throw")) {
 		
 		options.throwInsteadWarns = optionsState["throwInsteadWarns"];
 		
