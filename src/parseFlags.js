@@ -26,7 +26,7 @@ const parseFlags = function(argsList, parsedArgs, rememberAllFlags, rememberAllC
 			
 		}
 		
-		const isFlag = this.usableOptions.unlimitedFlagDefinitionCharacters ? thArg.startsWith("-") : thArg.startsWith("--") || thArg.match(/^-\w/i);
+		const isFlag = this.usableOptions.unlimitedFlagDefinitionCharacters ? thArg.startsWith("-") : thArg.match(/^--[^-].+$/i) || thArg.match(/^-[^-]$/i);
 
 		if(isFlag && (!this.usableOptions.includeEmptyFlags ? thArg.includes("=") : true)) {
 
