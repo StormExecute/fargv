@@ -1,5 +1,9 @@
 # fargv changelog
 
+## v1.0.1
+
+Added the dirty and .idea folder to .npmignore
+
 ## v1.0.0
 
 * Static methods:

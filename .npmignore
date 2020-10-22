@@ -1,2 +1,4 @@
 dependencies/toJson.js
 tests/
+dirty/
+.idea/

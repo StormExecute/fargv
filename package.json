@@ -1,6 +1,6 @@
 {
   "name": "fargv",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "cotenochek",
   "license": "MIT",
   "description": "A simple parser of process.argv for nodejs",
