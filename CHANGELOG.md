@@ -4,7 +4,14 @@
 
 * Static methods:
 	* options
+	* createOptions
+	* reset
+	* resetAll
 	* command
+	* separateCommand
+	* optionFlag
+	* optionCommand
+	* help
 	* default
 	* custom
 	* customWithGenerate
@@ -28,14 +35,23 @@
 	* toFargvStringObject
 	* fromFargvStringArray
 	* fromFargvStringObject
-	* tryToArray
-	* tryToObject
+	* strIsArray
+	* strIsObject
+	* strIsStrictArray
+	* strIsStrictObject
 	* generate
 	* generateFromObject
 	* init
+	* initF
+	* initC
+	* initFC && initCF
 	
 * Options:
+    * help
 	* commands
+	* separateCommandHandler
+	* callAppropriateCommandHandlerOnlyOnce
+	* alwaysCallSeparateCommandHanler
 	* nextCommandsAsArray
 	* customArgv
 	* defaultArgv
@@ -44,8 +60,10 @@
 	* excludeFlags
 	* noParseFlags
 	* noParseNoDefaultFlags
+	* returnFilter
 	* rememberExecNodePath
 	* rememberExecFilePath
+	* rememberExecFileBasename
 	* rememberWarns
 	* showWarns
 	* parseWarn
@@ -53,6 +71,7 @@
 	* includeEmptyFlags
 	* unlimitedFlagDefinitionCharacters
 	* supportOnlyLatinArgs
+	* defaultCommaSplitSym
 	* allowSpacesAsValues
 	* useDnvForFirstSpaceOP
 	* noParse
@@ -63,6 +82,7 @@
 		* allTypes
 		* mainTypes
 		* minorTypes
+		* numericSeparator
 		* number
 		* bigint
 		* boolean
