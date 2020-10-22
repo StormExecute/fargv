@@ -1,8 +1,7 @@
 const isObject = require("../../dependencies/isObject");
+const isEmptyObject = require("../../dependencies/isEmptyObject");
 
 const { deepCloneObject } = require("../../dependencies/deepClone");
-
-const toJson = require("../../dependencies/toJson");
 
 const { toFargvStringArray, toFargvStringObject } = require("./fromArrayAndObject");
 
@@ -74,6 +73,7 @@ const generateArgvFromTypesToString = function(argName, argValue, ...args) {
 						: (typeof argName == "string" && isObject(args[0])) ?
 						
 							[
+
 								{
 									
 									_options: args[0]._options || args[0]
@@ -114,7 +114,7 @@ const generateArgvFromTypesToString = function(argName, argValue, ...args) {
 				
 				if(option == "useSpacesAsDelimiters" && /* ignore false and others */ (isObject(optionValue) || optionValue == true)) {
 					
-					options.useSpacesAsDelimiters = isObject(optionValue) ? deepCloneObject(options.useSpacesAsDelimiters, optionValue) : {"array": true, "object": true};
+					options.useSpacesAsDelimiters = optionValue == true ? {"array": true, "object": true} : deepCloneObject(options.useSpacesAsDelimiters, optionValue);
 					
 				}
 				
@@ -174,7 +174,7 @@ const generateArgvFromTypesToString = function(argName, argValue, ...args) {
 		
 	}
 	
-	return toJson(result) == "{}" ? Object.assign({}, defaultNegativeResult) : {
+	return isEmptyObject(result) ? Object.assign({}, defaultNegativeResult) : {
 		
 		result,
 		
