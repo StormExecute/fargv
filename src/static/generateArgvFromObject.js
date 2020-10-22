@@ -1,8 +1,7 @@
 const isObject = require("../../dependencies/isObject");
+const isEmptyObject = require("../../dependencies/isEmptyObject");
 
 const copyV = require("../../dependencies/copyValWithoutBind");
-
-const toJson = require("../../dependencies/toJson");
 
 /*
 
@@ -89,7 +88,7 @@ const generateArgvFromUsuallyObject = function(getParsedArgs, objectOfValues, ob
 		
 	}
 	
-	if(!isObject(objectOfValues) || toJson(objectOfValues) == "{}") return Object.assign({}, defaultNegativeResult);
+	if(!isObject(objectOfValues) || isEmptyObject(objectOfValues)) return Object.assign({}, defaultNegativeResult);
 	
 	const result = [];
 	let moreOptions = false;
@@ -149,7 +148,7 @@ const generateArgvFromUsuallyObject = function(getParsedArgs, objectOfValues, ob
 			
 			const resultCopy = Object.assign([], result);
 			
-			if(isObject(moreOptions[position]) && toJson(moreOptions[position]) != "{}") {
+			if(isObject(moreOptions[position]) && !isEmptyObject(moreOptions[position])) {
 				
 				for(const argName in moreOptions[position]) {
 					
