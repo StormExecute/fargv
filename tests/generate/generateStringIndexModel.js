@@ -26,11 +26,29 @@ const defaultIndexModel = {
 	
 };
 
+const isWindows = process.platform.startsWith("win");
+
+let prettyDefaultIndexModel = toPrettyStringObject(defaultIndexModel);
+
+if(isWindows) {
+
+	//to CRLF
+
+	prettyDefaultIndexModel = prettyDefaultIndexModel.replace(/\n/g, "\r\n")
+
+} else {
+
+	//to LF
+
+	prettyDefaultIndexModel = prettyDefaultIndexModel.replace(/\r\n/g, "\n")
+
+}
+
 fs.writeFileSync(
 
 	path.join(__dirname, defaultIndexModelPath),
 	
-	"module.exports = " + toPrettyStringObject(defaultIndexModel).replace(/\n/g, "\r\n") + ";",
+	"module.exports = " + prettyDefaultIndexModel + ";",
 	
 	{encoding: 'utf8'},
 	
