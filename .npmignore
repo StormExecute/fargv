@@ -1,3 +1,8 @@
+dependencies/arrayEquals.js
+dependencies/objectDiff.js
+dependencies/objectEquals.js
+dependencies/objectSort.js
+dependencies/objectWithout.js
 dependencies/toJson.js
 tests/
 dirty/
