@@ -1,3 +1,5 @@
+const fs = require("fs");
+
 const isObject = require("../dependencies/isObject");
 
 const { deepCloneObject } = require("../dependencies/deepClone");
@@ -106,8 +108,25 @@ abstractStaticMethods = Object.assign(abstractStaticMethods, staticMethods);
 const fargv = require("./fargvConstructor");
 
 function fargvWrapper(options, mergingWithFargvWrapperOptions) {
-	
-	//static fargv.options doesnt set they as default
+
+	if(
+		Array.isArray(options)
+		&&
+		options[0] == "useConfigsFromFile"
+		&&
+		typeof options[1] == "string"
+		&&
+		options[1].match(/\.(?:js|json)$/)
+	) {
+
+		if(fs.existsSync(options[1])) {
+
+			options = require(options[1]);
+
+		}
+
+	}
+
 	if(isObject(options)) {
 
 		if(mergingWithFargvWrapperOptions) {
