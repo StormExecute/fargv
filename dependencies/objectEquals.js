@@ -1,6 +1,7 @@
 /*
 
 	Original: https://stackoverflow.com/questions/201183/how-to-determine-equality-for-two-javascript-objects/16788517#16788517
+	&& modified by Cameron Osakiski
 
 */
 
@@ -16,6 +17,7 @@ function objectEquals(x, y) {
     if (x instanceof RegExp) { return x === y; }
     if (x === y || x.valueOf() === y.valueOf()) { return true; }
     if (Array.isArray(x) && x.length !== y.length) { return false; }
+    if(Object.is(NaN, x) && Object.is(NaN, y)) { return true; }
 
     // if they are dates, they must had equal valueOf
     if (x instanceof Date) { return false; }

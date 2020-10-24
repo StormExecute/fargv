@@ -46,23 +46,23 @@ const objectDifference = (obj1, obj2) => {
 	
 		for(const key in thisObj) {
 			
-			const obj1prop = thisObj[key];
-			const obj2prop = thisObj2[key];
+			const obj1value = thisObj[key];
+			const obj2value = thisObj2[key];
 			
 			const thisDiffName = key + delimiter + thisObjStr;
 			const thatDiffName = key + delimiter + thatObjStr;
 			
 			if(thisObj2.hasOwnProperty(key)) {
 				
-				if(typeof obj1prop != typeof obj2prop) {
+				if(typeof obj1value != typeof obj2value) {
 					
-					result[thisDiffName] = obj1prop;
+					result[thisDiffName] = obj1value;
 					
-				} else if(isObject(obj1prop) && isObject(obj2prop) && !result[thatDiffName + delimiter + thisObjStr]) {
+				} else if(isObject(obj1value) && isObject(obj2value) && !result[thatDiffName + delimiter + thisObjStr]) {
 					
 					// !result[thatDiffName + delimiter + thisDiffName] for ignore dublicates
 					
-					const diff = objectDifference(obj1prop, obj2prop);
+					const diff = objectDifference(obj1value, obj2value);
 					
 					if(diff) {
 						
@@ -70,27 +70,31 @@ const objectDifference = (obj1, obj2) => {
 						
 					}
 					
-				} else if(isObject(obj1prop) && isObject(obj2prop) && result[thatDiffName + delimiter + thisObjStr]) {
+				} else if(isObject(obj1value) && isObject(obj2value) && result[thatDiffName + delimiter + thisObjStr]) {
 					
 					//catch for ignore dublicates
 					
-				} else if(Array.isArray(obj1prop) && Array.isArray(obj2prop)) {
+				} else if(Array.isArray(obj1value) && Array.isArray(obj2value)) {
 
-					if(!arrayEquals(obj1prop, obj2prop)) {
+					if(!arrayEquals(obj1value, obj2value)) {
 
-						result[thisDiffName] = obj1prop;
+						result[thisDiffName] = obj1value;
 
 					}
 					
-				} else if(obj1prop != obj2prop) {
+				} else if(Object.is(NaN, obj1value) && Object.is(NaN, obj2value)) {
+
+					//continue
+
+				} else if(obj1value != obj2value) {
 					
-					result[thisDiffName] = obj1prop;
+					result[thisDiffName] = obj1value;
 					
 				}
 				
 			} else {
 				
-				result[thisDiffName] = obj1prop;
+				result[thisDiffName] = obj1value;
 
 				result[thatDiffName] = undefined;
 				
