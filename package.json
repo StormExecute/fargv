@@ -1,9 +1,9 @@
 {
   "name": "fargv",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "cotenochek",
   "license": "MIT",
-  "description": "A simple parser of process.argv for nodejs",
+  "description": "Multi-customizable parser of process.argv for nodejs.",
   "homepage": "https://github.com/StormExecute/fargv/#readme",
   "repository": {
     "type": "git",

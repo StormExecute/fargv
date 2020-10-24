@@ -212,7 +212,7 @@ $ node ./withStaticMethods.js -a=NaN -b -cc="[1n, 2_000n]" --d=1n
 # API
 
 <a name="apiFargv"></a>
-### fargv(options?)
+### fargv(options: {} | array<string, string>, mergingWithFargvWrapperOptions: boolean | undefined)
 
 Returns an `object` with the following interface:
 
@@ -275,7 +275,18 @@ A flag object, where the name of the property is the flag name, and its value is
 String array of commands that were stored during parsing.
 
 <a name="apiFargvOptions"></a>
-Options passed to fargv have the following interface(fargvOptions):
+## fargvOptions interface
+If you need to pass options from .js or .json file - the following structure is used:
+
+```typescript
+
+type fargvOptionsFromFile = ["useConfigsFromFile", string]
+
+```
+
+Where the element at index 0 indicates that fargv really needs to process the incoming parameter as connecting a third-party configuration file. The second element is the path to the configuration file (we recommend using process.cwd with the path wrapper from the node.js).
+
+The standard interface for options that are passed to fargv is as follows(fargvOptions):
 
 ```typescript
 

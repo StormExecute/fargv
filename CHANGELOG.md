@@ -1,5 +1,10 @@
 # fargv changelog
 
+## v1.0.2
+
+* Added support for transmitting options via a third-party configuration file.
+* Added ignoring dependencies from the dependencies folder that are not needed in production.
+
 ## v1.0.1
 
 Added the dirty and .idea folder to .npmignore
