@@ -201,6 +201,14 @@ let commands = [
 
 	})],
 
+	["optionsFromFile", defaultRunObject("optionsFromFile") + fargv.generateFromObject({
+
+		some: true,
+		someTwo: NaN,
+		someThree: "1_000"
+
+	})]
+
 ];
 
 function startTests(commands) {
