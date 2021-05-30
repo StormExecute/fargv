@@ -86,8 +86,10 @@ const testFlags = fargv.default({
 		},
 		
 	},
+
+	flagG: [ "$fargvSetDefault", [undefined, "$notFill"] ],
 	
-}).initF({
+}).optionVersion("1.0.0").initF({
 	
 	rememberExecFilePath: false,
 	
