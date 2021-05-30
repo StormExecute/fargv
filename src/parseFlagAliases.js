@@ -23,7 +23,7 @@ const parseFlagAliases = function (parsedArgs) {
 
 				}
 
-				if(typeof parsedArgs.flags[aliases[i]] != "undefined") {
+				if(parsedArgs.flags.hasOwnProperty(aliases[i])) {
 
 					findAliasStatus = true;
 
@@ -49,7 +49,15 @@ const parseFlagAliases = function (parsedArgs) {
 				!(Array.isArray(this.usableOptions.excludeFlags) && ~this.usableOptions.excludeFlags.indexOf(defaultArgName))
 			) {
 
-				parsedArgs.flags[defaultArgName] = defaultValue;
+				if( Array.isArray( defaultValue ) && defaultValue[0] === undefined && defaultValue[1] == "$notFill") {
+
+					//nothing
+
+				} else {
+
+					parsedArgs.flags[defaultArgName] = defaultValue;
+
+				}
 
 			}
 
