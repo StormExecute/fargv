@@ -9,6 +9,7 @@ const command = require("./set/command");
 const separateCommand = require("./set/separateCommand");
 
 const optionFlag = require("./set/optionFlag");
+const optionVersion = require("./set/optionVersion");
 const optionCommand = require("./set/optionCommand");
 
 const help = require("./set/integrateHelp");
@@ -62,6 +63,7 @@ module.exports = {
 	separateCommand,
 
 	optionFlag,
+	optionVersion,
 	optionCommand,
 
 	help,
