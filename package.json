@@ -1,6 +1,6 @@
 {
   "name": "fargv",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "author": "cotenochek",
   "license": "MIT",
   "description": "Multi-customizable parser of process.argv for nodejs.",
@@ -10,6 +10,7 @@
     "url": "https://github.com/StormExecute/fargv.git"
   },
   "main": "src/main.js",
+  "types": "types.d.ts",
   "scripts": {
     "test": "node tests/index.js",
     "gen": "node tests/generateStringIndexModel.js"

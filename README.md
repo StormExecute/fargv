@@ -117,6 +117,7 @@ In General, *Fargv* can be a good option if you really need to configure argv pa
         * [command](#staticMethodsCommand)
         * [separateCommand](#staticMethodsSeparateCommand)
         * [optionFlag](#staticMethodsOptionFlag)
+        * [optionVersion](#staticMethodsOptionVersion)
         * [optionCommand](#staticMethodsOptionCommand)
         * [help](#staticMethodsHelp)
         * [default](#staticMethodsDefault)
@@ -210,6 +211,8 @@ $ node ./withStaticMethods.js -a=NaN -b -cc="[1n, 2_000n]" --d=1n
 
 <a name="api"></a>
 # API
+
+Types: [HERE!](https://github.com/StormExecute/fargv/blob/master/types.d.ts)
 
 <a name="apiFargv"></a>
 ### fargv(options: {} | array<string, string>, mergingWithFargvWrapperOptions: boolean | undefined)
@@ -344,12 +347,12 @@ interface fargvOptions extends mainParse {
 
 			[key: string]: {
 
-				alias?: array<string> | string,
+				alias?: Array<string> | string,
 
 				desc?: string,
 				usage?: string,
-				flags?: array<string> | string,
-				examples?: array<string> | string,
+				flags?: Array<string> | string,
+				examples?: Array<string> | string,
 
 			},
 
@@ -364,8 +367,8 @@ interface fargvOptions extends mainParse {
 				deprecated?: boolean | string,
 				empty?: boolean,
 				type?: "string" | "number" | "array" | "object" | "bigint" | "boolean",
-				alias?: array<string> | string,
-				examples?: array<string> | string,
+				alias?: Array<string> | string,
+				examples?: Array<string> | string,
 
 			}
 
@@ -373,12 +376,8 @@ interface fargvOptions extends mainParse {
 
 	},
 
-	commands?: [
-
-		//commandName, handler, aliases
-		...array<string, Function, [...string]>
-
-	],
+	//commandName, handler, aliases
+	commands?: ([string, Function, string[]])[],
 
 	separateCommandHandler?: (state: fargvReturns, ...nextCommands: string[]) => void,
 
@@ -391,7 +390,7 @@ interface fargvOptions extends mainParse {
 	defaultArgv?: {
 
 		//value, aliases
-		[key: string]: array<any, string[]>
+		[key: string]: [any, string[]]
 
 	},
 
@@ -412,7 +411,7 @@ interface fargvOptions extends mainParse {
 	rememberWarns?: boolean,
 	showWarns?: boolean,
 
-	parseWarn?: ({ mainMessage: string, debugDetails: { [string]: any }, code: number, fullMessage: string }) => void,
+	parseWarn?: ({}: { mainMessage: string, debugDetails: { [key: string]: any }, code: number, fullMessage: string }) => void,
 
 	throwInsteadWarns?: boolean,
 
@@ -420,7 +419,7 @@ interface fargvOptions extends mainParse {
 	unlimitedFlagDefinitionCharacters?: boolean,
 	supportOnlyLatinArgs?: boolean,
 
-	defaultCommaSplitSym: string,
+	defaultCommaSplitSym?: string,
 	allowSpacesAsValues?: boolean,
 	useDnvForFirstSpaceOP?: boolean,
 
@@ -1069,6 +1068,10 @@ interface staticSetOptionFlag {
 
 ```
 
+<a name="staticMethodsOptionVersion"></a>
+### fargv.optionVersion(version: string, noExit?: boolean, optionConfig?: {})
+The same as fargv.optionFlag(version, optionConfig) with some additions.
+
 <a name="staticMethodsOptionCommand"></a>
 ### fargv.optionCommand(commandName: string, commandHelpConfig: {})
 Sets the help.commands[commandName] option.
@@ -1148,12 +1151,12 @@ interface staticSetDefaultArgv {
 
 			_options: {
 				
-				[value | argValue | v]: any,
+				[value | argValue | v]: [undefined, "$notFill"] | any,
 				[alias | a | aliases]: string | string[],
 				
 			}
 			
-		} | ["$fargvSetDefault", any, string | string[]]
+		} | ["$fargvSetDefault", [undefined, "$notFill"] | any, string | string[]]
 		
 	},
 	redefine: any

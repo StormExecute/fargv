@@ -1,5 +1,10 @@
 # fargv changelog
 
+## v1.1.0
+
+* Added .optionVersion method
+* Added the ability not to fill the flags object with the default value if the default value is [ undefined, "$notFill" ]
+
 ## v1.0.2
 
 * Added support for transmitting options via a third-party configuration file.
