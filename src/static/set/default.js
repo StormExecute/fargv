@@ -17,13 +17,13 @@ Format:
 			
 			_options: { //for no conflict if value is object
 			
-				value | argValue | v = any
+				value | argValue | v = [undefined, "$notFill"] | any
 				
 				alias | a | aliases = string | array
 				
 			}
 			
-		} | ["$fargvSetDefault", value<any>, alias<string | array>]
+		} | ["$fargvSetDefault", value<[undefined, "$notFill"] | any>, alias<string | array>]
 	
 	} | "reset"
 	
