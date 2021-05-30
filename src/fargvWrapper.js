@@ -23,6 +23,7 @@ let abstractStaticMethods = {
 	separateCommand(handler, alwaysCallSeparateCommandHanler){},
 
 	optionFlag(optionName, optionConfig){},
+	optionVersion(version, optionConfig){},
 	optionCommand(commandName, commandHelpConfig){},
 
 	help(objectOfHelp){},
