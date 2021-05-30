@@ -137,6 +137,14 @@ class fargv {
 		//checking command aliases
 		this.parseCommandAliases(rememberAllCommands);
 
+		if(this.usableOptions.help.flags && this.usableOptions.help.flags.version && parsedArgs.flags.hasOwnProperty("version")) {
+
+			console.log( this.usableOptions.help.flags.version.version );
+
+			if(this.usableOptions.help.flags.version.exit) process.exit(0);
+
+		}
+
 		if(
 			!returnFilter
 			||
